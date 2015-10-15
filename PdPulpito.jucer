@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="EDfSFF" name="PdPulpito" projectType="audioplug" version="1.0.0"
+              bundleIdentifier="com.mhermant.pulpito" includeBinaryInAppConfig="1"
+              buildVST="1" buildVST3="0" buildAU="0" buildRTAS="0" buildAAX="0"
+              pluginName="PdPulpito" pluginDesc="a pure data audio plugin runtime environment"
+              pluginManufacturer="mhermant" pluginManufacturerCode="MHER" pluginCode="PDLP"
+              pluginChannelConfigs="{1, 1}, {2, 2}" pluginIsSynth="1" pluginWantsMidiIn="1"
+              pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="1"
+              pluginAUExportPrefix="PdPulpAU" pluginRTASCategory="" aaxIdentifier="com.mhermant.pulpito"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.2.0"
+              companyName="mhermant" companyWebsite="github.com/martinHN" companyEmail=""
+              defines="ZEXY_LIBRARY">
+  <MAINGROUP id="bHW1xW" name="PdPulpito">
+    <GROUP id="{F7E3C56F-7CAF-CB35-5672-4BC60FA8EA87}" name="Source">
+      <GROUP id="{0E592C20-C2C4-1F09-6C73-32F70C87A396}" name="PdGlue">
+        <FILE id="EWFNGg" name="PdBase.cpp" compile="1" resource="0" file="Source/PdBase.cpp"/>
+        <FILE id="N4baGL" name="PdBase.hpp" compile="0" resource="0" file="Source/PdBase.hpp"/>
+        <FILE id="Td6ISZ" name="PdMidiReceiver.hpp" compile="0" resource="0"
+              file="Source/PdMidiReceiver.hpp"/>
+        <FILE id="Sm2C3e" name="PdReceiver.hpp" compile="0" resource="0" file="Source/PdReceiver.hpp"/>
+        <FILE id="XO8meE" name="PdTypes.cpp" compile="1" resource="0" file="Source/PdTypes.cpp"/>
+        <FILE id="YYE3EO" name="PdTypes.hpp" compile="0" resource="0" file="Source/PdTypes.hpp"/>
+        <FILE id="TwM1No" name="ringbuffer.c" compile="1" resource="0" file="Source/ringbuffer.c"/>
+        <FILE id="k8g4Eq" name="ringbuffer.h" compile="0" resource="0" file="Source/ringbuffer.h"/>
+        <FILE id="GARzz8" name="z_print_util.c" compile="1" resource="0" file="Source/z_print_util.c"/>
+        <FILE id="jwveLU" name="z_print_util.h" compile="0" resource="0" file="Source/z_print_util.h"/>
+        <FILE id="GOFgdb" name="z_queued.c" compile="1" resource="0" file="Source/z_queued.c"/>
+        <FILE id="SZXet8" name="z_queued.h" compile="0" resource="0" file="Source/z_queued.h"/>
+      </GROUP>
+      <GROUP id="{8BC5C010-84D7-6F6E-7C46-7F08C7550B8F}" name="UI">
+        <FILE id="NFIHZF" name="LabelComponent.cpp" compile="1" resource="0"
+              file="Source/LabelComponent.cpp"/>
+        <FILE id="SNdMaU" name="LabelComponent.h" compile="0" resource="0"
+              file="Source/LabelComponent.h"/>
+        <FILE id="rSdqgu" name="LookNfeel.cpp" compile="1" resource="0" file="Source/LookNfeel.cpp"/>
+        <FILE id="lhlU4G" name="LookNfeel.h" compile="0" resource="0" file="Source/LookNfeel.h"/>
+      </GROUP>
+      <GROUP id="{5D7D6ED1-0423-E120-9857-5660E502F63B}" name="externals">
+        <GROUP id="{E61AD9F8-CD17-9637-1001-825361651097}" name="cyclone">
+          <FILE id="kwOp3z" name="build_counter" compile="0" resource="1" file="Source/externals/cyclone/build_counter"/>
+          <GROUP id="{E1BB1704-E3E8-5615-5ACD-426B6AEAAEC5}" name="hammer">
+            <FILE id="CmoacW" name="accum.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/accum.c"/>
+            <FILE id="girCtF" name="acos.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/acos.c"/>
+            <FILE id="HWjdP0" name="active.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/active.c"/>
+            <FILE id="k3vlzJ" name="allhammers.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/allhammers.c"/>
+            <FILE id="Zehk9g" name="anal.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/anal.c"/>
+            <FILE id="yR5CyS" name="Append.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Append.c"/>
+            <FILE id="KJPF9Q" name="asin.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/asin.c"/>
+            <FILE id="vxyMY2" name="bangbang.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/bangbang.c"/>
+            <FILE id="kvd03i" name="bondo.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/bondo.c"/>
+            <FILE id="fpCau7" name="Borax.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Borax.c"/>
+            <FILE id="K1v8bI" name="Bucket.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Bucket.c"/>
+            <FILE id="lhwPrm" name="buddy.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/buddy.c"/>
+            <FILE id="qHxUr2" name="capture.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/capture.c"/>
+            <FILE id="hTOe9R" name="cartopol.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/cartopol.c"/>
+            <FILE id="Qsn6Ag" name="Clip.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Clip.c"/>
+            <FILE id="jFPCKu" name="coll.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/coll.c"/>
+            <FILE id="W2W0B0" name="comment.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/comment.c"/>
+            <FILE id="P3dT4c" name="cosh.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/cosh.c"/>
+            <FILE id="ykd9Cq" name="counter.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/counter.c"/>
+            <FILE id="Eltht6" name="cycle.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/cycle.c"/>
+            <FILE id="w6qC5m" name="decide.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/decide.c"/>
+            <FILE id="EEDjSF" name="Decode.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Decode.c"/>
+            <FILE id="EW7fLK" name="drunk.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/drunk.c"/>
+            <FILE id="H1ZSw9" name="flush.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/flush.c"/>
+            <FILE id="j7lLRx" name="forward.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/forward.c"/>
+            <FILE id="ytK2sW" name="fromsymbol.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/fromsymbol.c"/>
+            <FILE id="U4Gpfg" name="funbuff.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/funbuff.c"/>
+            <FILE id="w37fuu" name="funnel.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/funnel.c"/>
+            <FILE id="JvNDYB" name="gate.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/gate.c"/>
+            <FILE id="UxlUuX" name="grab.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/grab.c"/>
+            <FILE id="PdZ49a" name="hammer.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/hammer.c"/>
+            <FILE id="ZSbjF8" name="Histo.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Histo.c"/>
+            <FILE id="gM3Lna" name="iter.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/iter.c"/>
+            <FILE id="xw8VvO" name="match.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/match.c"/>
+            <FILE id="hrRE29" name="maximum.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/maximum.c"/>
+            <FILE id="CbRIgj" name="mean.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/mean.c"/>
+            <FILE id="ZHD1aK" name="midiflush.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/midiflush.c"/>
+            <FILE id="SaV5qE" name="midiformat.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/midiformat.c"/>
+            <FILE id="lhe09Q" name="midiparse.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/midiparse.c"/>
+            <FILE id="gDCxE3" name="minimum.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/minimum.c"/>
+            <FILE id="wHERSu" name="mousefilter.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/mousefilter.c"/>
+            <FILE id="wj28yN" name="MouseState.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/MouseState.c"/>
+            <FILE id="udtvdu" name="mtr.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/mtr.c"/>
+            <FILE id="AiY5J5" name="next.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/next.c"/>
+            <FILE id="A5qJ5K" name="offer.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/offer.c"/>
+            <FILE id="dIAzCh" name="onebang.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/onebang.c"/>
+            <FILE id="HhrOrF" name="past.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/past.c"/>
+            <FILE id="lllqha" name="pd-lib-notes.txt" compile="0" resource="1"
+                  file="Source/externals/cyclone/hammer/pd-lib-notes.txt"/>
+            <FILE id="Sd2W16" name="Peak.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Peak.c"/>
+            <FILE id="OhwCnk" name="poltocar.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/poltocar.c"/>
+            <FILE id="pGg8OI" name="prepend.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/prepend.c"/>
+            <FILE id="l0CF8T" name="prob.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/prob.c"/>
+            <FILE id="PzhYbx" name="pv.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/pv.c"/>
+            <FILE id="wCyQkf" name="seq.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/seq.c"/>
+            <FILE id="ujfojM" name="sinh.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/sinh.c"/>
+            <FILE id="tJPTzD" name="speedlim.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/speedlim.c"/>
+            <FILE id="T503Sw" name="spell.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/spell.c"/>
+            <FILE id="Ro12QU" name="split.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/split.c"/>
+            <FILE id="gyQP7F" name="spray.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/spray.c"/>
+            <FILE id="nX96ei" name="sprintf.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/sprintf.c"/>
+            <FILE id="dxqm6N" name="substitute.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/substitute.c"/>
+            <FILE id="lkGInA" name="sustain.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/sustain.c"/>
+            <FILE id="l5UORa" name="switch.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/switch.c"/>
+            <FILE id="f11Q3G" name="Table.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Table.c"/>
+            <FILE id="evcZhV" name="tanh.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/tanh.c"/>
+            <FILE id="RoJQfc" name="testmess.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/testmess.c"/>
+            <FILE id="Izfm0F" name="thresh.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/thresh.c"/>
+            <FILE id="W0m0Zv" name="TogEdge.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/TogEdge.c"/>
+            <FILE id="M11bbU" name="tosymbol.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/tosymbol.c"/>
+            <FILE id="NWggel" name="Trough.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Trough.c"/>
+            <FILE id="PW3Zdm" name="universal.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/universal.c"/>
+            <FILE id="wGmOYl" name="urn.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/urn.c"/>
+            <FILE id="v139xL" name="Uzi.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Uzi.c"/>
+            <FILE id="N6gQzK" name="xbendin.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/xbendin.c"/>
+            <FILE id="qESi4l" name="xbendin2.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/xbendin2.c"/>
+            <FILE id="QCK9l2" name="xbendout.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/xbendout.c"/>
+            <FILE id="Vbydlt" name="xbendout2.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/xbendout2.c"/>
+            <FILE id="CyXCQo" name="xnotein.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/xnotein.c"/>
+            <FILE id="cyR0Pq" name="xnoteout.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/xnoteout.c"/>
+            <FILE id="utpNLt" name="zl.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/zl.c"/>
+          </GROUP>
+          <GROUP id="{1B8C1D72-A457-ECEC-7B2A-9EE074FEB74C}" name="shadow">
+            <FILE id="UPVftE" name="cyclone.c" compile="1" resource="0" file="Source/externals/cyclone/shadow/cyclone.c"/>
+            <FILE id="uCOFYy" name="dummies.c" compile="1" resource="0" file="Source/externals/cyclone/shadow/dummies.c"/>
+            <FILE id="UV6h0K" name="maxmode.c" compile="1" resource="0" file="Source/externals/cyclone/shadow/maxmode.c"/>
+            <FILE id="Nxq0Lw" name="nettles.c" compile="1" resource="0" file="Source/externals/cyclone/shadow/nettles.c"/>
+            <FILE id="RZFGLP" name="shadow.h" compile="0" resource="0" file="Source/externals/cyclone/shadow/shadow.h"/>
+          </GROUP>
+          <GROUP id="{5AC0856A-008A-6B87-081F-BECBC2EAD6F9}" name="shared">
+            <GROUP id="{FF049D51-69CC-3E5C-8E4B-DA59183BFBA8}" name="common">
+              <FILE id="ObaNl9" name="binport.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/binport.c"/>
+              <FILE id="ULsTtm" name="binport.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/binport.h"/>
+              <FILE id="xlY1i6" name="clc.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/clc.c"/>
+              <FILE id="UefSPr" name="clc.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/clc.h"/>
+              <FILE id="UYJmq1" name="dict.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/dict.c"/>
+              <FILE id="DIw4VQ" name="dict.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/dict.h"/>
+              <FILE id="OAY7Yj" name="fitter.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/fitter.c"/>
+              <FILE id="s3Lyxq" name="fitter.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/fitter.h"/>
+              <FILE id="i6Hmdd" name="grow.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/grow.c"/>
+              <FILE id="lqHGes" name="grow.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/grow.h"/>
+              <FILE id="zR1imb" name="lex.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/lex.c"/>
+              <FILE id="FVI22Q" name="lex.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/lex.h"/>
+              <FILE id="retFoA" name="loud.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/loud.c"/>
+              <FILE id="yaJVvc" name="loud.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/loud.h"/>
+              <FILE id="qzrB4u" name="messtree.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/messtree.c"/>
+              <FILE id="pwpr2r" name="messtree.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/messtree.h"/>
+              <FILE id="KzuxUw" name="mifi.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/mifi.c"/>
+              <FILE id="RuN4QR" name="mifi.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/mifi.h"/>
+              <FILE id="FtmKnT" name="os.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/os.c"/>
+              <FILE id="f3bIEg" name="os.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/os.h"/>
+              <FILE id="HWp35W" name="patchvalue.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/patchvalue.c"/>
+              <FILE id="F6QEec" name="patchvalue.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/patchvalue.h"/>
+              <FILE id="Q6EiPr" name="port.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/port.c"/>
+              <FILE id="g4au49" name="port.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/port.h"/>
+              <FILE id="kfkuku" name="props.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/props.c"/>
+              <FILE id="A4hpN0" name="props.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/props.h"/>
+              <FILE id="t2Anko" name="qtree.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/qtree.c"/>
+              <FILE id="dmdpgA" name="qtree.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/qtree.h"/>
+              <FILE id="iq7Fzl" name="rand.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/rand.c"/>
+              <FILE id="PlFevW" name="rand.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/rand.h"/>
+              <FILE id="EkRa1l" name="vefl.c" compile="1" resource="0" file="Source/externals/cyclone/shared/common/vefl.c"/>
+              <FILE id="Hgp5Wi" name="vefl.h" compile="0" resource="0" file="Source/externals/cyclone/shared/common/vefl.h"/>
+            </GROUP>
+            <GROUP id="{DBE7D9BF-5D64-5094-937B-D521C5CD6166}" name="hammer">
+              <FILE id="pZQMlO" name="file.c" compile="1" resource="0" file="Source/externals/cyclone/shared/hammer/file.c"/>
+              <FILE id="bKVIOv" name="file.h" compile="0" resource="0" file="Source/externals/cyclone/shared/hammer/file.h"/>
+              <FILE id="oBIrFA" name="gui.c" compile="1" resource="0" file="Source/externals/cyclone/shared/hammer/gui.c"/>
+              <FILE id="kqsvTM" name="gui.h" compile="0" resource="0" file="Source/externals/cyclone/shared/hammer/gui.h"/>
+              <FILE id="pT2wnd" name="tree.c" compile="1" resource="0" file="Source/externals/cyclone/shared/hammer/tree.c"/>
+              <FILE id="gpCWAY" name="tree.h" compile="0" resource="0" file="Source/externals/cyclone/shared/hammer/tree.h"/>
+            </GROUP>
+            <GROUP id="{7D93F655-C99E-F71F-8C22-A9182BE65A68}" name="sickle">
+              <FILE id="KiXV1z" name="arsic.c" compile="1" resource="0" file="Source/externals/cyclone/shared/sickle/arsic.c"/>
+              <FILE id="ZHH5eW" name="arsic.h" compile="0" resource="0" file="Source/externals/cyclone/shared/sickle/arsic.h"/>
+              <FILE id="ZM3m1p" name="sic.c" compile="1" resource="0" file="Source/externals/cyclone/shared/sickle/sic.c"/>
+              <FILE id="pJjEJJ" name="sic.h" compile="0" resource="0" file="Source/externals/cyclone/shared/sickle/sic.h"/>
+            </GROUP>
+            <GROUP id="{CCFD5EA4-A2D2-8D10-531F-9BB68D61FB9F}" name="toxy">
+              <FILE id="peIKT7" name="plusbob.c" compile="1" resource="0" file="Source/externals/cyclone/shared/toxy/plusbob.c"/>
+              <FILE id="dz99l8" name="plusbob.h" compile="0" resource="0" file="Source/externals/cyclone/shared/toxy/plusbob.h"/>
+              <FILE id="Y8NGf0" name="scriptlet.c" compile="1" resource="0" file="Source/externals/cyclone/shared/toxy/scriptlet.c"/>
+              <FILE id="lAbxVw" name="scriptlet.h" compile="0" resource="0" file="Source/externals/cyclone/shared/toxy/scriptlet.h"/>
+            </GROUP>
+            <GROUP id="{B89DC333-96BA-BAC0-89C8-1261E1E153CC}" name="unstable">
+              <FILE id="C1ECjx" name="forky.c" compile="1" resource="0" file="Source/externals/cyclone/shared/unstable/forky.c"/>
+              <FILE id="X7IiKy" name="forky.h" compile="0" resource="0" file="Source/externals/cyclone/shared/unstable/forky.h"/>
+              <FILE id="oz3osp" name="fragile.c" compile="1" resource="0" file="Source/externals/cyclone/shared/unstable/fragile.c"/>
+              <FILE id="D2phVm" name="fragile.h" compile="0" resource="0" file="Source/externals/cyclone/shared/unstable/fragile.h"/>
+              <FILE id="A59Hnj" name="fringe.c" compile="1" resource="0" file="Source/externals/cyclone/shared/unstable/fringe.c"/>
+              <FILE id="fa3G29" name="fringe.h" compile="0" resource="0" file="Source/externals/cyclone/shared/unstable/fringe.h"/>
+              <FILE id="s70jHe" name="loader.c" compile="1" resource="0" file="Source/externals/cyclone/shared/unstable/loader.c"/>
+              <FILE id="Om5rEE" name="loader.h" compile="0" resource="0" file="Source/externals/cyclone/shared/unstable/loader.h"/>
+              <FILE id="aI6WMZ" name="pd_imp.h" compile="0" resource="0" file="Source/externals/cyclone/shared/unstable/pd_imp.h"/>
+              <FILE id="giR3F6" name="standalone.c" compile="0" resource="0" file="Source/externals/cyclone/shared/unstable/standalone.c"/>
+              <FILE id="hSwvSj" name="standalone.h" compile="0" resource="0" file="Source/externals/cyclone/shared/unstable/standalone.h"/>
+            </GROUP>
+            <FILE id="XwSvNH" name="getridof.baddeps" compile="0" resource="1"
+                  file="Source/externals/cyclone/shared/getridof.baddeps"/>
+            <FILE id="CrRDFO" name="notes.txt" compile="0" resource="1" file="Source/externals/cyclone/shared/notes.txt"/>
+            <FILE id="j1O1tc" name="shared.c" compile="1" resource="0" file="Source/externals/cyclone/shared/shared.c"/>
+            <FILE id="omfei0" name="shared.h" compile="0" resource="0" file="Source/externals/cyclone/shared/shared.h"/>
+          </GROUP>
+          <GROUP id="{9D2D254A-638E-030C-CB72-1EB657ABE284}" name="sickle">
+            <FILE id="SRyjzM" name="abs.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/abs.c"/>
+            <FILE id="mi1dPQ" name="acos.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/acos.c"/>
+            <FILE id="dASxDo" name="acosh.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/acosh.c"/>
+            <FILE id="k3G0zU" name="allpass.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/allpass.c"/>
+            <FILE id="wmClqB" name="allsickles.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/allsickles.c"/>
+            <FILE id="tuLruk" name="asin.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/asin.c"/>
+            <FILE id="S8QRYz" name="asinh.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/asinh.c"/>
+            <FILE id="QgutEC" name="atan.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/atan.c"/>
+            <FILE id="NPqzy4" name="atan2.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/atan2.c"/>
+            <FILE id="Jv5ah2" name="atanh.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/atanh.c"/>
+            <FILE id="mUvi0Z" name="average.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/average.c"/>
+            <FILE id="gxU3B5" name="avg.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/avg.c"/>
+            <FILE id="zSZz7o" name="bitand.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/bitand.c"/>
+            <FILE id="DitNdl" name="bitnot.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/bitnot.c"/>
+            <FILE id="cmhRoJ" name="bitor.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/bitor.c"/>
+            <FILE id="bopBdY" name="bitshift.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/bitshift.c"/>
+            <FILE id="LcXmfN" name="bitxor.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/bitxor.c"/>
+            <FILE id="THSWUj" name="buffir.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/buffir.c"/>
+            <FILE id="w3mwSR" name="capture.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/capture.c"/>
+            <FILE id="uTKXTT" name="cartopol.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/cartopol.c"/>
+            <FILE id="cpKThP" name="change.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/change.c"/>
+            <FILE id="WCFnRk" name="click.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/click.c"/>
+            <FILE id="FRQWRN" name="Clip.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/Clip.c"/>
+            <FILE id="iLcoP4" name="comb.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/comb.c"/>
+            <FILE id="bnQf8k" name="cosh.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/cosh.c"/>
+            <FILE id="OKBXKV" name="cosx.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/cosx.c"/>
+            <FILE id="bGiy0O" name="count.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/count.c"/>
+            <FILE id="WKLAoV" name="curve.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/curve.c"/>
+            <FILE id="eVOop6" name="curve.gp" compile="0" resource="1" file="Source/externals/cyclone/sickle/curve.gp"/>
+            <FILE id="tnMLAf" name="cycle.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/cycle.c"/>
+            <FILE id="jhJVgF" name="delay.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/delay.c"/>
+            <FILE id="TBFw1Y" name="delta.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/delta.c"/>
+            <FILE id="RNHMaU" name="deltaclip.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/deltaclip.c"/>
+            <FILE id="tqwCwh" name="edge.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/edge.c"/>
+            <FILE id="iONBf0" name="frameaccum.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/frameaccum.c"/>
+            <FILE id="iWD3fU" name="framedelta.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/framedelta.c"/>
+            <FILE id="ZBJB8y" name="index.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/index.c"/>
+            <FILE id="sF5bQ5" name="kink.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/kink.c"/>
+            <FILE id="f6ynCN" name="Line.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/Line.c"/>
+            <FILE id="DsWYWf" name="linedrive.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/linedrive.c"/>
+            <FILE id="mskx3Y" name="log.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/log.c"/>
+            <FILE id="vVxydc" name="lookup.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/lookup.c"/>
+            <FILE id="h33Ebx" name="lores.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/lores.c"/>
+            <FILE id="qOhiIZ" name="matrix.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/matrix.c"/>
+            <FILE id="LIF3n4" name="maximum.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/maximum.c"/>
+            <FILE id="EXFw0Y" name="minimum.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/minimum.c"/>
+            <FILE id="SGzmB1" name="minmax.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/minmax.c"/>
+            <FILE id="ZcRnAI" name="mstosamps.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/mstosamps.c"/>
+            <FILE id="d2gCLz" name="onepole.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/onepole.c"/>
+            <FILE id="mE2L9M" name="overdrive.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/overdrive.c"/>
+            <FILE id="ryC1jH" name="peakamp.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/peakamp.c"/>
+            <FILE id="d3adsQ" name="peek.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/peek.c"/>
+            <FILE id="a37N3G" name="phasewrap.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/phasewrap.c"/>
+            <FILE id="Balq6S" name="pink.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/pink.c"/>
+            <FILE id="GkR1Ln" name="play.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/play.c"/>
+            <FILE id="fMlpdM" name="poke.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/poke.c"/>
+            <FILE id="BmaROz" name="poltocar.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/poltocar.c"/>
+            <FILE id="iSggip" name="pong.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/pong.c"/>
+            <FILE id="ljhjup" name="pow.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/pow.c"/>
+            <FILE id="sPJUVX" name="rampsmooth.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/rampsmooth.c"/>
+            <FILE id="MaAylV" name="rand.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/rand.c"/>
+            <FILE id="XjGf7X" name="record.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/record.c"/>
+            <FILE id="MEXhct" name="reson.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/reson.c"/>
+            <FILE id="DZe9Kd" name="sah.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/sah.c"/>
+            <FILE id="djszu3" name="sampstoms.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/sampstoms.c"/>
+            <FILE id="ouVEd1" name="Scope.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/Scope.c"/>
+            <FILE id="g5wVZC" name="sickle.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/sickle.c"/>
+            <FILE id="OCdsQk" name="sinh.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/sinh.c"/>
+            <FILE id="SzK8ST" name="sinx.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/sinx.c"/>
+            <FILE id="q1Jpl5" name="slide.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/slide.c"/>
+            <FILE id="Kz3v6k" name="Snapshot.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/Snapshot.c"/>
+            <FILE id="NSF5AN" name="spike.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/spike.c"/>
+            <FILE id="YPk82q" name="svf.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/svf.c"/>
+            <FILE id="r8UQXt" name="tanh.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/tanh.c"/>
+            <FILE id="R1sJbs" name="tanx.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/tanx.c"/>
+            <FILE id="sv0E9F" name="train.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/train.c"/>
+            <FILE id="KvhvFU" name="trapezoid.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/trapezoid.c"/>
+            <FILE id="jXHVzz" name="triangle.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/triangle.c"/>
+            <FILE id="aMaiBg" name="vectral.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/vectral.c"/>
+            <FILE id="wuihp3" name="wave.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/wave.c"/>
+            <FILE id="Pnh1zH" name="zerox.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/zerox.c"/>
+          </GROUP>
+          <FILE id="GLiMxO" name="notes.txt" compile="0" resource="1" file="Source/externals/cyclone/notes.txt"/>
+          <FILE id="MkNFtu" name="README.txt" compile="0" resource="1" file="Source/externals/cyclone/README.txt"/>
+        </GROUP>
+        <GROUP id="{467D3DC6-D0CD-168C-6C99-93C8B4020174}" name="zexy">
+          <GROUP id="{3B4E7610-2E91-85DC-42F8-1B211D568C45}" name="src">
+            <FILE id="OG7TGG" name="0x2e.c" compile="1" resource="0" file="Source/externals/zexy/src/0x2e.c"/>
+            <FILE id="FIbKg9" name="0x3c0x7e.c" compile="1" resource="0" file="Source/externals/zexy/src/0x3c0x7e.c"/>
+            <FILE id="TGoTiP" name="0x3d0x3d0x7e.c" compile="1" resource="0" file="Source/externals/zexy/src/0x3d0x3d0x7e.c"/>
+            <FILE id="BELPas" name="0x3e0x7e.c" compile="1" resource="0" file="Source/externals/zexy/src/0x3e0x7e.c"/>
+            <FILE id="XccpId" name="0x7c0x7c0x7e.c" compile="1" resource="0" file="Source/externals/zexy/src/0x7c0x7c0x7e.c"/>
+            <FILE id="oqaB3L" name="0x260x260x7e.c" compile="1" resource="0" file="Source/externals/zexy/src/0x260x260x7e.c"/>
+            <FILE id="cDRx2d" name="a2l.c" compile="1" resource="0" file="Source/externals/zexy/src/a2l.c"/>
+            <FILE id="KtotaE" name="abs~.c" compile="1" resource="0" file="Source/externals/zexy/src/abs~.c"/>
+            <FILE id="cOKjXw" name="absgn~.c" compile="1" resource="0" file="Source/externals/zexy/src/absgn~.c"/>
+            <FILE id="WQrqsm" name="acinclude.m4" compile="0" resource="1" file="Source/externals/zexy/src/acinclude.m4"/>
+            <FILE id="DF0PWT" name="alias" compile="0" resource="1" file="Source/externals/zexy/src/alias"/>
+            <FILE id="pbmct7" name="atof.c" compile="1" resource="0" file="Source/externals/zexy/src/atof.c"/>
+            <FILE id="ssdTQJ" name="atoi.c" compile="1" resource="0" file="Source/externals/zexy/src/atoi.c"/>
+            <FILE id="jaI50G" name="avg~.c" compile="1" resource="0" file="Source/externals/zexy/src/avg~.c"/>
+            <FILE id="sGZLzd" name="blockmirror~.c" compile="1" resource="0" file="Source/externals/zexy/src/blockmirror~.c"/>
+            <FILE id="jfUbhv" name="blockshuffle~.c" compile="1" resource="0" file="Source/externals/zexy/src/blockshuffle~.c"/>
+            <FILE id="a9FdT1" name="blockswap~.c" compile="1" resource="0" file="Source/externals/zexy/src/blockswap~.c"/>
+            <FILE id="jkU7xu" name="bootstrap.sh" compile="0" resource="1" file="Source/externals/zexy/src/bootstrap.sh"/>
+            <FILE id="CUri7m" name="configure" compile="0" resource="1" file="Source/externals/zexy/src/configure"/>
+            <FILE id="Zguiyc" name="date.c" compile="1" resource="0" file="Source/externals/zexy/src/date.c"/>
+            <FILE id="HhIUEC" name="demultiplex.c" compile="1" resource="0" file="Source/externals/zexy/src/demultiplex.c"/>
+            <FILE id="lTZmM9" name="demultiplex~.c" compile="1" resource="0" file="Source/externals/zexy/src/demultiplex~.c"/>
+            <FILE id="tpwtzQ" name="dfreq~.c" compile="1" resource="0" file="Source/externals/zexy/src/dfreq~.c"/>
+            <FILE id="volSM0" name="dirac~.c" compile="1" resource="0" file="Source/externals/zexy/src/dirac~.c"/>
+            <FILE id="GsD7tu" name="drip.c" compile="1" resource="0" file="Source/externals/zexy/src/drip.c"/>
+            <FILE id="cCAnhe" name="envrms~.c" compile="1" resource="0" file="Source/externals/zexy/src/envrms~.c"/>
+            <FILE id="krG3Qx" name="fifop.c" compile="1" resource="0" file="Source/externals/zexy/src/fifop.c"/>
+            <FILE id="ILKgrX" name="freadln.c" compile="1" resource="0" file="Source/externals/zexy/src/freadln.c"/>
+            <FILE id="OvEHtX" name="fwriteln.c" compile="1" resource="0" file="Source/externals/zexy/src/fwriteln.c"/>
+            <FILE id="zePW7o" name="glue.c" compile="1" resource="0" file="Source/externals/zexy/src/glue.c"/>
+            <FILE id="aUXiQE" name="index.c" compile="1" resource="0" file="Source/externals/zexy/src/index.c"/>
+            <FILE id="VRckLw" name="length.c" compile="1" resource="0" file="Source/externals/zexy/src/length.c"/>
+            <FILE id="YAXagA" name="lifop.c" compile="1" resource="0" file="Source/externals/zexy/src/lifop.c"/>
+            <FILE id="aD6hry" name="limiter~.c" compile="1" resource="0" file="Source/externals/zexy/src/limiter~.c"/>
+            <FILE id="AX0196" name="list2int.c" compile="1" resource="0" file="Source/externals/zexy/src/list2int.c"/>
+            <FILE id="CvpSct" name="list2lists.c" compile="1" resource="0" file="Source/externals/zexy/src/list2lists.c"/>
+            <FILE id="kn2nxr" name="list2symbol.c" compile="1" resource="0" file="Source/externals/zexy/src/list2symbol.c"/>
+            <FILE id="aAK4Jr" name="lister.c" compile="1" resource="0" file="Source/externals/zexy/src/lister.c"/>
+            <FILE id="nWxA9h" name="listfind.c" compile="1" resource="0" file="Source/externals/zexy/src/listfind.c"/>
+            <FILE id="tK1VRr" name="liststorage.c" compile="1" resource="0" file="Source/externals/zexy/src/liststorage.c"/>
+            <FILE id="Vub3TZ" name="longload.c" compile="1" resource="0" file="Source/externals/zexy/src/longload.c"/>
+            <FILE id="tcH5Kq" name="lpt.c" compile="1" resource="0" file="Source/externals/zexy/src/lpt.c"/>
+            <FILE id="Ig7hMh" name="makealias.sh" compile="0" resource="1" file="Source/externals/zexy/src/makealias.sh"/>
+            <FILE id="FvIpKf" name="makesymbol.c" compile="1" resource="0" file="Source/externals/zexy/src/makesymbol.c"/>
+            <FILE id="Eh13Nf" name="matchbox.c" compile="1" resource="0" file="Source/externals/zexy/src/matchbox.c"/>
+            <FILE id="O5UVRU" name="mavg.c" compile="1" resource="0" file="Source/externals/zexy/src/mavg.c"/>
+            <FILE id="epn3l4" name="minmax.c" compile="1" resource="0" file="Source/externals/zexy/src/minmax.c"/>
+            <FILE id="yZAaN8" name="msgfile.c" compile="1" resource="0" file="Source/externals/zexy/src/msgfile.c"/>
+            <FILE id="SEVYTt" name="multiline~.c" compile="1" resource="0" file="Source/externals/zexy/src/multiline~.c"/>
+            <FILE id="eFdmcV" name="multiplex.c" compile="1" resource="0" file="Source/externals/zexy/src/multiplex.c"/>
+            <FILE id="EbqABH" name="multiplex~.c" compile="1" resource="0" file="Source/externals/zexy/src/multiplex~.c"/>
+            <FILE id="KQWIhw" name="multireceive.c" compile="1" resource="0" file="Source/externals/zexy/src/multireceive.c"/>
+            <FILE id="Sk77fB" name="niagara.c" compile="1" resource="0" file="Source/externals/zexy/src/niagara.c"/>
+            <FILE id="RDUTSG" name="noish~.c" compile="1" resource="0" file="Source/externals/zexy/src/noish~.c"/>
+            <FILE id="Op9pb7" name="noisi~.c" compile="1" resource="0" file="Source/externals/zexy/src/noisi~.c"/>
+            <FILE id="oOaVax" name="operating_system.c" compile="1" resource="0"
+                  file="Source/externals/zexy/src/operating_system.c"/>
+            <FILE id="JnN0EF" name="pack.c" compile="1" resource="0" file="Source/externals/zexy/src/pack.c"/>
+            <FILE id="GiVwsa" name="pack~.c" compile="1" resource="0" file="Source/externals/zexy/src/pack~.c"/>
+            <FILE id="e3CN2G" name="packel.c" compile="1" resource="0" file="Source/externals/zexy/src/packel.c"/>
+            <FILE id="Ul8bbo" name="pdf~.c" compile="1" resource="0" file="Source/externals/zexy/src/pdf~.c"/>
+            <FILE id="nbZxgK" name="prime.c" compile="1" resource="0" file="Source/externals/zexy/src/prime.c"/>
+            <FILE id="A2pckI" name="quantize~.c" compile="1" resource="0" file="Source/externals/zexy/src/quantize~.c"/>
+            <FILE id="W8Gwsa" name="rawprint.c" compile="1" resource="0" file="Source/externals/zexy/src/rawprint.c"/>
+            <FILE id="zvmHtY" name="regex.c" compile="1" resource="0" file="Source/externals/zexy/src/regex.c"/>
+            <FILE id="v8oUXx" name="relay.c" compile="1" resource="0" file="Source/externals/zexy/src/relay.c"/>
+            <FILE id="wiFkKE" name="repack.c" compile="1" resource="0" file="Source/externals/zexy/src/repack.c"/>
+            <FILE id="xrfRaz" name="repeat.c" compile="1" resource="0" file="Source/externals/zexy/src/repeat.c"/>
+            <FILE id="G96y1L" name="route~.c" compile="1" resource="0" file="Source/externals/zexy/src/route~.c"/>
+            <FILE id="Ocpzf6" name="sfplay.c" compile="1" resource="0" file="Source/externals/zexy/src/sfplay.c"/>
+            <FILE id="pqDVZ8" name="sfrecord.c" compile="1" resource="0" file="Source/externals/zexy/src/sfrecord.c"/>
+            <FILE id="IM39nE" name="sgn~.c" compile="1" resource="0" file="Source/externals/zexy/src/sgn~.c"/>
+            <FILE id="mddGYl" name="sigzero~.c" compile="1" resource="0" file="Source/externals/zexy/src/sigzero~.c"/>
+            <FILE id="JiwSBG" name="sleepgrain.c" compile="1" resource="0" file="Source/externals/zexy/src/sleepgrain.c"/>
+            <FILE id="NlGRCG" name="sort.c" compile="1" resource="0" file="Source/externals/zexy/src/sort.c"/>
+            <FILE id="kMnazr" name="step~.c" compile="1" resource="0" file="Source/externals/zexy/src/step~.c"/>
+            <FILE id="a0LLai" name="strcmp.c" compile="1" resource="0" file="Source/externals/zexy/src/strcmp.c"/>
+            <FILE id="x7OeL3" name="strip_objects" compile="0" resource="1" file="Source/externals/zexy/src/strip_objects"/>
+            <FILE id="uWjLBb" name="sum.c" compile="1" resource="0" file="Source/externals/zexy/src/sum.c"/>
+            <FILE id="AGA9Iv" name="swap~.c" compile="1" resource="0" file="Source/externals/zexy/src/swap~.c"/>
+            <FILE id="ypI8vL" name="symbol2list.c" compile="1" resource="0" file="Source/externals/zexy/src/symbol2list.c"/>
+            <FILE id="UhSiwH" name="tabdump.c" compile="1" resource="0" file="Source/externals/zexy/src/tabdump.c"/>
+            <FILE id="XCmGBg" name="tabminmax.c" compile="1" resource="0" file="Source/externals/zexy/src/tabminmax.c"/>
+            <FILE id="lqU4mT" name="tabread4~~.c" compile="1" resource="0" file="Source/externals/zexy/src/tabread4~~.c"/>
+            <FILE id="s9WRuD" name="tabset.c" compile="1" resource="0" file="Source/externals/zexy/src/tabset.c"/>
+            <FILE id="OCtWAl" name="tavg~.c" compile="1" resource="0" file="Source/externals/zexy/src/tavg~.c"/>
+            <FILE id="rxEjI2" name="time.c" compile="1" resource="0" file="Source/externals/zexy/src/time.c"/>
+            <FILE id="arSzi6" name="unpack.c" compile="1" resource="0" file="Source/externals/zexy/src/unpack.c"/>
+            <FILE id="wrhCf9" name="unpack~.c" compile="1" resource="0" file="Source/externals/zexy/src/unpack~.c"/>
+            <FILE id="UThnBA" name="urn.c" compile="1" resource="0" file="Source/externals/zexy/src/urn.c"/>
+            <FILE id="Zv7V7p" name="winNT_portio.c" compile="1" resource="0" file="Source/externals/zexy/src/winNT_portio.c"/>
+            <FILE id="KyYW42" name="wrap.c" compile="1" resource="0" file="Source/externals/zexy/src/wrap.c"/>
+            <FILE id="QUg160" name="z_zexy.c" compile="1" resource="0" file="Source/externals/zexy/src/z_zexy.c"/>
+            <FILE id="VCLDLM" name="z_zexy.h" compile="0" resource="0" file="Source/externals/zexy/src/z_zexy.h"/>
+            <FILE id="EZDFlY" name="z~.c" compile="1" resource="0" file="Source/externals/zexy/src/z~.c"/>
+            <FILE id="XuXkNs" name="zexy.c" compile="1" resource="0" file="Source/externals/zexy/src/zexy.c"/>
+            <FILE id="NrRGnE" name="zexy.h" compile="0" resource="0" file="Source/externals/zexy/src/zexy.h"/>
+            <FILE id="ndjBZS" name="zexyconf.h" compile="0" resource="0" file="Source/externals/zexy/src/zexyconf.h"/>
+            <FILE id="gF9DaB" name="zexySIMD.h" compile="0" resource="0" file="Source/externals/zexy/src/zexySIMD.h"/>
+          </GROUP>
+          <FILE id="o0zNyS" name="AUTHORS" compile="0" resource="1" file="Source/externals/zexy/AUTHORS"/>
+          <FILE id="JDaA1x" name="autogen.sh" compile="0" resource="1" file="Source/externals/zexy/autogen.sh"/>
+          <FILE id="sRfv7n" name="BUGS.txt" compile="0" resource="1" file="Source/externals/zexy/BUGS.txt"/>
+          <FILE id="JlZhaX" name="ChangeLog" compile="0" resource="1" file="Source/externals/zexy/ChangeLog"/>
+          <FILE id="AijHeu" name="config.guess" compile="0" resource="1" file="Source/externals/zexy/config.guess"/>
+          <FILE id="mNKQ0n" name="config.h.in" compile="0" resource="1" file="Source/externals/zexy/config.h.in"/>
+          <FILE id="xp2ypx" name="config.sub" compile="0" resource="1" file="Source/externals/zexy/config.sub"/>
+          <FILE id="RpraRX" name="configure.ac" compile="0" resource="1" file="Source/externals/zexy/configure.ac"/>
+          <FILE id="RXI6GZ" name="depcomp" compile="0" resource="1" file="Source/externals/zexy/depcomp"/>
+          <FILE id="oOIr3x" name="INSTALL" compile="0" resource="1" file="Source/externals/zexy/INSTALL"/>
+          <FILE id="O90Yqe" name="install-sh" compile="0" resource="1" file="Source/externals/zexy/install-sh"/>
+          <FILE id="uN7l20" name="LICENSE.txt" compile="0" resource="1" file="Source/externals/zexy/LICENSE.txt"/>
+          <FILE id="DRKe6P" name="Makefile.am" compile="0" resource="1" file="Source/externals/zexy/Makefile.am"/>
+          <FILE id="zdo5rN" name="Makefile.in" compile="0" resource="1" file="Source/externals/zexy/Makefile.in"/>
+          <FILE id="RwFve9" name="missing" compile="0" resource="1" file="Source/externals/zexy/missing"/>
+          <FILE id="U0bKVf" name="pd-zexy.info" compile="0" resource="1" file="Source/externals/zexy/pd-zexy.info"/>
+          <FILE id="eNCvsi" name="README.txt" compile="0" resource="1" file="Source/externals/zexy/README.txt"/>
+          <FILE id="eGsDqz" name="SConscript" compile="0" resource="1" file="Source/externals/zexy/SConscript"/>
+          <FILE id="CJaWbx" name="z_install.bat" compile="0" resource="1" file="Source/externals/zexy/z_install.bat"/>
+          <FILE id="vePOm2" name="zexy-meta.pd.in" compile="0" resource="1" file="Source/externals/zexy/zexy-meta.pd.in"/>
+        </GROUP>
+      </GROUP>
+      <FILE id="tiQXB4" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="MSXKzP" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="rsO2TW" name="PdAudioProcessor.cpp" compile="1" resource="0"
+            file="Source/PdAudioProcessor.cpp"/>
+      <FILE id="quiHGe" name="PdAudioProcessor.h" compile="0" resource="0"
+            file="Source/PdAudioProcessor.h"/>
+      <FILE id="pwTgxQ" name="PdAudioProcessorEditor.cpp" compile="1" resource="0"
+            file="Source/PdAudioProcessorEditor.cpp"/>
+      <FILE id="Ch0SLd" name="PdAudioProcessorEditor.h" compile="0" resource="0"
+            file="Source/PdAudioProcessorEditor.h"/>
+      <FILE id="Hs7saP" name="PdParameter.h" compile="0" resource="0" file="Source/PdParameter.h"/>
+      <FILE id="bXezuz" name="PdParamGetter.cpp" compile="1" resource="0"
+            file="Source/PdParamGetter.cpp"/>
+      <FILE id="pS0hJp" name="PdParamGetter.h" compile="0" resource="0" file="Source/PdParamGetter.h"/>
+      <FILE id="tHfL6T" name="SendSlider.h" compile="0" resource="0" file="Source/SendSlider.h"/>
+      <FILE id="f5uZJq" name="SendToggle.h" compile="0" resource="0" file="Source/SendToggle.h"/>
+    </GROUP>
+    <FILE id="gjNyHI" name="Config.h" compile="0" resource="0" file="Source/Config.h"/>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="/Users/mhermant/SDKs/VST3 SDK"
+               postbuildCommand="&#10;# This script takes the build product and copies it to the AU, VST, VST3, RTAS and AAX folders, depending on &#10;# which plugin types you've built&#10;&#10;original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME&#10;&#10;# this looks inside the binary to detect which platforms are needed.. &#10;copyAU=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'AudioUnit' | wc -l&#96;&#10;copyVST=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'VSTPlugin' | wc -l&#96;&#10;copyVST3=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'GetPluginFactory' | wc -l&#96;&#10;copyRTAS=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'CProcess' | wc -l&#96;&#10;copyAAX=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'ACFStartup' | wc -l&#96;&#10;&#10;if [ $copyAU -gt 0 ]; then&#10;  echo &quot;Copying to AudioUnit folder...&quot;&#10;  AU=~/Library/Audio/Plug-Ins/Components/$PRODUCT_NAME.component&#10;  if [ -d &quot;$AU&quot; ]; then &#10;    rm -r &quot;$AU&quot;&#10;  fi&#10;&#10;  cp -r &quot;$original&quot; &quot;$AU&quot;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$AU/Contents/PkgInfo&quot;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$AU/Contents/$INFOPLIST_FILE&quot;&#10;&#10;  # Fix info.plist for AUs built with Xcode 3&#10;  if [ -f &quot;$DEVELOPER_DIR/Library/Developer/CoreAudio/AudioUnits/AUPublic/AUBase/AUPlugInDispatch.cpp&quot; ]; then&#10;    echo&#10;  else&#10;    echo &quot;Removing AudioComponents entry from Info.plist because this is not a new-format AU&quot;&#10;    /usr/libexec/PlistBuddy -c &quot;Delete AudioComponents&quot; &quot;$AU/Contents/Info.plist&quot;&#10;  fi&#10;fi&#10;&#10;if [ $copyVST -gt 0 ]; then&#10;  echo &quot;Copying to VST folder...&quot;&#10;  VST=~/Library/Audio/Plug-Ins/VST/$PRODUCT_NAME.vst&#10;  if [ -d &quot;$VST&quot; ]; then &#10;    rm -r &quot;$VST&quot;&#10;  fi&#10;&#10;  cp -r &quot;$original&quot; &quot;$VST&quot;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST/Contents/PkgInfo&quot;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST/Contents/$INFOPLIST_FILE&quot;&#10;fi&#10;&#10;if [ $copyVST3 -gt 0 ]; then&#10;  echo &quot;Copying to VST3 folder...&quot;&#10;  VST3=~/Library/Audio/Plug-Ins/VST3/$PRODUCT_NAME.vst3&#10;  if [ -d &quot;$VST3&quot; ]; then &#10;    rm -r &quot;$VST3&quot;&#10;  fi&#10;&#10;  cp -r &quot;$original&quot; &quot;$VST3&quot;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST3/Contents/PkgInfo&quot;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST3/Contents/$INFOPLIST_FILE&quot;&#10;fi&#10;&#10;if [ $copyRTAS -gt 0 ]; then&#10;  echo &quot;Copying to RTAS folder...&quot;&#10;  RTAS=/Library/Application\ Support/Digidesign/Plug-Ins/$PRODUCT_NAME.dpm&#10;  if [ -d &quot;$RTAS&quot; ]; then&#10;    rm -r &quot;$RTAS&quot;&#10;  fi&#10;&#10;  cp -r &quot;$original&quot; &quot;$RTAS&quot;&#10;fi&#10;&#10;if [ $copyAAX -gt 0 ]; then&#10;  echo &quot;Copying to AAX folder...&quot;&#10;&#10;  if [ -d &quot;/Applications/ProTools_3PDev/Plug-Ins&quot; ]; then&#10;    AAX1=&quot;/Applications/ProTools_3PDev/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#10;&#10;    if [ -d &quot;$AAX1&quot; ]; then&#10;      rm -r &quot;$AAX1&quot;&#10;    fi&#10;&#10;    cp -R -H &quot;$original&quot; &quot;$AAX1&quot;&#10;  fi&#10;&#10;  if [ -d &quot;/Library/Application Support/Avid/Audio/Plug-Ins&quot; ]; then&#10;    AAX2=&quot;/Library/Application Support/Avid/Audio/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#10;&#10;    if [ -d &quot;$AAX2&quot; ]; then&#10;      rm -r &quot;$AAX2&quot;&#10;    fi&#10;&#10;    cp -R -H &quot;$original&quot; &quot;$AAX2&quot;&#10;  fi&#10;fi&#10;"
+               externalLibraries="pd-osx" extraLinkerFlags="" extraCompilerFlags=""
+               extraDefs="MACOSX&#10;" vst3Folder="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="32BitUniversal"
+                       isDebug="1" optimisation="1" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
+                       libraryPath="../../libpd/"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="32BitUniversal"
+                       isDebug="0" optimisation="3" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
+                       libraryPath="../../libpd/"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_graphics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_events" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_core" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" vstFolder="" externalLibraries="pd-linux"
+                extraDefs="TARGET_ARCH=x86_64" vst3Folder="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/&#10;../../libpd/" isDebug="1"
+                       optimisation="1" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/&#10;../../libpd/"
+                       isDebug="0" optimisation="3" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_graphics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_events" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_core" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+    <VS2015 targetFolder="Builds/VisualStudio2015" vstFolder="" externalLibraries="pd-win">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
+                       libraryPath="/usr/X11R6/lib/&#10;../../libpd/"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
+                       libraryPath="/usr/X11R6/lib/&#10;../../libpd/"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_graphics" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_events" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_core" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
+      </MODULEPATHS>
+    </VS2015>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_utils" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
+</JUCERPROJECT>

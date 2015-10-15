@@ -1,0 +1,20 @@
+#N canvas 1140 123 610 368 10;
+#X obj -953 -602 nbx 5 34 0 1 0 0 pulp_intensity empty pulp_intensity
+0 -8 0 10 -262144 -1 -1 0 256;
+#X obj -967 -652 nbx 1 34 -1e+37 1e+37 0 0 pulpi empty pulpil 0 -8
+0 10 -262144 -1 -1 0 256;
+#X obj -725 -683 knob 64 64 0 1 0 0 pulp_intensity empty intensity
+10 -18 0 18 -99865 -258113 -4032 50 1;
+#X obj -856 -686 knob 64 64 0 1 0 0 pulp_numaffected empty numAffected
+10 -18 0 18 -99865 -258113 -4032 0 1;
+#X obj -915 -529 tgl 15 0 openFile empty open 17 7 0 10 -262144 -1
+-1 1 1;
+#X obj -862 -512 flatgui/popup 124 25 #ffffff popup flf dd nn dd;
+#X msg -799 -534 options flf dd nn dd;
+#X obj -668 -455 s menu;
+#X obj -933 -481 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj -576 -578 cnv 15 100 60 empty empty jfghg 20 12 0 14 -233017
+-66577 0;
+#X connect 5 1 7 0;
+#X connect 6 0 5 0;
