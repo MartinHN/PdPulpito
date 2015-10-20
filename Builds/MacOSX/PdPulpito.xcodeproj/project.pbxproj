@@ -274,7 +274,6 @@
 		C78DC6C6DA380321779A3049 /* edge.c in Sources */ = {isa = PBXBuildFile; fileRef = 635571E3CCD1024291F0F0CA /* edge.c */; };
 		C815CDD00E7B183C695AFB28 /* TogEdge.c in Sources */ = {isa = PBXBuildFile; fileRef = 219BB907253D8CEEE4681A86 /* TogEdge.c */; };
 		C86F39B0FB37184FB8226AC7 /* juce_VST3_Wrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = DC8CF8D6BD359949D2B6E6E0 /* juce_VST3_Wrapper.mm */; };
-		CB357956F42C4AE569484202 /* z_queued.c in Sources */ = {isa = PBXBuildFile; fileRef = AFE3BAA54E550D9D2E83BC43 /* z_queued.c */; };
 		CC32FC4E6EE10D412001ABBB /* fwriteln.c in Sources */ = {isa = PBXBuildFile; fileRef = BEB81C1A42A6AE8AF2FC3086 /* fwriteln.c */; };
 		CD769F22A9CD46C388C12844 /* mousefilter.c in Sources */ = {isa = PBXBuildFile; fileRef = 322576D3DEBE35B7A96ADF67 /* mousefilter.c */; };
 		CDC10EED9677944C2CD2050C /* offer.c in Sources */ = {isa = PBXBuildFile; fileRef = FB6D16747ADAE0648F06A2AD /* offer.c */; };
@@ -304,7 +303,6 @@
 		E593626263905B15E093AE1C /* sigzero~.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E0544358A772C100E205C8B /* sigzero~.c */; };
 		E5DE81DAB81CC8D972244A37 /* a2l.c in Sources */ = {isa = PBXBuildFile; fileRef = 169FB979725B556B205A63DF /* a2l.c */; };
 		E64B7BAF0D94797D978BF0B2 /* Trough.c in Sources */ = {isa = PBXBuildFile; fileRef = 369BB9E6A723D5CDD2C99EB9 /* Trough.c */; };
-		E6934F293C3CCAEFC3834017 /* z_print_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 39560CCB829DB388CEA4D654 /* z_print_util.c */; };
 		E71E640E9B685298D1D4FD98 /* juce_RTAS_MacUtilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC3369C50513025760CCEC53 /* juce_RTAS_MacUtilities.mm */; };
 		E74186DBED99FE117301C521 /* next.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B4B9C0BBDCEA553982C43B /* next.c */; };
 		E86688E30CA65832EF8DCAEB /* tree.c in Sources */ = {isa = PBXBuildFile; fileRef = 39C31F16F2057411BB5DCA98 /* tree.c */; };
@@ -404,7 +402,6 @@
 		0B8299C8F0A3AB2D8C6B755B /* juce_StringPool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_StringPool.cpp; path = ../../JuceLibraryCode/modules/juce_core/text/juce_StringPool.cpp; sourceTree = SOURCE_ROOT; };
 		0BA2B104EB09EAFDD7BEA0C8 /* cosh.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cosh.c; path = ../../Source/externals/cyclone/hammer/cosh.c; sourceTree = SOURCE_ROOT; };
 		0BBD2062FF85884D8DDBB91E /* juce_AsyncUpdater.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_AsyncUpdater.cpp; path = ../../JuceLibraryCode/modules/juce_events/broadcasters/juce_AsyncUpdater.cpp; sourceTree = SOURCE_ROOT; };
-		0BFFEA8A2751849FD507C3D5 /* z_print_util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = z_print_util.h; path = ../../Source/z_print_util.h; sourceTree = SOURCE_ROOT; };
 		0C09BCD877C3ECEB4198A86D /* juce_TextLayout.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_TextLayout.cpp; path = ../../JuceLibraryCode/modules/juce_graphics/fonts/juce_TextLayout.cpp; sourceTree = SOURCE_ROOT; };
 		0C1137128C509E1A4CEE8E96 /* count.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = count.c; path = ../../Source/externals/cyclone/sickle/count.c; sourceTree = SOURCE_ROOT; };
 		0C39CB4921107831BF215571 /* juce_linux_AudioCDReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_linux_AudioCDReader.cpp; path = ../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_AudioCDReader.cpp; sourceTree = SOURCE_ROOT; };
@@ -623,7 +620,6 @@
 		3897BAC7D8FA6F133C1E62D1 /* juce_TextDragAndDropTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_TextDragAndDropTarget.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/mouse/juce_TextDragAndDropTarget.h; sourceTree = SOURCE_ROOT; };
 		38BB910C89915A5EFBD2AC09 /* juce_MultiDocumentPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_MultiDocumentPanel.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/layout/juce_MultiDocumentPanel.h; sourceTree = SOURCE_ROOT; };
 		3910EC2BDC89DF96A1F0F736 /* juce_mac_CarbonViewWrapperComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_mac_CarbonViewWrapperComponent.h; path = ../../JuceLibraryCode/modules/juce_gui_extra/native/juce_mac_CarbonViewWrapperComponent.h; sourceTree = SOURCE_ROOT; };
-		39560CCB829DB388CEA4D654 /* z_print_util.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = z_print_util.c; path = ../../Source/z_print_util.c; sourceTree = SOURCE_ROOT; };
 		397E29EE57EBD15346571AF3 /* juce_NotificationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_NotificationType.h; path = ../../JuceLibraryCode/modules/juce_events/messages/juce_NotificationType.h; sourceTree = SOURCE_ROOT; };
 		398363A4A8A1CA4166014D00 /* juce_OptionalScopedPointer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_OptionalScopedPointer.h; path = ../../JuceLibraryCode/modules/juce_core/memory/juce_OptionalScopedPointer.h; sourceTree = SOURCE_ROOT; };
 		39C31F16F2057411BB5DCA98 /* tree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = tree.c; path = ../../Source/externals/cyclone/shared/hammer/tree.c; sourceTree = SOURCE_ROOT; };
@@ -1221,7 +1217,6 @@
 		AF1487C62A35806FE99B97D7 /* juce_ResizableEdgeComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ResizableEdgeComponent.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/layout/juce_ResizableEdgeComponent.h; sourceTree = SOURCE_ROOT; };
 		AF793955A3F4B872909D5BF5 /* juce_LuaCodeTokeniser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_LuaCodeTokeniser.cpp; path = ../../JuceLibraryCode/modules/juce_gui_extra/code_editor/juce_LuaCodeTokeniser.cpp; sourceTree = SOURCE_ROOT; };
 		AFB2A318433DA13F6A82B230 /* juce_PopupMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_PopupMenu.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/menus/juce_PopupMenu.h; sourceTree = SOURCE_ROOT; };
-		AFE3BAA54E550D9D2E83BC43 /* z_queued.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = z_queued.c; path = ../../Source/z_queued.c; sourceTree = SOURCE_ROOT; };
 		B0216DBD7D32ED27267990E8 /* juce_SystemStats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_SystemStats.h; path = ../../JuceLibraryCode/modules/juce_core/system/juce_SystemStats.h; sourceTree = SOURCE_ROOT; };
 		B057E33B1D206BDFA4CDB336 /* juce_DocumentWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_DocumentWindow.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/windows/juce_DocumentWindow.h; sourceTree = SOURCE_ROOT; };
 		B0744225F3DDFB2C2836C1D7 /* juce_AudioCDReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_AudioCDReader.h; path = ../../JuceLibraryCode/modules/juce_audio_devices/audio_cd/juce_AudioCDReader.h; sourceTree = SOURCE_ROOT; };
@@ -1351,7 +1346,6 @@
 		CDDCA41AEA75E9A8C81CC564 /* grow.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = grow.c; path = ../../Source/externals/cyclone/shared/common/grow.c; sourceTree = SOURCE_ROOT; };
 		CE0DC11A0BE8D36ACC8898A6 /* juce_NativeMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_NativeMessageBox.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/windows/juce_NativeMessageBox.h; sourceTree = SOURCE_ROOT; };
 		CE6CD33FB401742C2BA7D978 /* juce_VST3PluginFormat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_VST3PluginFormat.cpp; path = ../../JuceLibraryCode/modules/juce_audio_processors/format_types/juce_VST3PluginFormat.cpp; sourceTree = SOURCE_ROOT; };
-		CE8E352F2D5017DF0AD04B4B /* z_queued.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = z_queued.h; path = ../../Source/z_queued.h; sourceTree = SOURCE_ROOT; };
 		CEF5E4D5E1611D5A6E1A6A02 /* juce_TableListBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_TableListBox.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/widgets/juce_TableListBox.h; sourceTree = SOURCE_ROOT; };
 		CF9204625CC2547E54676A50 /* juce_linux_Messaging.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_linux_Messaging.cpp; path = ../../JuceLibraryCode/modules/juce_events/native/juce_linux_Messaging.cpp; sourceTree = SOURCE_ROOT; };
 		CFA6574BCDF21190B550F3A4 /* sinh.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = sinh.c; path = ../../Source/externals/cyclone/hammer/sinh.c; sourceTree = SOURCE_ROOT; };
@@ -1768,10 +1762,6 @@
 				11B646B1146E7F8842576E21 /* PdTypes.hpp */,
 				D74EF841C240B3C578E48070 /* ringbuffer.c */,
 				F3E25686461A465289F1FF81 /* ringbuffer.h */,
-				39560CCB829DB388CEA4D654 /* z_print_util.c */,
-				0BFFEA8A2751849FD507C3D5 /* z_print_util.h */,
-				AFE3BAA54E550D9D2E83BC43 /* z_queued.c */,
-				CE8E352F2D5017DF0AD04B4B /* z_queued.h */,
 			);
 			name = PdGlue;
 			sourceTree = "<group>";
@@ -3878,8 +3868,6 @@
 				3D591DA6256F5B35B19F1EF7 /* PdBase.cpp in Sources */,
 				272E48E7D2A51B04F8CAF51D /* PdTypes.cpp in Sources */,
 				5D367CE6A897E38EE394E9DA /* ringbuffer.c in Sources */,
-				E6934F293C3CCAEFC3834017 /* z_print_util.c in Sources */,
-				CB357956F42C4AE569484202 /* z_queued.c in Sources */,
 				0C906C13C759AA6640445A3D /* LabelComponent.cpp in Sources */,
 				3EC693AD104A7C833971E659 /* LookNfeel.cpp in Sources */,
 				00F5FCDE6D0636B528A17F45 /* accum.c in Sources */,
@@ -4250,9 +4238,9 @@
 					"\"/Users/mhermant/SDKs/VST3 SDK\"",
 					../../JuceLibraryCode,
 					../../JuceLibraryCode/modules,
-					"../../libpd/pure-data/src",
-					../../libpd/libpd_wrapper,
-					../../libpd/libpd_wrapper/util,
+					"../../../libpd/pure-data/src",
+					../../../libpd/libpd_wrapper,
+					../../../libpd/libpd_wrapper/util,
 					../../Source/externals/cyclone,
 					../../Source/externals/cyclone/shared,
 					"$(inherited)",
@@ -4319,9 +4307,9 @@
 					"\"/Users/mhermant/SDKs/VST3 SDK\"",
 					../../JuceLibraryCode,
 					../../JuceLibraryCode/modules,
-					"../../libpd/pure-data/src",
-					../../libpd/libpd_wrapper,
-					../../libpd/libpd_wrapper/util,
+					"../../../libpd/pure-data/src",
+					../../../libpd/libpd_wrapper,
+					../../../libpd/libpd_wrapper/util,
 					../../Source/externals/cyclone,
 					../../Source/externals/cyclone/shared,
 					"$(inherited)",
