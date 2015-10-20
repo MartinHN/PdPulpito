@@ -66,7 +66,7 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    void loadAllGUI();
+    void loadFromGUI();
     void updateProcessorParameters();
     void reloadPdPatch(double sampleRate);
     void setPatchFile(File file);

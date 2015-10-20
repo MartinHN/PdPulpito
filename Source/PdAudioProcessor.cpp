@@ -58,7 +58,7 @@ void PureDataAudioProcessor::updateProcessorParameters(){
     int idx = 0;
     for(auto & p:pdParameters){
         
-        if(idx>getNumParameters()){
+        if(idx>=getNumParameters()){
         addParameter(p);
         }
         else{

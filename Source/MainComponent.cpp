@@ -145,7 +145,7 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
         {
             pathField->setText(fc.getResult().getFileName(), dontSendNotification);
             p.setPatchFile(fc.getResult());
-            p.reloadPatch(NULL);
+            p.reloadPdPatch(NULL);
             updatePatch();
         }
 
@@ -153,9 +153,9 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
     else if (buttonThatWasClicked == reloadButton)
     {
 
-        p.reloadPatch(NULL);
+        p.reloadPdPatch(NULL);
         updatePatch();
-        p.updateParameters();
+        p.updateProcessorParameters();
         repaint();
 
     }
