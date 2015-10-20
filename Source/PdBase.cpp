@@ -19,14 +19,16 @@
 #include <iostream>
 //#include "m_pd.h"
 
+extern t_pdinstance * pd_this;
+
 #ifdef LIBPD_USE_STD_MUTEX
-    #if __cplusplus <= 201103L // C++ 11 check
-        #define _LOCK() mutex.lock()
+    #if __cplusplus >= 201103L // C++ 11 check
+        #define _LOCK() mutex.lock();
         #define _UNLOCK() mutex.unlock()
     #endif
 #else
     // no ops
-    #define _LOCK()
+    #define _LOCK() pd_this = pdContext_instance.thisPdInstance
     #define _UNLOCK()
 #endif
 
@@ -44,27 +46,27 @@ namespace pd {
 
 //--------------------------------------------------------------------
 PdBase::PdBase() {
-    PdContext::instance().addBase();
+    pdContext_instance.addBase();
 }
 
 //--------------------------------------------------------------------
 PdBase::~PdBase() {
     clear();
-    PdContext::instance().removeBase();
+    pdContext_instance.removeBase();
 }
 
 //--------------------------------------------------------------------
 bool PdBase::init(const int numInChannels, const int numOutChannels, const int sampleRate, bool queued) {
     clear();
     _LOCK();
-    bool ret = PdContext::instance().init(numInChannels, numOutChannels, sampleRate, queued);
+    bool ret = pdContext_instance.init(numInChannels, numOutChannels, sampleRate, queued);
     _UNLOCK();
     return ret;
 }
 
 void PdBase::clear() {
     _LOCK();
-    PdContext::instance().clear();
+    pdContext_instance.clear();
     _UNLOCK();
     unsubscribeAll();
 }
@@ -105,7 +107,7 @@ void PdBase::closePatch(const std::string& patch) {
     // [; pd-name menuclose 1(
     string patchname = (string) "pd-"+patch;
     _LOCK();
-    libpd_start_message(PdContext::instance().maxMsgLen);
+    libpd_start_message(pdContext_instance.maxMsgLen);
     libpd_add_float(1.0f);
     libpd_finish_message(patchname.c_str(), "menuclose");
     _UNLOCK();
@@ -154,7 +156,7 @@ bool PdBase::processDouble(int ticks, const double* inBuffer, double* outBuffer)
 //--------------------------------------------------------------------
 void PdBase::computeAudio(bool state) {
     _LOCK();
-    PdContext::instance().computeAudio(state);
+    pdContext_instance.computeAudio(state);
     _UNLOCK();
 }
 
@@ -170,14 +172,14 @@ void PdBase::subscribe(const std::string& source) {
     void* pointer = libpd_bind(source.c_str());
     _UNLOCK();
     if(pointer != NULL) {
-        map<string,void*>& sources = PdContext::instance().sources;
+        map<string,void*>& sources = pdContext_instance.sources;
         sources.insert(pair<string,void*>(source, pointer));
     }
 }
 
 void PdBase::unsubscribe(const std::string& source) {
 
-    map<string,void*>& sources = PdContext::instance().sources;
+    map<string,void*>& sources = pdContext_instance.sources;
 
     map<string,void*>::iterator iter;
     iter = sources.find(source);
@@ -193,7 +195,7 @@ void PdBase::unsubscribe(const std::string& source) {
 }
 
 bool PdBase::exists(const std::string& source) {
-    map<string,void*>& sources = PdContext::instance().sources;
+    map<string,void*>& sources = pdContext_instance.sources;
     if(sources.find(source) != sources.end()) {
         return true;
     }
@@ -201,7 +203,7 @@ bool PdBase::exists(const std::string& source) {
 }
 
 void PdBase::unsubscribeAll(){
-    map<string,void*>& sources = PdContext::instance().sources;
+    map<string,void*>& sources = pdContext_instance.sources;
     map<string,void*>::iterator iter;
     _LOCK();
     for(iter = sources.begin(); iter != sources.end(); ++iter) {
@@ -223,13 +225,13 @@ void PdBase::receiveMidi() {
 //--------------------------------------------------------------------
 void PdBase::setReceiver(PdReceiver* receiver) {
     _LOCK();
-    PdContext::instance().receiver = receiver;
+    pdContext_instance.receiver = receiver;
     _UNLOCK();
 }
 
 void PdBase::setMidiReceiver(PdMidiReceiver* midiReceiver) {
     _LOCK();
-    PdContext::instance().midiReceiver = midiReceiver;
+    pdContext_instance.midiReceiver = midiReceiver;
     _UNLOCK();
 }
 
@@ -255,7 +257,7 @@ void PdBase::sendSymbol(const std::string& dest, const std::string& symbol) {
 //----------------------------------------------------------
 void PdBase::startMessage() {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(context.bMsgInProgress) {
         cerr << "Pd: Can not start message, message in progress" << endl;
@@ -272,7 +274,7 @@ void PdBase::startMessage() {
 
 void PdBase::addFloat(const float num) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(!context.bMsgInProgress) {
         cerr << "Pd: Can not add float, message not in progress" << endl;
@@ -298,7 +300,7 @@ void PdBase::addFloat(const float num) {
 
 void PdBase::addSymbol(const std::string& symbol) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(!context.bMsgInProgress) {
         cerr << "Pd: Can not add symbol, message not in progress" << endl;;
@@ -324,7 +326,7 @@ void PdBase::addSymbol(const std::string& symbol) {
 
 void PdBase::finishList(const std::string& dest) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(!context.bMsgInProgress) {
         cerr << "Pd: Can not finish list, message not in progress" << endl;
@@ -346,7 +348,7 @@ void PdBase::finishList(const std::string& dest) {
 
 void PdBase::finishMessage(const std::string& dest, const std::string& msg) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(!context.bMsgInProgress) {
         cerr << "Pd: Can not finish message, message not in progress" << endl;
@@ -369,7 +371,7 @@ void PdBase::finishMessage(const std::string& dest, const std::string& msg) {
 //----------------------------------------------------------
 void PdBase::sendList(const std::string& dest, const List& list) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(context.bMsgInProgress) {
         cerr << "Pd: Can not send list, message in progress" << endl;
@@ -395,7 +397,7 @@ void PdBase::sendList(const std::string& dest, const List& list) {
 
 void PdBase::sendMessage(const std::string& dest, const std::string& msg, const List& list) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(context.bMsgInProgress) {
         cerr << "Pd: Can not send message, message in progress" << endl;
@@ -478,7 +480,7 @@ void PdBase::sendSysRealTime(const int port, const int value) {
 //----------------------------------------------------------
 PdBase& PdBase::operator<<(const Bang& var) {
 
-    if(PdContext::instance().bMsgInProgress) {
+    if(pdContext_instance.bMsgInProgress) {
         cerr << "Pd: Can not send Bang, message in progress" << endl;
         return *this;
     }
@@ -490,7 +492,7 @@ PdBase& PdBase::operator<<(const Bang& var) {
 
 PdBase& PdBase::operator<<(const Float& var) {
 
-    if(PdContext::instance().bMsgInProgress) {
+    if(pdContext_instance.bMsgInProgress) {
         cerr << "Pd: Can not send Float, message in progress" << endl;
         return *this;
     }
@@ -502,7 +504,7 @@ PdBase& PdBase::operator<<(const Float& var) {
 
 PdBase& PdBase::operator<<(const Symbol& var) {
 
-    if(PdContext::instance().bMsgInProgress) {
+    if(pdContext_instance.bMsgInProgress) {
         cerr << "Pd: Can not send Symbol, message in progress" << endl;
         return *this;
     }
@@ -536,7 +538,7 @@ PdBase& PdBase::operator<<(const bool var) {
 
 PdBase& PdBase::operator<<(const int var) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     switch(context.msgType) {
 
@@ -622,7 +624,7 @@ PdBase& PdBase::operator<<(const PolyAftertouch& var) {
 //----------------------------------------------------------
 PdBase& PdBase::operator<<(const StartMidi& var) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(context.bMsgInProgress) {
         cerr << "Pd: Can not start MidiByte stream, message in progress" << endl;
@@ -638,7 +640,7 @@ PdBase& PdBase::operator<<(const StartMidi& var) {
 
 PdBase& PdBase::operator<<(const StartSysex& var) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(context.bMsgInProgress) {
         cerr << "Pd: Can not start Sysex stream, message in progress" << endl;
@@ -654,7 +656,7 @@ PdBase& PdBase::operator<<(const StartSysex& var) {
 
 PdBase& PdBase::operator<<(const StartSysRealTime& var) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(context.bMsgInProgress) {
         cerr << "Pd: Can not start SysRealRime stream, message in progress" << endl;
@@ -670,7 +672,7 @@ PdBase& PdBase::operator<<(const StartSysRealTime& var) {
 
 PdBase& PdBase::operator<<(const Finish& var) {
 
-    PdContext& context = PdContext::instance();
+    PdContext& context = pdContext_instance;
 
     if(!context.bMsgInProgress) {
         cerr << "Pd: Can not finish midi byte stream, stream not in progress" << endl;
@@ -688,7 +690,7 @@ PdBase& PdBase::operator<<(const Finish& var) {
 }
 
 bool PdBase::isMessageInProgress() {
-    return PdContext::instance().bMsgInProgress;
+    return pdContext_instance.bMsgInProgress;
 }
 
 //----------------------------------------------------------
@@ -808,11 +810,11 @@ void PdBase::clearArray(const std::string& arrayName, int value) {
 
 //----------------------------------------------------------
 bool PdBase::isInited() {
-    return PdContext::instance().isInited();
+    return pdContext_instance.isInited();
 }
 
 bool PdBase::isQueued() {
-    return PdContext::instance().isQueued();
+    return pdContext_instance.isQueued();
 }
 
 int PdBase::blockSize() {
@@ -821,20 +823,21 @@ int PdBase::blockSize() {
 }
 
 void PdBase::setMaxMessageLen(unsigned int len) {
-    PdContext::instance().maxMsgLen = len;
+    pdContext_instance.maxMsgLen = len;
 }
 
 unsigned int PdBase::maxMessageLen() {
-    return PdContext::instance().maxMsgLen;
+    return pdContext_instance.maxMsgLen;
 }
 
 /* ***** PD CONTEXT ***** */
 
 //----------------------------------------------------------
-PdBase::PdContext& PdBase::PdContext::instance() {
-    static PdBase::PdContext * pointerToTheSingletonInstance = new PdContext;
-    return *pointerToTheSingletonInstance;
-}
+//PdBase::PdContext& PdBase::pdContext_instance {
+////    static PdBase::PdContext * pointerToTheSingletonInstance = new PdContext;
+//    pd_this = thisPdInstance;
+//    return this;//*pointerToTheSingletonInstance;
+//}
 
 void PdBase::PdContext::addBase() {
     numBases++;
@@ -874,11 +877,11 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         libpd_set_queued_midibytehook(_midibyte);
         
         // init libpd, should only be called once!
-        if(!bLibPdInited) {
-            libpd_queued_init();
+//        if(!bLibPdInited) {
+            thisPdInstance = (_pdinstance*)libpd_queued_init();
             init_externals();
             bLibPdInited = true;
-        }
+//        }
     }
     else {
         libpd_set_printhook(libpd_print_concatenator);
@@ -899,11 +902,11 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         libpd_set_midibytehook(_midibyte);
         
         // init libpd, should only be called once!
-        if(!bLibPdInited) {
-            libpd_init();
+//        if(!bLibPdInited) {
+            thisPdInstance = (_pdinstance*)libpd_init();
             init_externals();
             bLibPdInited = true;
-        }
+//        }
     }
     
     // init audio
@@ -997,130 +1000,130 @@ PdBase::PdContext::~PdContext() {
         clear(); // triple check clear
     }
 }
-
-//----------------------------------------------------------
-void PdBase::PdContext::_print(const char* s) {
-    PdContext& context = PdContext::instance();
-    if(context.receiver) {
-        context.receiver->print((string) s);
-    }
-}
-
-void PdBase::PdContext::_bang(const char* source) {
-    PdContext& context = PdContext::instance();
-    if(context.receiver) {
-        context.receiver->receiveBang((string) source);
-    }
-}
-
-void PdBase::PdContext::_float(const char* source, float num) {
-    PdContext& context = PdContext::instance();
-    if(context.receiver) {
-        context.receiver->receiveFloat((string) source, num);
-    }
-}
-
-void PdBase::PdContext::_symbol(const char* source, const char* symbol) {
-    PdContext& context = PdContext::instance();
-    if(context.receiver) {
-        context.receiver->receiveSymbol((string) source, (string) symbol);
-    }
-}
-
-void PdBase::PdContext::_list(const char* source, int argc, t_atom* argv) {
-    PdContext& context = PdContext::instance();
-
-    List list;
-    for(int i = 0; i < argc; i++) {
-
-        t_atom a = argv[i];
-
-        if(a.a_type == A_FLOAT) {
-            float f = a.a_w.w_float;
-            list.addFloat(f);
-        }
-        else if(a.a_type == A_SYMBOL) {
-            char* s = a.a_w.w_symbol->s_name;
-            list.addSymbol((string) s);
-        }
-    }
-
-    if(context.receiver) {
-        context.receiver->receiveList((string) source, list);
-    }
-}
-
-void PdBase::PdContext::_message(const char* source, const char *symbol, int argc, t_atom *argv)
-{
-    PdContext& context = PdContext::instance();
-
-    List list;
-    for(int i = 0; i < argc; i++) {
-
-        t_atom a = argv[i];
-
-        if(a.a_type == A_FLOAT) {
-            float f = a.a_w.w_float;
-            list.addFloat(f);
-        }
-        else if(a.a_type == A_SYMBOL) {
-            char* s = a.a_w.w_symbol->s_name;
-            list.addSymbol((string) s);
-        }
-    }
-
-    if(context.receiver) {
-        context.receiver->receiveMessage((string) source, (string) symbol, list);
-    }
-}
-
-void PdBase::PdContext::_noteon(int channel, int pitch, int velocity) {
-    PdContext& context = PdContext::instance();
-    if(context.midiReceiver) {
-        context.midiReceiver->receiveNoteOn(channel, pitch, velocity);
-    }
-}
-
-void PdBase::PdContext::_controlchange(int channel, int controller, int value) {
-    PdContext& context = PdContext::instance();
-    if(context.midiReceiver) {
-        context.midiReceiver->receiveControlChange(channel, controller, value);
-    }
-}
-
-void PdBase::PdContext::_programchange(int channel, int value) {
-    PdContext& context = PdContext::instance();
-    if(context.midiReceiver) {
-        context.midiReceiver->receiveProgramChange(channel, value);
-    }
-}
-
-void PdBase::PdContext::_pitchbend(int channel, int value) {
-    PdContext& context = PdContext::instance();
-    if(context.midiReceiver) {
-        context.midiReceiver->receivePitchBend(channel, value);
-    }
-}
-
-void PdBase::PdContext::_aftertouch(int channel, int value) {
-    PdContext& context = PdContext::instance();
-    if(context.midiReceiver) {
-        context.midiReceiver->receiveAftertouch(channel, value);
-    }
-}
-
-void PdBase::PdContext::_polyaftertouch(int channel, int pitch, int value) {
-    PdContext& context = PdContext::instance();
-    if(context.midiReceiver) {
-        context.midiReceiver->receivePolyAftertouch(channel, pitch, value);
-    }
-}
-
-void PdBase::PdContext::_midibyte(int port, int byte) {
-    PdContext& context = PdContext::instance();
-    if(context.midiReceiver) {
-        context.midiReceiver->receiveMidiByte(port, byte);
-    }
-}
+//
+////----------------------------------------------------------
+//void PdBase::PdContext::_print(const char* s) {
+//    PdContext& context = pdContext_instance;
+//    if(context.receiver) {
+//        context.receiver->print((string) s);
+//    }
+//}
+//
+//void PdBase::PdContext::_bang(const char* source) {
+//    PdContext& context = pdContext_instance;
+//    if(context.receiver) {
+//        context.receiver->receiveBang((string) source);
+//    }
+//}
+//
+//void PdBase::PdContext::_float(const char* source, float num) {
+//    PdContext& context = pdContext_instance;
+//    if(context.receiver) {
+//        context.receiver->receiveFloat((string) source, num);
+//    }
+//}
+//
+//void PdBase::PdContext::_symbol(const char* source, const char* symbol) {
+//    PdContext& context = pdContext_instance;
+//    if(context.receiver) {
+//        context.receiver->receiveSymbol((string) source, (string) symbol);
+//    }
+//}
+//
+//void PdBase::PdContext::_list(const char* source, int argc, t_atom* argv) {
+//    PdContext& context = pdContext_instance;
+//
+//    List list;
+//    for(int i = 0; i < argc; i++) {
+//
+//        t_atom a = argv[i];
+//
+//        if(a.a_type == A_FLOAT) {
+//            float f = a.a_w.w_float;
+//            list.addFloat(f);
+//        }
+//        else if(a.a_type == A_SYMBOL) {
+//            char* s = a.a_w.w_symbol->s_name;
+//            list.addSymbol((string) s);
+//        }
+//    }
+//
+//    if(context.receiver) {
+//        context.receiver->receiveList((string) source, list);
+//    }
+//}
+//
+//void PdBase::PdContext::_message(const char* source, const char *symbol, int argc, t_atom *argv)
+//{
+//    PdContext& context = pdContext_instance;
+//
+//    List list;
+//    for(int i = 0; i < argc; i++) {
+//
+//        t_atom a = argv[i];
+//
+//        if(a.a_type == A_FLOAT) {
+//            float f = a.a_w.w_float;
+//            list.addFloat(f);
+//        }
+//        else if(a.a_type == A_SYMBOL) {
+//            char* s = a.a_w.w_symbol->s_name;
+//            list.addSymbol((string) s);
+//        }
+//    }
+//
+//    if(context.receiver) {
+//        context.receiver->receiveMessage((string) source, (string) symbol, list);
+//    }
+//}
+//
+//void PdBase::PdContext::_noteon(int channel, int pitch, int velocity) {
+//    PdContext& context = pdContext_instance;
+//    if(context.midiReceiver) {
+//        context.midiReceiver->receiveNoteOn(channel, pitch, velocity);
+//    }
+//}
+//
+//void PdBase::PdContext::_controlchange(int channel, int controller, int value) {
+//    PdContext& context = pdContext_instance;
+//    if(context.midiReceiver) {
+//        context.midiReceiver->receiveControlChange(channel, controller, value);
+//    }
+//}
+//
+//void PdBase::PdContext::_programchange(int channel, int value) {
+//    PdContext& context = pdContext_instance;
+//    if(context.midiReceiver) {
+//        context.midiReceiver->receiveProgramChange(channel, value);
+//    }
+//}
+//
+//void PdBase::PdContext::_pitchbend(int channel, int value) {
+//    PdContext& context = pdContext_instance;
+//    if(context.midiReceiver) {
+//        context.midiReceiver->receivePitchBend(channel, value);
+//    }
+//}
+//
+//void PdBase::PdContext::_aftertouch(int channel, int value) {
+//    PdContext& context = pdContext_instance;
+//    if(context.midiReceiver) {
+//        context.midiReceiver->receiveAftertouch(channel, value);
+//    }
+//}
+//
+//void PdBase::PdContext::_polyaftertouch(int channel, int pitch, int value) {
+//    PdContext& context = pdContext_instance;
+//    if(context.midiReceiver) {
+//        context.midiReceiver->receivePolyAftertouch(channel, pitch, value);
+//    }
+//}
+//
+//void PdBase::PdContext::_midibyte(int port, int byte) {
+//    PdContext& context = pdContext_instance;
+//    if(context.midiReceiver) {
+//        context.midiReceiver->receiveMidiByte(port, byte);
+//    }
+//}
 
 } // namespace

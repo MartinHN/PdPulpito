@@ -53,6 +53,8 @@ class PdParamGetter {
     Rectangle<int> patchRect;
     File guiFile;
     
+    int localParamCount = 0;
+    
     Array<StringArray > patchString;
     
 };

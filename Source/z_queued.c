@@ -293,7 +293,7 @@ void libpd_set_queued_midibytehook(const t_libpd_midibytehook hook) {
   libpd_queued_midibytehook = hook;
 }
 
-int libpd_queued_init() {
+void * libpd_queued_init() {
   pd_receive_buffer = rb_create(BUFFER_SIZE);
   if (!pd_receive_buffer) return -1;
   midi_receive_buffer = rb_create(BUFFER_SIZE);
@@ -314,8 +314,8 @@ int libpd_queued_init() {
   libpd_set_polyaftertouchhook(internal_polyaftertouchhook);
   libpd_set_midibytehook(internal_midibytehook);
 
-  libpd_init();
-  return 0;
+
+  return   libpd_init();
 }
 
 void libpd_queued_release() {

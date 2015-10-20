@@ -29,13 +29,13 @@ void PdAudioProcessorEditor::resized()
     
     PureDataAudioProcessor * p = (PureDataAudioProcessor*)&processor;
     int idx = 0;
-    DBG( "resizing GUI " << juce_Components.size());
+//    DBG( "resizing GUI " << juce_Components.size());
     if(juce_Components.size()==0){
         return;
     }
     
     Rectangle<int> area = p->patchRect;
-    DBG("patch" << area.toString());
+//    DBG("patch" << area.toString());
     
     for(auto & param:p->pulpParameterDescs){
         Rectangle<float> b = param;
@@ -54,9 +54,9 @@ void PdAudioProcessorEditor::resized()
         
         
         
-        DBG( " resizing UI : " << c->getName() <<  " : " <<
-            ((SendSlider*)c)->labelRelPos.toString() << " / "
-            << c->getBounds().toString() );;
+//        DBG( " resizing UI : " << c->getName() <<  " : " <<
+//            ((SendSlider*)c)->labelRelPos.toString() << " / "
+//            << c->getBounds().toString() );;
         }
         idx++;
     }

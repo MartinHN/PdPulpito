@@ -22,7 +22,7 @@ PureDataAudioProcessor::PureDataAudioProcessor()
 
     
     if(PureDataAudioProcessor::otherInstanceAlreadyRunning) {
-        isInstanceLocked = true;
+//        isInstanceLocked = true;
     }
     PureDataAudioProcessor::otherInstanceAlreadyRunning = true;
     setPatchFile(File(PATCH_PATH));
