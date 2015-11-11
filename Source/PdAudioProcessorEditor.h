@@ -12,7 +12,8 @@
 #include "SendToggle.h"
 #include "PdParamGetter.h"
 
-class PdAudioProcessorEditor  : public AudioProcessorEditor
+class PdAudioProcessorEditor  : public AudioProcessorEditor,
+                                public ChangeListener
 {
 public:
 
@@ -26,6 +27,7 @@ public:
 
     void paint (Graphics& g);
     void resized();
+    void changeListenerCallback (ChangeBroadcaster* source) override;
 
     Rectangle<int> headerRect;
 

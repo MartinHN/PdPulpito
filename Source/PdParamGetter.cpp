@@ -70,6 +70,9 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                         
                         p.labelSize = l[17].getFloatValue();
                         p.name=l[11];
+                        if(p.name == "\$0"){
+                            p.name = "$0";
+                        }
                         
                         // numBox
                         if(pdType == "nbx" ){

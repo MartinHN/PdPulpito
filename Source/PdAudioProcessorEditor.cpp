@@ -9,11 +9,14 @@ PdAudioProcessorEditor::PdAudioProcessorEditor (PureDataAudioProcessor& p)
 {
 
     setVisible(true);
+    p.addChangeListener(this);
     
 }
 
 PdAudioProcessorEditor::~PdAudioProcessorEditor()
 {
+    PureDataAudioProcessor * p = (PureDataAudioProcessor*)&processor;
+    p->removeChangeListener(this);
     
 }
 
@@ -87,7 +90,14 @@ void PdAudioProcessorEditor::updatePatch (){
     
 }
 
-
+void PdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source){
+    PureDataAudioProcessor* p=dynamic_cast<PureDataAudioProcessor*>(source);
+    if( p){
+        updatePatch();
+        p->updateProcessorParameters();
+        repaint();
+    }
+}
 
 
 void PdAudioProcessorEditor::rebuildGUIParams(PureDataAudioProcessor * p){

@@ -16,6 +16,7 @@
 class MainComponent  : public PdAudioProcessorEditor,
                        public Timer,
                        public ButtonListener
+
 {
 public:
 

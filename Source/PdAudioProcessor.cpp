@@ -11,21 +11,22 @@
 #include "MainComponent.h"
 #include "Config.h"
 
-bool PureDataAudioProcessor::otherInstanceAlreadyRunning;
+
 
 //==============================================================================
 PureDataAudioProcessor::PureDataAudioProcessor()
 {
     
+    static bool first = true;
     
-    
-
-    
-    if(PureDataAudioProcessor::otherInstanceAlreadyRunning) {
-//        isInstanceLocked = true;
-    }
-    PureDataAudioProcessor::otherInstanceAlreadyRunning = true;
+    if(first){
     setPatchFile(File(PATCH_PATH));
+    }
+    else{
+    setPatchFile(File(PATCH_PATH2));
+    }
+    
+    first = false;
     loadFromGUI();
 
 }
@@ -34,9 +35,7 @@ PureDataAudioProcessor::~PureDataAudioProcessor()
 {
     pd = nullptr;
     
-    if (!isInstanceLocked) {
-        PureDataAudioProcessor::otherInstanceAlreadyRunning = false;
-    }
+
 }
 
 //==============================================================================
@@ -153,7 +152,8 @@ void PureDataAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    reloadPdPatch(sampleRate);
+    needsToReopenPatch = sampleRate;
+
     
     
 }
@@ -176,13 +176,23 @@ void PureDataAudioProcessor::releaseResources()
 
 void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
+    int instance = -1;
     
+    if(patchfile.getFullPathName() == PATCH_PATH){
+        instance = 0;
+    }
+    else{
+        instance = 1;
+    }
+    
+    if(needsToReopenPatch>=0){
+            reloadPdPatch(needsToReopenPatch);
+            sendChangeMessage();
+            needsToReopenPatch = -2;
+    }
     
     clearMidiBuffer(buffer.getNumSamples());
     
-    if (isInstanceLocked) {
-        return;
-    }
     
     // In case we have more outputs than inputs, this code clears any output channels that didn't contain input data, (because these aren't guaranteed to be empty - they may contain garbage).
     // I've added this to avoid people getting screaming feedback when they first compile the plugin, but obviously you don't need to this code if your algorithm already fills all the output channels.
@@ -191,7 +201,7 @@ void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer
     
     int numChannels = jmin (getNumInputChannels(), getNumOutputChannels());
     int len = buffer.getNumSamples();
-    int idx = 0;
+    
     
     for (int i=0; i<pdParameters.size(); i++) {
         PdParameter* parameter = pdParameters[i];
@@ -221,7 +231,7 @@ void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer
     //output recieved
     
     
-    
+    int idx = 0;
     while (len > 0)
     {
         int max = jmin (len, pd->blockSize());
@@ -326,6 +336,7 @@ void PureDataAudioProcessor::setStateInformation (const void* data, int sizeInBy
     
     // RESTORE / LOAD
     
+    if(canRestore){
     ScopedPointer<XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
     if(xml != 0 && xml->hasTagName(getName().replace(" ", "-"))) {
         
@@ -360,15 +371,12 @@ void PureDataAudioProcessor::setStateInformation (const void* data, int sizeInBy
             }
         }
     }
+    }
 }
 
 void PureDataAudioProcessor::reloadPdPatch (double sampleRate)
 {
     DBG("reloading Patch" );
-    if (isInstanceLocked) {
-        status = "Currently only one simultaneous instance of this plugin is allowed";
-        return;
-    }
     
     if (sampleRate) {
         cachedSampleRate = sampleRate;

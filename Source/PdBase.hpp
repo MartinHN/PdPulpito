@@ -22,6 +22,9 @@
     #define HAVE_UNISTD_H
 #endif
 
+
+//#define LIBPD_USE_STD_MUTEX
+
 // define this to use C++11 std::mutex for locking
 #ifdef LIBPD_USE_STD_MUTEX
     #if __cplusplus < 201103L
@@ -32,6 +35,10 @@
 #endif
 
 extern struct  _pdinstance;
+
+// TODO : Better Link with PdFloat Type (t_sample)
+
+
 
 typedef struct _atom t_atom;
 
@@ -458,7 +465,7 @@ class PdBase {
                 /// singleton data access
                 /// returns a reference to itself
                 /// note: only creates a new object on the first call
-                PdContext& instance();
+//                PdContext& instance();
 
                 /// increments the num of pd base objects
                 void addBase();
@@ -501,6 +508,8 @@ class PdBase {
             
             
                 _pdinstance * thisPdInstance;
+            void * pdAudioIn;
+            void * pdAudioOut;
             // hide all the constructors, copy functions here
             PdContext();                        // cannot create
             virtual ~PdContext();               // cannot destroy

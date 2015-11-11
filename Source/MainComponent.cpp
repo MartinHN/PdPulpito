@@ -145,7 +145,8 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
         {
             pathField->setText(fc.getResult().getFileName(), dontSendNotification);
             p.setPatchFile(fc.getResult());
-            p.reloadPdPatch(NULL);
+            p.needsToReopenPatch = 0;
+//            p.reloadPdPatch(NULL);
             updatePatch();
         }
 
@@ -153,10 +154,8 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
     else if (buttonThatWasClicked == reloadButton)
     {
 
-        p.reloadPdPatch(NULL);
-        updatePatch();
-        p.updateProcessorParameters();
-        repaint();
+        p.needsToReopenPatch = 0;
+
 
     }
     else if (buttonThatWasClicked == editButton)

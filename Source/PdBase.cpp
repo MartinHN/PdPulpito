@@ -23,13 +23,15 @@ extern t_pdinstance * pd_this;
 
 #ifdef LIBPD_USE_STD_MUTEX
     #if __cplusplus >= 201103L // C++ 11 check
-        #define _LOCK() mutex.lock();
-        #define _UNLOCK() mutex.unlock()
+        #define _LOCK() mutex.lock();pd_setinstance(pdContext_instance.thisPdInstance); //DBG("locking : " << pdContext_instance.thisPdInstance);
+        #define _UNLOCK() mutex.unlock();pd_setinstance(NULL); //DBG("unlocking : " << pdContext_instance.thisPdInstance);
+
+
     #endif
 #else
     // no ops
-    #define _LOCK() pd_this = pdContext_instance.thisPdInstance
-    #define _UNLOCK()
+    #define _LOCK() pd_setinstance(pdContext_instance.thisPdInstance); //DBG("locking : " << pdContext_instance.thisPdInstance);
+    #define _UNLOCK() pd_setinstance(NULL); //DBG("unlocking : " << pdContext_instance.thisPdInstance);
 #endif
 
 // needed for libpd audio passing
@@ -140,7 +142,7 @@ bool PdBase::processShort(int ticks, const short* inBuffer, short* outBuffer) {
 
 bool PdBase::processFloat(int ticks, const float* inBuffer, float* outBuffer) {
     _LOCK();
-    bool ret = libpd_process_float(ticks, inBuffer, outBuffer) == 0;
+    bool ret = libpd_process_float_custom(ticks, inBuffer, outBuffer,pdContext_instance.pdAudioIn,pdContext_instance.pdAudioOut) == 0;
     _UNLOCK();
     return ret;
 }
@@ -244,6 +246,7 @@ void PdBase::sendBang(const std::string& dest) {
 
 void PdBase::sendFloat(const std::string& dest, float value) {
     _LOCK();
+    DBG("sending " << dest << " to " << pdContext_instance.thisPdInstance);
     libpd_float(dest.c_str(), value);
     _UNLOCK();
 }
@@ -878,7 +881,9 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         
         // init libpd, should only be called once!
 //        if(!bLibPdInited) {
-            thisPdInstance = (_pdinstance*)libpd_queued_init();
+            thisPdInstance = pdinstance_new();
+            pd_setinstance(thisPdInstance);
+            libpd_queued_init();
             init_externals();
             bLibPdInited = true;
 //        }
@@ -903,16 +908,24 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         
         // init libpd, should only be called once!
 //        if(!bLibPdInited) {
-            thisPdInstance = (_pdinstance*)libpd_init();
+            thisPdInstance = pdinstance_new();
+            pd_setinstance(thisPdInstance);
+            libpd_init();
             init_externals();
             bLibPdInited = true;
 //        }
     }
+    pd_setinstance(thisPdInstance);
     
     // init audio
     if(libpd_init_audio(numInChannels, numOutChannels, sampleRate) != 0) {
         return false;
     }
+    
+    pdAudioIn =  libpd_getPdAudioIn() ;
+    pdAudioOut =libpd_getPdAudioOut() ;
+    cout << (float*)pdAudioOut << endl;
+    cout << (void*)pdAudioIn << endl;
     bInited = true;
 
     return bInited;
@@ -963,7 +976,9 @@ void PdBase::PdContext::clear() {
             libpd_set_polyaftertouchhook(NULL);
             libpd_set_midibytehook(NULL);
         }
-    }
+        }
+    
+    
 
     bInited = false;
     bQueued = false;
@@ -999,6 +1014,8 @@ PdBase::PdContext::~PdContext() {
     if(bInited) {
         clear(); // triple check clear
     }
+    delete thisPdInstance;
+    thisPdInstance=nullptr;
 }
 //
 ////----------------------------------------------------------
