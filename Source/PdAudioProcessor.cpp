@@ -14,7 +14,7 @@
 
 
 //==============================================================================
-PureDataAudioProcessor::PureDataAudioProcessor()
+PdAudioProcessor::PdAudioProcessor()
 {
     
     static bool first = true;
@@ -31,7 +31,7 @@ PureDataAudioProcessor::PureDataAudioProcessor()
 
 }
 
-PureDataAudioProcessor::~PureDataAudioProcessor()
+PdAudioProcessor::~PdAudioProcessor()
 {
     pd = nullptr;
     
@@ -39,20 +39,20 @@ PureDataAudioProcessor::~PureDataAudioProcessor()
 }
 
 //==============================================================================
-void PureDataAudioProcessor::setParameterName(int index, String name)
+void PdAudioProcessor::setParameterName(int index, String name)
 {
     PdParameter* p = pdParameters.getUnchecked(index);
     p->setName(name);
 }
 
 
-void PureDataAudioProcessor::loadFromGUI(){
+void PdAudioProcessor::loadFromGUI(){
     getParameterDescsFromPatch(patchfile);
     setParametersFromDescs();
     updateProcessorParameters();
 }
 
-void PureDataAudioProcessor::updateProcessorParameters(){
+void PdAudioProcessor::updateProcessorParameters(){
 
     int idx = 0;
     for(auto & p:pdParameters){
@@ -70,32 +70,32 @@ void PureDataAudioProcessor::updateProcessorParameters(){
 
 
 
-const String PureDataAudioProcessor::getName() const
+const String PdAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-const String PureDataAudioProcessor::getInputChannelName (int channelIndex) const
+const String PdAudioProcessor::getInputChannelName (int channelIndex) const
 {
     return String (channelIndex + 1);
 }
 
-const String PureDataAudioProcessor::getOutputChannelName (int channelIndex) const
+const String PdAudioProcessor::getOutputChannelName (int channelIndex) const
 {
     return String (channelIndex + 1);
 }
 
-bool PureDataAudioProcessor::isInputChannelStereoPair (int index) const
+bool PdAudioProcessor::isInputChannelStereoPair (int index) const
 {
     return true;
 }
 
-bool PureDataAudioProcessor::isOutputChannelStereoPair (int index) const
+bool PdAudioProcessor::isOutputChannelStereoPair (int index) const
 {
     return true;
 }
 
-bool PureDataAudioProcessor::acceptsMidi() const
+bool PdAudioProcessor::acceptsMidi() const
 {
 #if JucePlugin_WantsMidiInput
     return true;
@@ -104,7 +104,7 @@ bool PureDataAudioProcessor::acceptsMidi() const
 #endif
 }
 
-bool PureDataAudioProcessor::producesMidi() const
+bool PdAudioProcessor::producesMidi() const
 {
 #if JucePlugin_ProducesMidiOutput
     return true;
@@ -113,42 +113,42 @@ bool PureDataAudioProcessor::producesMidi() const
 #endif
 }
 
-bool PureDataAudioProcessor::silenceInProducesSilenceOut() const
+bool PdAudioProcessor::silenceInProducesSilenceOut() const
 {
     return false;
 }
 
-double PureDataAudioProcessor::getTailLengthSeconds() const
+double PdAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int PureDataAudioProcessor::getNumPrograms()
+int PdAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
     // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int PureDataAudioProcessor::getCurrentProgram()
+int PdAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void PureDataAudioProcessor::setCurrentProgram (int index)
+void PdAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const String PureDataAudioProcessor::getProgramName (int index)
+const String PdAudioProcessor::getProgramName (int index)
 {
     return String();
 }
 
-void PureDataAudioProcessor::changeProgramName (int index, const String& newName)
+void PdAudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
 
 //==============================================================================
-void PureDataAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
@@ -158,7 +158,7 @@ void PureDataAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     
 }
 
-void PureDataAudioProcessor::releaseResources()
+void PdAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
@@ -174,7 +174,7 @@ void PureDataAudioProcessor::releaseResources()
 }
 
 
-void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
+void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     int instance = -1;
     
@@ -237,6 +237,8 @@ void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer
         int max = jmin (len, pd->blockSize());
         
         /* interleave audio */
+        
+        // TODO : While loop per tick with less copy operations (i.e here + processfloat)
         {
             float* dstBuffer = pdInBuffer.getData();
             for (int i = 0; i < max; ++i)
@@ -270,7 +272,7 @@ void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer
     
 }
 
-void PureDataAudioProcessor::sendDawInfo(){
+void PdAudioProcessor::sendDawInfo(){
     if(pd){
         
         getPlayHead()->getCurrentPosition(currentPositionInfo);
@@ -289,18 +291,18 @@ void PureDataAudioProcessor::sendDawInfo(){
 }
 
 //==============================================================================
-bool PureDataAudioProcessor::hasEditor() const
+bool PdAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* PureDataAudioProcessor::createEditor()
+AudioProcessorEditor* PdAudioProcessor::createEditor()
 {
     return new MainComponent(*this);
 }
 
 //==============================================================================
-void PureDataAudioProcessor::getStateInformation (MemoryBlock& destData)
+void PdAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
@@ -329,7 +331,7 @@ void PureDataAudioProcessor::getStateInformation (MemoryBlock& destData)
     copyXmlToBinary(xml, destData);
 }
 
-void PureDataAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
@@ -374,7 +376,7 @@ void PureDataAudioProcessor::setStateInformation (const void* data, int sizeInBy
     }
 }
 
-void PureDataAudioProcessor::reloadPdPatch (double sampleRate)
+void PdAudioProcessor::reloadPdPatch (double sampleRate)
 {
     DBG("reloading Patch" );
     
@@ -435,12 +437,12 @@ void PureDataAudioProcessor::reloadPdPatch (double sampleRate)
 
 
 
-void PureDataAudioProcessor::setPatchFile(File file)
+void PdAudioProcessor::setPatchFile(File file)
 {
     patchfile = file;
 }
 
-File PureDataAudioProcessor::getPatchFile()
+File PdAudioProcessor::getPatchFile()
 {
     return patchfile;
 }
@@ -449,5 +451,5 @@ File PureDataAudioProcessor::getPatchFile()
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new PureDataAudioProcessor();
+    return new PdAudioProcessor();
 }

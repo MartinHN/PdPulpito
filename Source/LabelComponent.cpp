@@ -27,7 +27,7 @@ processor(processor)
     
     setSize (100, 130);
     
-    PureDataAudioProcessor& p = (PureDataAudioProcessor&) processor;
+    PdAudioProcessor& p = (PdAudioProcessor&) processor;
     String labelText(p.getParameterName(index));
     setName(labelText);
     label->setJustificationType(juce::Justification::left);
@@ -85,7 +85,7 @@ void LabelComponent::labelTextChanged (Label* labelThatHasChanged)
     if (labelThatHasChanged == label)
     {
         
-        PureDataAudioProcessor& p = (PureDataAudioProcessor&) processor;
+        PdAudioProcessor& p = (PdAudioProcessor&) processor;
         p.setParameterName(index, labelThatHasChanged->getTextValue().toString());
         
     }

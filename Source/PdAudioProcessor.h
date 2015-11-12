@@ -19,7 +19,7 @@
 //==============================================================================
 /**
 */
-class PureDataAudioProcessor  : public AudioProcessor,
+class PdAudioProcessor  : public AudioProcessor,
 public pd::PdReceiver,
 public pd::PdMidiReceiver,
 public PdParamGetter,
@@ -28,8 +28,8 @@ public ChangeBroadcaster
 {
 public:
     //==============================================================================
-    PureDataAudioProcessor();
-    ~PureDataAudioProcessor();
+    PdAudioProcessor();
+    ~PdAudioProcessor();
     
     void setParameterName(int index, String name);
 
@@ -111,7 +111,7 @@ private:
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PureDataAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PdAudioProcessor)
 };
 
 

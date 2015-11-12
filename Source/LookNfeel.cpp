@@ -1232,26 +1232,28 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
     
     if (slider.isHorizontal())
     {
+
         const float iy = y + height * 0.5f - sliderRadius * 0.5f;
         const float ih = sliderRadius;
         
         g.setGradientFill (ColourGradient (gradCol1, 0.0f, iy,
                                            gradCol2, 0.0f, iy + ih, false));
         
-        indent.addRoundedRectangle (x - sliderRadius * 0.5f, iy,
-                                    width + sliderRadius, ih,
+        indent.addRoundedRectangle (x +sliderRadius/2, y+sliderRadius/2,
+                                    width -sliderRadius/2, height-sliderRadius/2,
                                     5.0f);
     }
     else
     {
+
         const float ix = x + width * 0.5f - sliderRadius * 0.5f;
         const float iw = sliderRadius;
         
         g.setGradientFill (ColourGradient (gradCol1, ix, 0.0f,
                                            gradCol2, ix + iw, 0.0f, false));
         
-        indent.addRoundedRectangle (ix, y - sliderRadius * 0.5f,
-                                    iw, height + sliderRadius,
+        indent.addRoundedRectangle (x , y,
+                                    width , height,
                                     5.0f);
     }
     

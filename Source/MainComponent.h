@@ -13,14 +13,14 @@
 
 
 
-class MainComponent  : public PdAudioProcessorEditor,
+class MainComponent  : public AudioProcessorEditor,
                        public Timer,
                        public ButtonListener
 
 {
 public:
 
-    MainComponent (PureDataAudioProcessor& processor);
+    MainComponent (PdAudioProcessor& processor);
     ~MainComponent();
 
 
@@ -36,7 +36,7 @@ private:
     void timerCallback();
 
 
-
+    PdAudioProcessorEditor pdEditor;
     ScopedPointer<TextButton> findButton;
     ScopedPointer<Label> pathField;
     ScopedPointer<TextButton> reloadButton;

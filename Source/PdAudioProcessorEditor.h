@@ -5,28 +5,27 @@
 
 
 #include "JuceHeader.h"
-#include "PdAudioProcessor.h"
+//#include "PdAudioProcessor.h"
 
-
-#include "SendSlider.h"
-#include "SendToggle.h"
 #include "PdParamGetter.h"
+#include "PdGUICanvas.h"
 
 class PdAudioProcessorEditor  : public AudioProcessorEditor,
                                 public ChangeListener
 {
 public:
 
-    PdAudioProcessorEditor (PureDataAudioProcessor& p);
+    PdAudioProcessorEditor (PdAudioProcessor& p);
     ~PdAudioProcessorEditor();
 
-
+    void build();
     void updatePatch ();
-    void rebuildGUIParams(PureDataAudioProcessor * p);
+    void rebuildGUIParams(PdAudioProcessor * p);
 
 
     void paint (Graphics& g);
     void resized();
+    // if processor change sub pd patch ,rebuild graphics
     void changeListenerCallback (ChangeBroadcaster* source) override;
 
     Rectangle<int> headerRect;
@@ -34,8 +33,8 @@ public:
 private:
 
 
-    OwnedArray<Component>juce_Components;
-    
+    OwnedArray<PdGUICanvas>PdCanvas;
+    int showedCanvas;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PdAudioProcessorEditor)
 };

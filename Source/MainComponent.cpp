@@ -7,8 +7,10 @@
 
 
 //==============================================================================
-MainComponent::MainComponent (PureDataAudioProcessor& processor)
-    : PdAudioProcessorEditor(processor)
+MainComponent::MainComponent (PdAudioProcessor& processor)
+:    AudioProcessorEditor(processor),
+    pdEditor(processor)
+
 {
 
     lookNFeel = new LookNFeel();
@@ -74,12 +76,15 @@ MainComponent::MainComponent (PureDataAudioProcessor& processor)
 
     setSize (500, 385);
 
-    PureDataAudioProcessor& p = (PureDataAudioProcessor&) processor;
+    PdAudioProcessor& p = (PdAudioProcessor&) processor;
     pathField->setText(p.getPatchFile().getFileName(), dontSendNotification);
     
     startTimer(25);
     resized();
-    updatePatch();
+    
+    pdEditor.build();
+    pdEditor.updatePatch();
+    addAndMakeVisible(pdEditor);
     
 }
 
@@ -119,9 +124,14 @@ void MainComponent::resized()
     label->setBounds (22, 16, 170, 32);
     label2->setBounds (168, 24, 304, 16);
     
-    headerRect.setPosition(0, 0);
-    headerRect.setBottom(editButton->getBottom() + 10);
-    headerRect.setRight(editButton->getRight() + 10);
+
+    pdEditor.headerRect.setBounds(0,0,0,0);
+    pdEditor.setBounds(0,
+                       editButton->getBottom() + 10,
+                       300,300);
+//    pdEditor.headerRect.setPosition(0, 0);
+//    pdEditor.headerRect.setBottom(editButton->getBottom() + 10);
+//    pdEditor.headerRect.setRight(editButton->getRight() + 10);
 
 }
 
@@ -130,7 +140,7 @@ void MainComponent::resized()
 void MainComponent::buttonClicked (Button* buttonThatWasClicked)
 {
 
-    PureDataAudioProcessor& p = (PureDataAudioProcessor&) processor;
+    PdAudioProcessor& p = (PdAudioProcessor&) pdEditor.processor;
 
 
     if (buttonThatWasClicked == findButton)
@@ -147,7 +157,7 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
             p.setPatchFile(fc.getResult());
             p.needsToReopenPatch = 0;
 //            p.reloadPdPatch(NULL);
-            updatePatch();
+            pdEditor.updatePatch();
         }
 
     }
@@ -161,7 +171,7 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
     else if (buttonThatWasClicked == editButton)
     {
 
-        p.guiFile.startAsProcess();
+        p.guiFile[0].startAsProcess();
 
     }
 
@@ -172,6 +182,6 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
 
 void MainComponent::timerCallback()
 {
-    PureDataAudioProcessor& p = (PureDataAudioProcessor&) processor;
+    PdAudioProcessor& p = (PdAudioProcessor&) pdEditor.processor;
     statusField->setText(p.status, dontSendNotification);
 }
