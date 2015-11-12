@@ -246,7 +246,7 @@ void PdBase::sendBang(const std::string& dest) {
 
 void PdBase::sendFloat(const std::string& dest, float value) {
     _LOCK();
-    DBG("sending " << dest << " to " << pdContext_instance.thisPdInstance);
+//    DBG("sending " << dest << " to " << pdContext_instance.thisPdInstance);
     libpd_float(dest.c_str(), value);
     _UNLOCK();
 }

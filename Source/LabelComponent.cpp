@@ -27,8 +27,8 @@ processor(processor)
     
     setSize (100, 130);
     
-    PdAudioProcessor& p = (PdAudioProcessor&) processor;
-    String labelText(p.getParameterName(index));
+    PdAudioProcessor* p = dynamic_cast<PdAudioProcessor*>(& processor);
+    String labelText(p->getParameterName(index));
     setName(labelText);
     label->setJustificationType(juce::Justification::left);
     

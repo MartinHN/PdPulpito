@@ -1223,7 +1223,7 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
                                                  float /*maxSliderPos*/,
                                                  const Slider::SliderStyle /*style*/, Slider& slider)
 {
-    const float sliderRadius = (float) (getSliderThumbRadius (slider) - 2);
+    const float sliderRadius = (float) (getSliderThumbRadius (slider) );
     
     const Colour trackColour (slider.findColour (Slider::trackColourId));
     const Colour gradCol1 (trackColour.overlaidWith (Colours::black.withAlpha (slider.isEnabled() ? 0.25f : 0.13f)));
@@ -1239,9 +1239,11 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
         g.setGradientFill (ColourGradient (gradCol1, 0.0f, iy,
                                            gradCol2, 0.0f, iy + ih, false));
         
-        indent.addRoundedRectangle (x +sliderRadius/2, y+sliderRadius/2,
-                                    width -sliderRadius/2, height-sliderRadius/2,
-                                    5.0f);
+        indent.addRoundedRectangle (x , y,
+                                    width -2 , height,
+                                    5.0f,5.0f,
+                                    false,true,
+                                    false,true);
     }
     else
     {
@@ -1252,14 +1254,13 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
         g.setGradientFill (ColourGradient (gradCol1, ix, 0.0f,
                                            gradCol2, ix + iw, 0.0f, false));
         
-        indent.addRoundedRectangle (x , y,
-                                    width , height,
-                                    5.0f);
+        indent.addRoundedRectangle (x , y-2,
+                                    width , height ,
+                                    5.0f,5.0f,
+                                    true,true,
+                                    false,false);
     }
     
-    g.fillPath (indent);
-    
-    g.setColour (Colour (0x4c000000));
     g.strokePath (indent, PathStrokeType (0.5f));
 }
 
@@ -1267,7 +1268,7 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
                                             float sliderPos, float minSliderPos, float maxSliderPos,
                                             const Slider::SliderStyle style, Slider& slider)
 {
-    const float sliderRadius = (float) (getSliderThumbRadius (slider) - 2);
+    const float sliderRadius = (float) (getSliderThumbRadius (slider) );
     
     Colour knobColour (LookAndFeelHelpers::createBaseColour (slider.findColour (Slider::thumbColourId),
                                                              slider.hasKeyboardFocus (false) && slider.isEnabled(),
@@ -1280,22 +1281,46 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
     {
         float kx, ky;
         
-        if (style == Slider::LinearVertical)
+        const float sliderRadius = (float) (getSliderThumbRadius (slider) );
+        
+        const Colour trackColour (slider.findColour (Slider::trackColourId));
+        const Colour gradCol1 (trackColour.overlaidWith (Colours::black.withAlpha (slider.isEnabled() ? 0.25f : 0.13f)));
+        const Colour gradCol2 (trackColour.overlaidWith (Colour (0x14000000)));
+        Path indent;
+        
+        if (slider.isHorizontal())
         {
-            kx = x + width * 0.5f;
-            ky = sliderPos;
+            kx = sliderPos -sliderRadius -2;
+            const float iy = y + height * 0.5f - sliderRadius * 0.5f;
+            const float ih = sliderRadius;
+            
+            g.setGradientFill (ColourGradient (gradCol1, 0.0f, iy,
+                                               gradCol2, 0.0f, iy + ih, false));
+            
+            indent.addRoundedRectangle (x , y,
+                                        kx , height,
+                                        5.0f,5.0f,
+                                        false,true,
+                                        false,true);
         }
         else
         {
-            kx = sliderPos;
-            ky = y + height * 0.5f;
+            ky = sliderPos- sliderRadius -2;
+            const float ix = x + width * 0.5f- sliderRadius * 0.5f;
+            const float iw = sliderRadius;
+            
+            g.setGradientFill (ColourGradient (gradCol1, ix, 0.0f,
+                                               gradCol2, ix + iw, 0.0f, false));
+            
+            indent.addRoundedRectangle (x , y +ky  ,
+                                        width , height-ky,
+                                        5.0f,5.0f,
+                                        true,true,
+                                        false,false);
+//            DBG(y +ky - sliderRadius);
         }
         
-        drawGlassSphere (g,
-                         kx - sliderRadius,
-                         ky - sliderRadius,
-                         sliderRadius * 2.0f,
-                         knobColour, outlineThickness);
+        g.fillPath(indent);
     }
     else
     {

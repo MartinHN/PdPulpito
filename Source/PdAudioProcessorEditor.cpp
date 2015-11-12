@@ -11,16 +11,21 @@ PdAudioProcessorEditor::PdAudioProcessorEditor (PdAudioProcessor& p)
     setVisible(true);
     p.addChangeListener(this);
     showedCanvas = -1;
-
+    
     
 }
 
 
 void PdAudioProcessorEditor::build(){
     PdCanvas.clear();
-    for(int i = 0; i < ((PdParamGetter*)(&processor))->getNumGUI();i++){
+    int num = (dynamic_cast<PdParamGetter*>(&processor))->getNumGUI();
+    for(int i = 0; i < num;i++){
         PdCanvas.add(new PdGUICanvas(&processor,i));
     }
+    for(auto & c:PdCanvas){
+        addChildComponent(c);
+    }
+    setCanvasVisible(0);
 }
 PdAudioProcessorEditor::~PdAudioProcessorEditor()
 {
@@ -29,9 +34,19 @@ PdAudioProcessorEditor::~PdAudioProcessorEditor()
     
 }
 
+void PdAudioProcessorEditor::setCanvasVisible(int idx){
+    if(idx>=PdCanvas.size())return;
+    for(auto & c:PdCanvas){
+        c->setVisible(false);
+    }
+    PdCanvas[idx]->setVisible(true);
+    
+    showedCanvas = idx;
+}
+
 void PdAudioProcessorEditor::paint (Graphics& g)
 {
-    g.fillAll (Colours::white);
+//    g.fillAll (Colours::white);
 }
 
 void PdAudioProcessorEditor::resized()
@@ -47,7 +62,7 @@ void PdAudioProcessorEditor::resized()
     Rectangle<int> area = p->patchRect;
 //    DBG("patch" << area.toString());
     
-
+    setCanvasVisible(0);
     
 }
 

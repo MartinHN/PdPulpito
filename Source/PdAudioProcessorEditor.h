@@ -21,7 +21,7 @@ public:
     void build();
     void updatePatch ();
     void rebuildGUIParams(PdAudioProcessor * p);
-
+    void setCanvasVisible(int idx);
 
     void paint (Graphics& g);
     void resized();

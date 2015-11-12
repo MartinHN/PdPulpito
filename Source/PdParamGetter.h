@@ -56,11 +56,13 @@ class PdParamGetter {
     };
     
     
-    Array<PulpParameterDesc> getDescForGui(int num);
+    
+    PulpParameterDesc * getDescForIdx(int idx);
+    Array<int> GUINumParams;
     int getProcessorStartIdxForGUI(int guiNum);
     int getNumGUI();
-
-    Array<PulpParameterDesc> pulpParameterDescs;
+    int getNumParamforGUI(int guiNum);
+    OwnedArray<PulpParameterDesc> pulpParameterDescs;
     
     Array<PdParameter*> pdParameters;
     Rectangle<int> patchRect;

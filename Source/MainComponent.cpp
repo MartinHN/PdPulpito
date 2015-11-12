@@ -82,9 +82,10 @@ MainComponent::MainComponent (PdAudioProcessor& processor)
     startTimer(25);
     resized();
     
+
+    addAndMakeVisible(pdEditor);
     pdEditor.build();
     pdEditor.updatePatch();
-    addAndMakeVisible(pdEditor);
     
 }
 

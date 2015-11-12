@@ -38,55 +38,58 @@ public:
         juce_Components.clear();
         
         setBounds(paramGetter()->patchRect);
-        int idx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
+        
         PdAudioProcessor* p = (PdAudioProcessor*)pin;
         
-        Array<PdParamGetter::PulpParameterDesc> descs = paramGetter()->getDescForGui(guiNum);
-        for(auto & param:descs){
+        int startidx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
+        int endIdx = startidx + paramGetter()->getNumParamforGUI(guiNum);
+        for(int i= startidx ; i < endIdx ; i++){
+            PdParamGetter::PulpParameterDesc * param = paramGetter()->getDescForIdx(i);
             LabelComponent *c=nullptr;
             
             
-            if(param.type == PdParamGetter::PulpParameterDesc::KNOB ){
-                c =new SendSlider(param.processorIdx,*p,SendSlider::ROTARY);
-                ((SendSlider*)c)->setRange(param.min, param.max);
+            if(param->type == PdParamGetter::PulpParameterDesc::KNOB ){
+                c =new SendSlider(param->processorIdx,*p,SendSlider::ROTARY);
+                ((SendSlider*)c)->setRange(param->min, param->max);
                 
             }
-            else if ( param.type == PdParamGetter::PulpParameterDesc::VSL ){
-                c =new SendSlider(param.processorIdx,*p,SendSlider::VSL);
-                ((SendSlider*)c)->setRange(param.min, param.max);
+            else if ( param->type == PdParamGetter::PulpParameterDesc::VSL ){
+                c =new SendSlider(param->processorIdx,*p,SendSlider::VSL);
+                ((SendSlider*)c)->setRange(param->min, param->max);
                 
             }
-            else if(  param.type == PdParamGetter::PulpParameterDesc::HSL ){
-                c =new SendSlider(param.processorIdx,*p,SendSlider::HSL);
-                ((SendSlider*)c)->setRange(param.min, param.max);
+            else if(  param->type == PdParamGetter::PulpParameterDesc::HSL ){
+                c =new SendSlider(param->processorIdx,*p,SendSlider::HSL);
+                ((SendSlider*)c)->setRange(param->min, param->max);
                 
             }
-            else if( param.type == PdParamGetter::PulpParameterDesc::NUMBOX ){
-                c =new SendSlider(param.processorIdx,*p,SendSlider::ROTARY);
-                ((SendSlider*)c)->setRange(param.min, param.max);
+            else if( param->type == PdParamGetter::PulpParameterDesc::NUMBOX ){
+                c =new SendSlider(param->processorIdx,*p,SendSlider::ROTARY);
+                ((SendSlider*)c)->setRange(param->min, param->max);
             }
-            else if(param.type == PdParamGetter::PulpParameterDesc::TOGGLE){
-                c =new SendToggle(param.processorIdx,*p);
+            else if(param->type == PdParamGetter::PulpParameterDesc::TOGGLE){
+                c =new SendToggle(param->processorIdx,*p);
                 
             }
             if(c!=nullptr){
                 
-                c->labelSize = param.labelSize;
-                c->setName(param.labelName);
-                p->setParameterName(param.processorIdx, param.name);
+                c->labelSize = param->labelSize;
+                DBG(param->labelName);
+                c->setName(param->labelName);
+                p->setParameterName(param->processorIdx, param->name);
                 juce_Components.add(c);
                 Rectangle<int> area = paramGetter()->patchRect;
                 c->setBounds (
-                              getWidth() * param.getX(),
-                              getHeight()* param.getY(),
-                              getWidth() * param.getWidth() ,
-                              getHeight()* param.getHeight()
+                              getWidth() * param->getX(),
+                              getHeight()* param->getY(),
+                              getWidth() * param->getWidth() ,
+                              getHeight()* param->getHeight()
                               );
                 
-                idx++;
+               
             }
             else{
-                DBG( "no viable parameters for "<<param.name);;;
+                DBG( "no viable parameters for "<<param->name);;;
                 
             }
         }
@@ -109,20 +112,19 @@ public:
             return;
         }
         
-        Array<PdParamGetter::PulpParameterDesc> descs = paramGetter()->getDescForGui(guiNum);
-        int idx =0;
-        for(auto & param:descs){
-            Rectangle<float> b = param;
+        int idx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
+        for(int i= idx ; i < paramGetter()->getNumParamforGUI(guiNum) ; i++){
+            PdParamGetter::PulpParameterDesc * param = paramGetter()->getDescForIdx(idx);
             LabelComponent * c = ((LabelComponent*)juce_Components[idx]);
             if(c!=nullptr){
-                c->labelRelPos.setXY( getWidth() * param.labelRect.getX() ,
-                                      getHeight() *param.labelRect.getY()
+                c->labelRelPos.setXY( getWidth() * param->labelRect.getX() ,
+                                      getHeight() *param->labelRect.getY()
                                      );
                 c->setBounds (
-                              getWidth() * b.getX() ,
-                              getHeight()* b.getY(),
-                              getWidth() * b.getWidth() ,
-                              getHeight()* b.getHeight()
+                              getWidth() * param->getX() ,
+                              getHeight()* param->getY(),
+                              getWidth() * param->getWidth() ,
+                              getHeight()* param->getHeight()
                               )
                 ;
                 
@@ -140,7 +142,7 @@ public:
     int guiNum =-1;
     OwnedArray<Component> juce_Components;
     PdParamGetter * paramGetter(){
-        return (PdParamGetter*)&processor;
+        return dynamic_cast<PdParamGetter*>(&processor);
     }
     
     

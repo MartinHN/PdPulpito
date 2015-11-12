@@ -57,10 +57,12 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     dollarZero++;
     pulpParameterDescs.clear();
     
-    int objNum = 0;
+
     int guiIdx = 0;
     for(auto  g:patchString){
         DBG(g.size());
+        int objNum = 0;
+        
         for(auto  l : g){
             
             if(l[0] == "#X") {
@@ -71,35 +73,35 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                         String pdType = l[4];
                         
                         
-                        PulpParameterDesc p;
-                        p.guiNum = guiIdx;
-                        p.elements.clear();
+                        PulpParameterDesc * p = new PulpParameterDesc ;
+                        p->guiNum = guiIdx;
+                        p->elements.clear();
                         bool found = true;
                         if(pdType.startsWith("flatgui/")){
                             pdType = pdType.substring(8);
                         }
                         DBG(pdType);
                         if(pdType == "nbx" || pdType == "knob" || pdType == "bng" || pdType == "vsl"|| pdType == "hsl"){
-                            p.hasLabel = l[13]!="empty";
-                            p.labelName = l[13];
-                            p.min = l[7].getFloatValue();
-                            p.max = l[8].getFloatValue();
+                            p->hasLabel = l[13]!="empty";
+                            p->labelName = l[13];
+                            p->min = l[7].getFloatValue();
+                            p->max = l[8].getFloatValue();
                             
-                            p.labelRect.setBounds((p.getX() - l[14].getFloatValue())/patchRect.getWidth(),
-                                                  (p.getY() - l[15].getFloatValue())/patchRect.getHeight(),
-                                                  (p.name.length()*l[17].getFloatValue())/patchRect.getWidth(),
+                            p->labelRect.setBounds((p->getX() - l[14].getFloatValue())/patchRect.getWidth(),
+                                                  (p->getY() - l[15].getFloatValue())/patchRect.getHeight(),
+                                                  (p->name.length()*l[17].getFloatValue())/patchRect.getWidth(),
                                                   (l[17].getFloatValue()/patchRect.getHeight()));
                             
-                            p.labelSize = l[17].getFloatValue();
-                            p.name=l[11];
-                            if(p.name.startsWith("\\$")){
-                                p.name = String(dollarZero) + p.name.substring(3);
+                            p->labelSize = l[17].getFloatValue();
+                            p->name=l[11];
+                            if(p->name.startsWith("\\$")){
+                                p->name = String(dollarZero) + p->name.substring(3);
                             }
                             
                             // numBox
                             if(pdType == "nbx" ){
-                                p.type = PulpParameterDesc::NUMBOX;
-                                p.setBounds(l[2].getFloatValue()/patchRect.getWidth(),
+                                p->type = PulpParameterDesc::NUMBOX;
+                                p->setBounds(l[2].getFloatValue()/patchRect.getWidth(),
                                             l[3].getFloatValue()/patchRect.getHeight(),
                                             (20+l[5].getFloatValue()*10.0)/patchRect.getWidth(),
                                             (1+l[6].getFloatValue())/patchRect.getHeight());
@@ -108,12 +110,12 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                             
                             // knob
                             else if(pdType == "knob" || pdType == "bng" || pdType == "vsl"|| pdType == "hsl"){
-                                if(pdType == "vsl")         p.type = PulpParameterDesc::VSL;
-                                else if (pdType == "hsl")   p.type = PulpParameterDesc::HSL;
-                                else                        p.type = PulpParameterDesc::KNOB;
+                                if(pdType == "vsl")         p->type = PulpParameterDesc::VSL;
+                                else if (pdType == "hsl")   p->type = PulpParameterDesc::HSL;
+                                else                        p->type = PulpParameterDesc::KNOB;
                                 
                                 
-                                p.setBounds(l[2].getFloatValue()/patchRect.getWidth(),
+                                p->setBounds(l[2].getFloatValue()/patchRect.getWidth(),
                                             l[3].getFloatValue()/patchRect.getHeight(),
                                             (l[5].getFloatValue())/patchRect.getWidth(),
                                             (l[6].getFloatValue())/patchRect.getHeight());
@@ -124,19 +126,19 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                         }
                         // toggle
                         else if(pdType == "tgl"){
-                            p.type = PulpParameterDesc::TOGGLE;
-                            p.hasLabel = l[9]!="empty";
-                            p.labelName =  l[9];
-                            p.name = l[7];
-                            p.labelSize = l[13].getFloatValue();
-                            p.setBounds(l[2].getFloatValue()/patchRect.getWidth(),
+                            p->type = PulpParameterDesc::TOGGLE;
+                            p->hasLabel = l[9]!="empty";
+                            p->labelName =  l[9];
+                            p->name = l[7];
+                            p->labelSize = l[13].getFloatValue();
+                            p->setBounds(l[2].getFloatValue()/patchRect.getWidth(),
                                         l[3].getFloatValue()/patchRect.getHeight(),
                                         l[5].getFloatValue()/patchRect.getWidth(),
                                         l[5].getFloatValue()/patchRect.getHeight());
-                            p.labelRect.setBounds((p.getX() - l[10].getFloatValue())/patchRect.getWidth(),
-                                                  (p.getY() - l[11].getFloatValue())/patchRect.getHeight(),
-                                                  (p.name.length()*p.labelSize)/patchRect.getWidth(),
-                                                  (p.labelSize/patchRect.getHeight()));
+                            p->labelRect.setBounds((p->getX() - l[10].getFloatValue())/patchRect.getWidth(),
+                                                  (p->getY() - l[11].getFloatValue())/patchRect.getHeight(),
+                                                  (p->name.length()*p->labelSize)/patchRect.getWidth(),
+                                                  (p->labelSize/patchRect.getHeight()));
                             
                             
                             
@@ -144,16 +146,16 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                         }
                         else if(pdType.contains("popup")){
                             
-                            p.name = l[8];
-                            
-                            p.type = PulpParameterDesc::POPUP;
-                            p.hasLabel =false;
+                            p->name = l[8];
+                            p->labelName = "";
+                            p->type = PulpParameterDesc::POPUP;
+                            p->hasLabel =false;
                             
                             for(int e=9; e <l.size() ; e++ ){
-                                p.elements.add(l[e]);
+                                p->elements.add(l[e]);
                             }
                             
-                            p.setBounds(l[2].getFloatValue()/patchRect.getWidth(),
+                            p->setBounds(l[2].getFloatValue()/patchRect.getWidth(),
                                         l[3].getFloatValue()/patchRect.getHeight(),
                                         l[5].getFloatValue()/patchRect.getWidth(),
                                         l[6].getFloatValue()/patchRect.getHeight());
@@ -162,11 +164,11 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                         }
                         
                         else if(pdType == "cnv"){
-                            p.type=PulpParameterDesc::CNV;
-                            p.labelName = l[10];
-                            p.name = l[10];
-                            p.hasLabel = true;
-                            p.setBounds(l[2].getFloatValue()/patchRect.getWidth(),
+                            p->type=PulpParameterDesc::CNV;
+                            p->labelName = l[10];
+                            p->name = l[10];
+                            p->hasLabel = true;
+                            p->setBounds(l[2].getFloatValue()/patchRect.getWidth(),
                                         l[3].getFloatValue()/patchRect.getHeight(),
                                         l[6].getFloatValue()/patchRect.getWidth(),
                                         l[7].getFloatValue()/patchRect.getHeight());
@@ -179,10 +181,11 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                         
                         
                         if(found){
-                            DBG("adding p " << p.name << " at "<< ((Rectangle<float>)p).toString());
+                            DBG("adding p " << p->name << " at "<< ((Rectangle<float>)*p).toString());
                             pulpParameterDescs.add(p);
                         }
                         else{
+                            delete p;
                             DBG( "not found gui object for type " << pdType  << " at line " << objNum );
                         }
                     }
@@ -194,18 +197,18 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
             
         }
         
-        
+        GUINumParams.add(objNum);
         // find top left most coordinate from pd
         if(pulpParameterDescs.size()>0){
-            float minX = std::min(std::min(minX, pulpParameterDescs[0].getX()),pulpParameterDescs[0].labelRect.getX()) ;
-            float minY = std::min(std::min(minY, pulpParameterDescs[0].getY()),pulpParameterDescs[0].labelRect.getY()) ;
+            float minX = std::min(std::min(minX, pulpParameterDescs[0]->getX()),pulpParameterDescs[0]->labelRect.getX()) ;
+            float minY = std::min(std::min(minY, pulpParameterDescs[0]->getY()),pulpParameterDescs[0]->labelRect.getY()) ;
             
             for(auto & p:pulpParameterDescs){
-                minX = std::min(std::min(minX, p.getX()),p.labelRect.getX()) ;
-                minY = std::min(std::min(minY, p.getY()),p.labelRect.getY()) ;
+                minX = std::min(std::min(minX, p->getX()),p->labelRect.getX()) ;
+                minY = std::min(std::min(minY, p->getY()),p->labelRect.getY()) ;
             }
             for(auto & p:pulpParameterDescs){
-                p.setPosition( p.getX()-minX,p.getY()-minY);
+                p->setPosition( p->getX()-minX,p->getY()-minY);
             }
         }
         guiIdx++;
@@ -235,16 +238,16 @@ void PdParamGetter::setParametersFromDescs(){
     
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
         if(localParamCount<=i){
-            PdParameter* p = new PdParameter (0, (pulpParameterDescs[i].name));
+            PdParameter* p = new PdParameter (0, (pulpParameterDescs[i]->name));
             pdParameters.add(p);
             localParamCount ++;
         }
         else if(i<pdParameters.size()){
-            pdParameters[i]->setName((pulpParameterDescs[i].name));
+            pdParameters[i]->setName((pulpParameterDescs[i]->name));
             pdParameters[i]->setValue(0);
         }
         else{
-            DBG("parameter not found " << pulpParameterDescs[i].name << "count : " << localParamCount);
+            DBG("parameter not found " << pulpParameterDescs[i]->name << "count : " << localParamCount);
         }
         
     }
@@ -252,24 +255,31 @@ void PdParamGetter::setParametersFromDescs(){
 }
 
 
-Array<PdParamGetter::PulpParameterDesc> PdParamGetter::getDescForGui(int num){
-    Array<PdParamGetter::PulpParameterDesc> res;
-    for(auto &p:pulpParameterDescs){
-        if(p.guiNum==num){
-            res.add(p);
-        }
-    }
-    return res;
-    
+PdParamGetter::PulpParameterDesc * PdParamGetter::getDescForIdx(int idx){
+    if( idx >= pulpParameterDescs.size())jassertfalse;
+    return pulpParameterDescs[idx];
 }
 
 
-int PdParamGetter::getProcessorStartIdxForGUI(int guiNum){
+
+int PdParamGetter::getNumParamforGUI(int guiNum){
+    if(guiNum>=GUINumParams.size())jassertfalse;
     
-    for(auto &p:pulpParameterDescs){
-        if(p.guiNum==guiNum){
-            return p.processorIdx;
+    return GUINumParams[guiNum];
+}
+
+
+
+
+int PdParamGetter::getProcessorStartIdxForGUI(int guiNum){
+    int guiI=0;
+    int start = 0;
+    for(auto g:GUINumParams){
+        if(guiI<guiNum){start+=g;}
+        if(guiI==guiNum){
+            return start;
         }
+        guiI++;
     }
     return -1;
     
