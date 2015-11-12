@@ -59,6 +59,7 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     
 
     int guiIdx = 0;
+    GUINumParams.clear();
     for(auto  g:patchString){
         DBG(g.size());
         int objNum = 0;

@@ -1436,13 +1436,13 @@ void LookNFeel::drawRotarySlider (Graphics& g, int x, int y, int width, int heig
         {
             const float innerRadius = radius * 0.2f;
             Path p;
-            p.addTriangle (-innerRadius, 0.0f,
-                           0.0f, -radius * thickness * 1.1f,
-                           innerRadius, 0.0f);
-            
-            p.addEllipse (-innerRadius, -innerRadius, innerRadius * 2.0f, innerRadius * 2.0f);
-            
-            g.fillPath (p, AffineTransform::rotation (angle).translated (centreX, centreY));
+//            p.addTriangle (-innerRadius, 0.0f,
+//                           0.0f, -radius * thickness * 1.1f,
+//                           innerRadius, 0.0f);
+//            
+//            p.addEllipse (-innerRadius, -innerRadius, innerRadius * 2.0f, innerRadius * 2.0f);
+//            
+//            g.fillPath (p, AffineTransform::rotation (angle).translated (centreX, centreY));
         }
         
         if (slider.isEnabled())
@@ -1482,7 +1482,7 @@ class LookNFeel::SliderLabelComp  : public Label
 {
 public:
     SliderLabelComp() : Label (String::empty, String::empty) {}
-    
+    bool hitTest(int x,int y) override{return false;}
     void mouseWheelMove (const MouseEvent&, const MouseWheelDetails&) {}
 };
 
@@ -1492,7 +1492,7 @@ Label* LookNFeel::createSliderTextBox (Slider& slider)
     
     l->setJustificationType (Justification::centred);
     l->setKeyboardType (TextInputTarget::decimalKeyboard);
-    
+
     l->setColour (Label::textColourId, slider.findColour (Slider::textBoxTextColourId));
     l->setColour (Label::backgroundColourId,
                   (slider.getSliderStyle() == Slider::LinearBar || slider.getSliderStyle() == Slider::LinearBarVertical)
@@ -1567,7 +1567,7 @@ Slider::SliderLayout LookNFeel::getSliderLayout (Slider& slider)
             else if (textBoxPos == Slider::TextBoxRight)     layout.textBoxBounds.setX (localBounds.getWidth() - textBoxWidth);
             else /* above or below -> centre horizontally */ layout.textBoxBounds.setX ((localBounds.getWidth() - textBoxWidth) / 2);
             
-            if (textBoxPos == Slider::TextBoxAbove)          layout.textBoxBounds.setY (0);
+            if (textBoxPos == Slider::TextBoxAbove)          layout.textBoxBounds.setY ((localBounds.getHeight() - textBoxHeight) / 2);
             else if (textBoxPos == Slider::TextBoxBelow)     layout.textBoxBounds.setY (localBounds.getHeight() );//- textBoxHeight)
             else /* left or right -> centre vertically */    layout.textBoxBounds.setY ((localBounds.getHeight() - textBoxHeight) / 2);
         }
@@ -1585,7 +1585,7 @@ Slider::SliderLayout LookNFeel::getSliderLayout (Slider& slider)
     {
         if (textBoxPos == Slider::TextBoxLeft)       layout.sliderBounds.removeFromLeft (textBoxWidth);
         else if (textBoxPos == Slider::TextBoxRight) layout.sliderBounds.removeFromRight (textBoxWidth);
-        else if (textBoxPos == Slider::TextBoxAbove) layout.sliderBounds.removeFromTop (textBoxHeight);
+        else if (textBoxPos == Slider::TextBoxAbove) ;//layout.sliderBounds.removeFromTop (textBoxHeight);
         else if (textBoxPos == Slider::TextBoxBelow) layout.sliderBounds.removeFromBottom (0);//textBoxHeight);
         
         const int thumbIndent = getSliderThumbRadius (slider);

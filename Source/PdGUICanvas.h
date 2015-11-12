@@ -51,21 +51,29 @@ public:
             if(param->type == PdParamGetter::PulpParameterDesc::KNOB ){
                 c =new SendSlider(param->processorIdx,*p,SendSlider::ROTARY);
                 ((SendSlider*)c)->setRange(param->min, param->max);
+                addAndMakeVisible(c);
+                ((SendSlider*)c)->lookAndFeelChanged();
                 
             }
             else if ( param->type == PdParamGetter::PulpParameterDesc::VSL ){
                 c =new SendSlider(param->processorIdx,*p,SendSlider::VSL);
                 ((SendSlider*)c)->setRange(param->min, param->max);
+                addAndMakeVisible(c);
+                ((SendSlider*)c)->lookAndFeelChanged();
                 
             }
             else if(  param->type == PdParamGetter::PulpParameterDesc::HSL ){
                 c =new SendSlider(param->processorIdx,*p,SendSlider::HSL);
                 ((SendSlider*)c)->setRange(param->min, param->max);
+                addAndMakeVisible(c);
+                ((SendSlider*)c)->lookAndFeelChanged();
                 
             }
             else if( param->type == PdParamGetter::PulpParameterDesc::NUMBOX ){
                 c =new SendSlider(param->processorIdx,*p,SendSlider::ROTARY);
                 ((SendSlider*)c)->setRange(param->min, param->max);
+                addAndMakeVisible(c);
+                ((SendSlider*)c)->lookAndFeelChanged();
             }
             else if(param->type == PdParamGetter::PulpParameterDesc::TOGGLE){
                 c =new SendToggle(param->processorIdx,*p);
@@ -94,10 +102,7 @@ public:
             }
         }
         
-        for(auto & c:juce_Components){
-            
-            addAndMakeVisible(c);
-        }
+ 
     }
     
     
