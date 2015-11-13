@@ -286,25 +286,33 @@ void LookNFeel::drawTickBox (Graphics& g, Component& component,
 {
     const float boxSize = w * 0.7f;
     
-    drawGlassSphere (g, x, y + (h - boxSize) * 0.5f, boxSize,
-                     LookAndFeelHelpers::createBaseColour (component.findColour (TextButton::buttonColourId)
-                                                           .withMultipliedAlpha (isEnabled ? 1.0f : 0.5f),
-                                                           true, isMouseOverButton, isButtonDown),
-                     isEnabled ? ((isButtonDown || isMouseOverButton) ? 1.1f : 0.5f) : 0.3f);
-    
+//    drawGlassSphere (g, x, y + (h - boxSize) * 0.5f, boxSize,
+//                     LookAndFeelHelpers::createBaseColour (component.findColour (TextButton::buttonColourId)
+//                                                           .withMultipliedAlpha (isEnabled ? 1.0f : 0.5f),
+//                                                           true, isMouseOverButton, isButtonDown),
+//                     isEnabled ? ((isButtonDown || isMouseOverButton) ? 1.1f : 0.5f) : 0.3f);
+//    
+//    
+    Path boxPath ;
+    Rectangle<int> rect(x,y,  w, h);
+    rect.reduce(1,1);
+    boxPath.addRoundedRectangle(rect, 4.0f);
+    g.setColour(LookAndFeelHelpers::createBaseColour (component.findColour (TextButton::buttonColourId)
+                                                      .withMultipliedAlpha (isEnabled ? 1.0f : 0.5f),
+                                                      true, isMouseOverButton, isButtonDown));
+    g.strokePath(boxPath,PathStrokeType (2));
     if (ticked)
     {
         Path tick;
-        tick.startNewSubPath (1.5f, 3.0f);
-        tick.lineTo (3.0f, 6.0f);
-        tick.lineTo (6.0f, 0.0f);
+        tick.addRoundedRectangle(rect.reduced(3), 4.0f);
+        g.setColour(LookAndFeelHelpers::createBaseColour (component.findColour (TextButton::buttonColourId)
+                                                          .withMultipliedAlpha (isEnabled ? 1.0f : 0.5f),
+                                                          true, isMouseOverButton, isButtonDown));
         
-        g.setColour (isEnabled ? Colours::black : Colours::grey);
         
-        const AffineTransform trans (AffineTransform::scale (w / 9.0f, h / 9.0f)
-                                     .translated (x, y));
         
-        g.strokePath (tick, PathStrokeType (2.5f), trans);
+        
+        g.fillPath(tick);
     }
 }
 
@@ -314,14 +322,16 @@ void LookNFeel::drawToggleButton (Graphics& g, ToggleButton& button,
     if (button.hasKeyboardFocus (true))
     {
         g.setColour (button.findColour (TextEditor::focusedOutlineColourId));
-        g.drawRect (0, 0, button.getWidth(), button.getHeight());
+        Path focPath;
+        focPath.addRoundedRectangle(0, 0, button.getWidth(), button.getHeight(),4.0f);
+        g.strokePath(focPath, PathStrokeType(1));
     }
     
     float fontSize = jmin (15.0f, button.getHeight() * 0.75f);
     const float tickWidth = button.getWidth();//fontSize * 1.1f;
     
-    drawTickBox (g, button, 4.0f, (button.getHeight() - tickWidth) *0.5f,
-                 tickWidth, tickWidth,
+    drawTickBox (g, button, 0, 0,
+                 button.getWidth(), button.getHeight(),
                  button.getToggleState(),
                  button.isEnabled(),
                  isMouseOverButton,
@@ -1241,9 +1251,9 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
         
         indent.addRoundedRectangle (x , y,
                                     width -2 , height,
-                                    5.0f,5.0f,
-                                    false,true,
-                                    false,true);
+                                    5.0f,5.0f);
+//                                    ,false,true,
+//                                    false,true);
     }
     else
     {
@@ -1256,9 +1266,9 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
         
         indent.addRoundedRectangle (x , y-2,
                                     width , height ,
-                                    5.0f,5.0f,
-                                    true,true,
-                                    false,false);
+                                    5.0f,5.0f);
+//                                    true,true,
+//                                    false,false);
     }
     
     g.strokePath (indent, PathStrokeType (0.5f));
@@ -1299,9 +1309,9 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
             
             indent.addRoundedRectangle (x , y,
                                         kx , height,
-                                        5.0f,5.0f,
-                                        false,true,
-                                        false,true);
+                                        5.0f,5.0f);
+//                                        false,true,
+//                                        false,true);
         }
         else
         {
@@ -1314,9 +1324,9 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
             
             indent.addRoundedRectangle (x , y +ky  ,
                                         width , height-ky,
-                                        5.0f,5.0f,
-                                        true,true,
-                                        false,false);
+                                        5.0f,5.0f);
+//                                        true,true,
+//                                        false,false);
 //            DBG(y +ky - sliderRadius);
         }
         
@@ -1409,6 +1419,8 @@ int LookNFeel::getSliderThumbRadius (Slider& slider)
 void LookNFeel::drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos,
                                        const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)
 {
+//    g.setColour(Colours::grey);
+//    g.fillAll();
     const float radius = jmin (width / 2, height / 2) - 2.0f;
     const float centreX = x + width * 0.5f;
     const float centreY = y + height * 0.5f;

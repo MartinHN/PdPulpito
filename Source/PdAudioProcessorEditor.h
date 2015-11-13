@@ -18,7 +18,7 @@ public:
     PdAudioProcessorEditor (PdAudioProcessor& p);
     ~PdAudioProcessorEditor();
 
-    void build();
+    void buildCanvas();
     void updatePatch ();
     void rebuildGUIParams(PdAudioProcessor * p);
     void setCanvasVisible(int idx);
@@ -28,11 +28,11 @@ public:
     // if processor change sub pd patch ,rebuild graphics
     void changeListenerCallback (ChangeBroadcaster* source) override;
 
-    Rectangle<int> headerRect;
+    
 
 private:
 
-
+    ScopedPointer<TabbedButtonBar> tabBar;
     OwnedArray<PdGUICanvas>PdCanvas;
     int showedCanvas;
 

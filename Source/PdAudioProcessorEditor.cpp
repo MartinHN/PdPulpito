@@ -16,7 +16,16 @@ PdAudioProcessorEditor::PdAudioProcessorEditor (PdAudioProcessor& p)
 }
 
 
-void PdAudioProcessorEditor::build(){
+PdAudioProcessorEditor::~PdAudioProcessorEditor()
+{
+    PdAudioProcessor * p = (PdAudioProcessor*)&processor;
+    p->removeChangeListener(this);
+    
+}
+
+
+
+void PdAudioProcessorEditor::buildCanvas(){
     PdCanvas.clear();
     int num = (dynamic_cast<PdParamGetter*>(&processor))->getNumGUI();
     for(int i = 0; i < num;i++){
@@ -27,12 +36,7 @@ void PdAudioProcessorEditor::build(){
     }
     setCanvasVisible(0);
 }
-PdAudioProcessorEditor::~PdAudioProcessorEditor()
-{
-    PdAudioProcessor * p = (PdAudioProcessor*)&processor;
-    p->removeChangeListener(this);
-    
-}
+
 
 void PdAudioProcessorEditor::setCanvasVisible(int idx){
     if(idx>=PdCanvas.size())return;
@@ -42,26 +46,20 @@ void PdAudioProcessorEditor::setCanvasVisible(int idx){
     PdCanvas[idx]->setVisible(true);
     
     showedCanvas = idx;
+    setSize(PdCanvas[idx]->getWidth(),PdCanvas[idx]->getHeight());
+    getParentComponent()->setBounds(getBounds().getUnion(getParentComponent()->getBounds()));
 }
 
 void PdAudioProcessorEditor::paint (Graphics& g)
 {
-//    g.fillAll (Colours::white);
+//    g.fillAll (Colours::grey);
 }
 
 void PdAudioProcessorEditor::resized()
 {
     
     AudioProcessorEditor::resized();
-    
-    PdAudioProcessor * p = (PdAudioProcessor*)&processor;
-    int idx = 0;
-//    DBG( "resizing GUI " << juce_Components.size());
-    
-    
-    Rectangle<int> area = p->patchRect;
-//    DBG("patch" << area.toString());
-    
+
     setCanvasVisible(0);
     
 }
@@ -72,18 +70,8 @@ void PdAudioProcessorEditor::updatePatch (){
     
     if(p!=NULL && p->patchfile.exists()){
         
-        // set size
-        p->patchRect.setY(headerRect.getBottom());
-        Rectangle<int> total = p->patchRect.getUnion(headerRect);
-        setSize (total.getWidth(),total.getHeight());
-        DBG( "size : " << total.toString()<<" / " <<p->patchRect.toString() );
-        
-        
         p->updateProcessorParameters();
-        
         rebuildGUIParams(p);
-        
-        
         PdAudioProcessorEditor::resized();
         repaint();
     }
@@ -93,6 +81,7 @@ void PdAudioProcessorEditor::updatePatch (){
 void PdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source){
     PdAudioProcessor* p=dynamic_cast<PdAudioProcessor*>(source);
     if( p){
+        buildCanvas();
         updatePatch();
         p->updateProcessorParameters();
         repaint();
@@ -101,20 +90,9 @@ void PdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source){
 
 
 void PdAudioProcessorEditor::rebuildGUIParams(PdAudioProcessor * p){
-
-    
-    int idx = 0;
-    Rectangle<int> area = p->patchRect;
-    
-    
     for(auto &cnv:PdCanvas){
         cnv->rebuildGUIParams(p);
     }
-    
-    
-
-    
-    
 }
 
 

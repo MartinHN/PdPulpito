@@ -18,6 +18,8 @@
 
 
 #define DBG(x) std::cout << x << std::endl;
-
+#define DBG2(x,y) std::cout << x << "," << y << std::endl;
+#define DBG3(x,y,z) std::cout << x << "," << y << "," << z << std::endl;
+#define DBG4(x,y,z,t) std::cout << x << "," << y << "," << z << "," << t <<  std::endl;
 
 #endif

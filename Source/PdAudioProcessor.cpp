@@ -47,10 +47,37 @@ void PdAudioProcessor::setParameterName(int index, String name)
 
 
 void PdAudioProcessor::loadFromGUI(){
-    getParameterDescsFromPatch(patchfile);
+    PdParamGetter::getParameterDescsFromPatch(patchfile);
     setParametersFromDescs();
     updateProcessorParameters();
 }
+
+
+
+void PdAudioProcessor::setParametersFromDescs(){
+    // hack to allow to reload parameters on the go
+    // allow to add new or replace param as the host may need to keep same pointers
+    
+    pdParameters.clear();
+    
+    for(int i = 0; i < pulpParameterDescs.size() ; i++){
+        if(localParamCount<=i){
+            PdParameter* p = new PdParameter (0, (pulpParameterDescs[i]->name));
+            pdParameters.add(p);
+            localParamCount ++;
+        }
+        else if(i<pdParameters.size()){
+            pdParameters[i]->setName((pulpParameterDescs[i]->name));
+            pdParameters[i]->setValue(0);
+        }
+        else{
+            DBG("parameter not found " << pulpParameterDescs[i]->name << "count : " << localParamCount);
+        }
+        
+    }
+    
+}
+
 
 void PdAudioProcessor::updateProcessorParameters(){
 
@@ -58,7 +85,7 @@ void PdAudioProcessor::updateProcessorParameters(){
     for(auto & p:pdParameters){
         
         if(idx>=getNumParameters()){
-        addParameter(p);
+            addParameter(p);
         }
         else{
             setParameter(idx, p->getValue());

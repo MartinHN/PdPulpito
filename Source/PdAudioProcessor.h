@@ -73,9 +73,11 @@ public:
     void setPatchFile(File file);
     File getPatchFile();
     
+    void setParametersFromDescs();
+    
     String status = "Select a pure data patch file...";
 
-
+    Array<PdParameter*> pdParameters;
     
     
     File patchfile;

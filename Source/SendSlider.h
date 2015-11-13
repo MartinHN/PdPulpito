@@ -53,8 +53,7 @@ public:
         
         
         addAndMakeVisible (component = new Slider ("slider"));
-        valueLabel = new Label();
-        addAndMakeVisible(valueLabel);
+
         
         switch(t){
             case ROTARY:
@@ -63,6 +62,7 @@ public:
                 getSlider()->setColour (Slider::thumbColourId, Colour (0xff5c5c5c));
                 getSlider()->setColour (Slider::rotarySliderFillColourId, Colour (0x7fdddddd));
                 getSlider()->setColour (Slider::rotarySliderOutlineColourId, Colour (0x66e6e6e6));
+                
                 break;
             case VSL:
                 getSlider()->setSliderStyle (Slider::LinearVertical);
@@ -87,7 +87,7 @@ public:
         getSlider()->setColour (Slider::textBoxHighlightColourId, Colour (0x40a6a6a6));
         getSlider()->setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::transparentWhite);
         getSlider()->setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::transparentWhite);
-        
+        getSlider()->setColour(juce::Slider::textBoxTextColourId, Colours::black);
         
         
         getSlider()->addListener (this);
@@ -123,11 +123,9 @@ void setRange(float min,float max){
     float step = pow(10,po);
     getSlider()->setRange(min,max,step);}
     
-private:
+
     
     Slider* getSlider(){return (Slider*) component.get();}
-    
-    ScopedPointer<Label> valueLabel;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SendSlider)

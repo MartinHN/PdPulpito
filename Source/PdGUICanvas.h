@@ -37,7 +37,7 @@ public:
         }
         juce_Components.clear();
         
-        setBounds(paramGetter()->patchRect);
+        setBounds(paramGetter()->getBoundOfGui(guiNum));
         
         PdAudioProcessor* p = (PdAudioProcessor*)pin;
         
@@ -58,6 +58,8 @@ public:
             else if ( param->type == PdParamGetter::PulpParameterDesc::VSL ){
                 c =new SendSlider(param->processorIdx,*p,SendSlider::VSL);
                 ((SendSlider*)c)->setRange(param->min, param->max);
+                ((SendSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
+                ((SendSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
                 addAndMakeVisible(c);
                 ((SendSlider*)c)->lookAndFeelChanged();
                 
@@ -65,6 +67,8 @@ public:
             else if(  param->type == PdParamGetter::PulpParameterDesc::HSL ){
                 c =new SendSlider(param->processorIdx,*p,SendSlider::HSL);
                 ((SendSlider*)c)->setRange(param->min, param->max);
+                ((SendSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
+                ((SendSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
                 addAndMakeVisible(c);
                 ((SendSlider*)c)->lookAndFeelChanged();
                 
@@ -72,11 +76,21 @@ public:
             else if( param->type == PdParamGetter::PulpParameterDesc::NUMBOX ){
                 c =new SendSlider(param->processorIdx,*p,SendSlider::ROTARY);
                 ((SendSlider*)c)->setRange(param->min, param->max);
+                ((SendSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
+                ((SendSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
                 addAndMakeVisible(c);
                 ((SendSlider*)c)->lookAndFeelChanged();
             }
             else if(param->type == PdParamGetter::PulpParameterDesc::TOGGLE){
                 c =new SendToggle(param->processorIdx,*p);
+                addAndMakeVisible(c);
+                ((SendToggle*)c)->lookAndFeelChanged();
+                
+            }
+            else if(param->type == PdParamGetter::PulpParameterDesc::CNV){
+                c =new LabelComponent(param->processorIdx,*p);
+                addAndMakeVisible(c);
+                ((LabelComponent*)c)->lookAndFeelChanged();
                 
             }
             if(c!=nullptr){
@@ -86,7 +100,7 @@ public:
                 c->setName(param->labelName);
                 p->setParameterName(param->processorIdx, param->name);
                 juce_Components.add(c);
-                Rectangle<int> area = paramGetter()->patchRect;
+                
                 c->setBounds (
                               getWidth() * param->getX(),
                               getHeight()* param->getY(),

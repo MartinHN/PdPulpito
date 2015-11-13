@@ -8,10 +8,10 @@
 
 #include "PdParamGetter.h"
 
-
+#include "Config.h"
 void PdParamGetter::readPatch(juce::File &patchFile){
     patchString.clear();
-    patchRect.setBounds(0, 0, 0, 0);
+    
     
     juce::StringArray destLines;
     guiFile.clear();
@@ -23,11 +23,13 @@ void PdParamGetter::readPatch(juce::File &patchFile){
     
     int idx =0;
     patchString.clear();
+    guiSizes.clear();
     for(auto g:guiFile){
         DBG( "loading gui" << idx);;
         g.readLines(destLines);
         String concatL = "";
-//        patchString[idx].clear();
+        Rectangle<int> patchRect;
+
         Array<StringArray> curA;
         for(auto  l : destLines){
             concatL +=l;
@@ -47,6 +49,7 @@ void PdParamGetter::readPatch(juce::File &patchFile){
             }
         }
         patchString.add(curA);
+        guiSizes.add(patchRect);
         idx++;
     }
 }
@@ -56,10 +59,11 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     static int dollarZero = 1002;
     dollarZero++;
     pulpParameterDescs.clear();
-    
+    localParamCount =0;
 
     int guiIdx = 0;
     GUINumParams.clear();
+    int processorIdx = 0;
     for(auto  g:patchString){
         DBG(g.size());
         int objNum = 0;
@@ -73,7 +77,7 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                     if(l.size()>4){
                         String pdType = l[4];
                         
-                        
+                        Rectangle<int> patchRect = guiSizes[guiIdx];
                         PulpParameterDesc * p = new PulpParameterDesc ;
                         p->guiNum = guiIdx;
                         p->elements.clear();
@@ -110,7 +114,7 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                             }
                             
                             // knob
-                            else if(pdType == "knob" || pdType == "bng" || pdType == "vsl"|| pdType == "hsl"){
+                            else if(pdType == "knob" || pdType == "vsl"|| pdType == "hsl"){
                                 if(pdType == "vsl")         p->type = PulpParameterDesc::VSL;
                                 else if (pdType == "hsl")   p->type = PulpParameterDesc::HSL;
                                 else                        p->type = PulpParameterDesc::KNOB;
@@ -118,12 +122,15 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                                 
                                 p->setBounds(l[2].getFloatValue()/patchRect.getWidth(),
                                             l[3].getFloatValue()/patchRect.getHeight(),
-                                            (l[5].getFloatValue())/patchRect.getWidth(),
-                                            (l[6].getFloatValue())/patchRect.getHeight());
+                                            ((l[5].getFloatValue())+3)/patchRect.getWidth(),
+                                            ((l[6].getFloatValue())+3)/patchRect.getHeight());
                                 //                            DBG("setting width" << (l[5].getFloatValue())/patchRect.getHeight() << " height" << (l[6].getFloatValue())/patchRect.getHeight());
-                                
+                                p->backColour = getPdColour(l[18].getIntValue());
                                 
                             }
+                            
+                            
+                            
                         }
                         // toggle
                         else if(pdType == "tgl"){
@@ -140,6 +147,25 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                                                   (p->getY() - l[11].getFloatValue())/patchRect.getHeight(),
                                                   (p->name.length()*p->labelSize)/patchRect.getWidth(),
                                                   (p->labelSize/patchRect.getHeight()));
+                            
+                            
+                            
+                            
+                        }
+                        else if(pdType == "bng"){
+                            p->type = PulpParameterDesc::BANG;
+                            p->hasLabel = l[9]!="empty";
+                            p->labelName =  l[9];
+                            p->name = l[7];
+                            p->labelSize = l[13].getFloatValue();
+                            p->setBounds(l[2].getFloatValue()/patchRect.getWidth(),
+                                         l[3].getFloatValue()/patchRect.getHeight(),
+                                         l[5].getFloatValue()/patchRect.getWidth(),
+                                         l[5].getFloatValue()/patchRect.getHeight());
+                            p->labelRect.setBounds((p->getX() - l[10].getFloatValue())/patchRect.getWidth(),
+                                                   (p->getY() - l[11].getFloatValue())/patchRect.getHeight(),
+                                                   (p->name.length()*p->labelSize)/patchRect.getWidth(),
+                                                   (p->labelSize/patchRect.getHeight()));
                             
                             
                             
@@ -183,17 +209,20 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
                         
                         if(found){
                             DBG("adding p " << p->name << " at "<< ((Rectangle<float>)*p).toString());
+                            p->processorIdx = processorIdx;
+                            objNum++;
+                            processorIdx++;
                             pulpParameterDescs.add(p);
                         }
                         else{
                             delete p;
-                            DBG( "not found gui object for type " << pdType  << " at line " << objNum );
+                            DBG( "not found gui object for type " << pdType );
                         }
                     }
                     
                     
                 }
-                objNum++;
+                
             }
             
         }
@@ -231,30 +260,10 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
 //}
 
 
-void PdParamGetter::setParametersFromDescs(){
-    // hack to allow to reload parameters on the go
-    // allow to add new or replace param as the host may need to keep same pointers
-    
-    
-    
-    for(int i = 0; i < pulpParameterDescs.size() ; i++){
-        if(localParamCount<=i){
-            PdParameter* p = new PdParameter (0, (pulpParameterDescs[i]->name));
-            pdParameters.add(p);
-            localParamCount ++;
-        }
-        else if(i<pdParameters.size()){
-            pdParameters[i]->setName((pulpParameterDescs[i]->name));
-            pdParameters[i]->setValue(0);
-        }
-        else{
-            DBG("parameter not found " << pulpParameterDescs[i]->name << "count : " << localParamCount);
-        }
-        
-    }
+int PdParamGetter::getTotalParameterCount(){
+    return localParamCount;
     
 }
-
 
 PdParamGetter::PulpParameterDesc * PdParamGetter::getDescForIdx(int idx){
     if( idx >= pulpParameterDescs.size())jassertfalse;
@@ -286,6 +295,22 @@ int PdParamGetter::getProcessorStartIdxForGUI(int guiNum){
     
     
 }
+
+
+Colour PdParamGetter::getPdColour(int c){
+    c = -1 -c;
+    int r =int((((c>>12)<<2)&0xff));
+    int g = int((((c>>6)<<2)&0xff));
+    int b = int(((c<<2)&0xff));
+    return Colour(r,g,b);
+}
+
+
+Rectangle<int> PdParamGetter::getBoundOfGui(int guiNum){
+    jassert(guiNum<guiSizes.size());
+    return guiSizes[guiNum];
+}
+
 
 int PdParamGetter::getNumGUI(){
     return guiFile.size();
