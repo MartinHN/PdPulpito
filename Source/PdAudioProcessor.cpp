@@ -61,17 +61,17 @@ void PdAudioProcessor::setParametersFromDescs(){
     pdParameters.clear();
     
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
-        if(localParamCount<=i){
+        if(maximumParameterCount<=i){
             PdParameter* p = new PdParameter (0, (pulpParameterDescs[i]->name));
             pdParameters.add(p);
-            localParamCount ++;
+            maximumParameterCount ++;
         }
         else if(i<pdParameters.size()){
             pdParameters[i]->setName((pulpParameterDescs[i]->name));
             pdParameters[i]->setValue(0);
         }
         else{
-            DBG("parameter not found " << pulpParameterDescs[i]->name << "count : " << localParamCount);
+            DBG("parameter not found " << pulpParameterDescs[i]->name << " count : " << maximumParameterCount);
         }
         
     }

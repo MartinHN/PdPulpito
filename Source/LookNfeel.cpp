@@ -125,7 +125,7 @@ LookNFeel::LookNFeel()
         Slider::thumbColourId,                      textButtonColour,
         Slider::trackColourId,                      0x7fffffff,
         Slider::rotarySliderFillColourId,           0x7f0000ff,
-        Slider::rotarySliderOutlineColourId,        0x66000000,
+        Slider::rotarySliderOutlineColourId,        0x7f000000,
         Slider::textBoxTextColourId,                0xff000000,
         Slider::textBoxBackgroundColourId,          0xffffffff,
         Slider::textBoxHighlightColourId,           textHighlightColour,
@@ -1243,12 +1243,12 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
     if (slider.isHorizontal())
     {
 
-        const float iy = y + height * 0.5f - sliderRadius * 0.5f;
-        const float ih = sliderRadius;
+//        const float iy = y + height * 0.5f - sliderRadius * 0.5f;
+//        const float ih = sliderRadius;
         
-        g.setGradientFill (ColourGradient (gradCol1, 0.0f, iy,
-                                           gradCol2, 0.0f, iy + ih, false));
-        
+//        g.setGradientFill (ColourGradient (gradCol1, 0.0f, iy,
+//                                           gradCol2, 0.0f, iy + ih, false));
+        g.setColour(trackColour);
         indent.addRoundedRectangle (x , y,
                                     width -2 , height,
                                     5.0f,5.0f);
@@ -1258,20 +1258,22 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
     else
     {
 
-        const float ix = x + width * 0.5f - sliderRadius * 0.5f;
-        const float iw = sliderRadius;
+//        const float ix = x + width * 0.5f - sliderRadius * 0.5f;
+//        const float iw = sliderRadius;
+        //        g.setGradientFill (ColourGradient (gradCol1, ix, 0.0f,
+        //                                           gradCol2, ix + iw, 0.0f, false));
+
+        g.setColour(trackColour);
         
-        g.setGradientFill (ColourGradient (gradCol1, ix, 0.0f,
-                                           gradCol2, ix + iw, 0.0f, false));
-        
-        indent.addRoundedRectangle (x , y-2,
+        indent.addRoundedRectangle (x , y,
                                     width , height ,
                                     5.0f,5.0f);
 //                                    true,true,
 //                                    false,false);
     }
-    
-    g.strokePath (indent, PathStrokeType (0.5f));
+    g.fillPath(indent);
+    g.setColour(Colours::black);
+    g.strokePath (indent, PathStrokeType (2));
 }
 
 void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int height,
@@ -1293,14 +1295,14 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
         
         const float sliderRadius = (float) (getSliderThumbRadius (slider) );
         
-        const Colour trackColour (slider.findColour (Slider::trackColourId));
+        const Colour trackColour (slider.findColour (Slider::thumbColourId));
         const Colour gradCol1 (trackColour.overlaidWith (Colours::black.withAlpha (slider.isEnabled() ? 0.25f : 0.13f)));
         const Colour gradCol2 (trackColour.overlaidWith (Colour (0x14000000)));
         Path indent;
         
         if (slider.isHorizontal())
         {
-            kx = sliderPos -sliderRadius -2;
+            kx = sliderPos ;//-sliderRadius -2;
             const float iy = y + height * 0.5f - sliderRadius * 0.5f;
             const float ih = sliderRadius;
             
@@ -1315,7 +1317,7 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
         }
         else
         {
-            ky = sliderPos- sliderRadius -2;
+            ky = sliderPos;//- sliderRadius -2;
             const float ix = x + width * 0.5f- sliderRadius * 0.5f;
             const float iw = sliderRadius;
             
@@ -1327,7 +1329,7 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
                                         5.0f,5.0f);
 //                                        true,true,
 //                                        false,false);
-//            DBG(y +ky - sliderRadius);
+
         }
         
         g.fillPath(indent);
@@ -1600,10 +1602,10 @@ Slider::SliderLayout LookNFeel::getSliderLayout (Slider& slider)
         else if (textBoxPos == Slider::TextBoxAbove) ;//layout.sliderBounds.removeFromTop (textBoxHeight);
         else if (textBoxPos == Slider::TextBoxBelow) layout.sliderBounds.removeFromBottom (0);//textBoxHeight);
         
-        const int thumbIndent = getSliderThumbRadius (slider);
+//        const int thumbIndent = getSliderThumbRadius (slider);
         
-        if (slider.isHorizontal())    layout.sliderBounds.reduce (thumbIndent, 0);
-        else if (slider.isVertical()) layout.sliderBounds.reduce (0, thumbIndent);
+//        if (slider.isHorizontal())    layout.sliderBounds.reduce (thumbIndent, 0);
+//        else if (slider.isVertical()) layout.sliderBounds.reduce (0, thumbIndent);
     }
     
     return layout;

@@ -8,8 +8,7 @@
 
 
 
-class LabelComponent  : public Component,
-public LabelListener
+class LabelComponent  : public Component
 {
 public:
     //==============================================================================
@@ -20,16 +19,14 @@ public:
     void paint (Graphics& g);
     void resized();
     virtual void resizeComponent() {};
-    void setName(const String&  s) override{
-    Component::setName(s);
-    label->setText(s, dontSendNotification);
+    void setName(const String&  s) override;
+    void setBackColour(Colour b){
+        *backColour = b;
     };
-    
 
-    void labelTextChanged (Label* labelThatHasChanged);
     
     
-    
+    ScopedPointer<Colour> backColour;
     Point<float> labelRelPos;
     float labelSize = 15;
 protected:

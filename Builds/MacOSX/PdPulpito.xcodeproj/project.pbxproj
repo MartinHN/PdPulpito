@@ -3406,8 +3406,6 @@
 				07887073959813FF21F0798F /* PdParameter.h */,
 				77CF08EED97B93908E24A1BE /* PdParamGetter.cpp */,
 				98C991E1A462323E96D2D4CD /* PdParamGetter.h */,
-				F2C516795EB361061B6951A4 /* SendSlider.h */,
-				8B8252B2245783CE93FD23EB /* SendToggle.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -3696,6 +3694,8 @@
 		EE8BE25131437BFC16750FFC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F2C516795EB361061B6951A4 /* SendSlider.h */,
+				8B8252B2245783CE93FD23EB /* SendToggle.h */,
 				5637FDD380BBD40EEA0EF4EB /* LabelComponent.cpp */,
 				B8D80CDF239AA473981FA090 /* LabelComponent.h */,
 				2560F4828A3DB862D90F447B /* LookNfeel.cpp */,

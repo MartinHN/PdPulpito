@@ -22,10 +22,7 @@ public:
     
     
     PdGUICanvas(AudioProcessor * pin ,int guiNum):AudioProcessorEditor(pin),guiNum(guiNum){
-        
 
-     
-    
     };
     
     
@@ -52,6 +49,8 @@ public:
                 c =new SendSlider(param->processorIdx,*p,SendSlider::ROTARY);
                 ((SendSlider*)c)->setRange(param->min, param->max);
                 addAndMakeVisible(c);
+                ((SendSlider*)c)->getSlider()->setColour(Slider::rotarySliderFillColourId,param->mainColour);
+//                ((SendSlider*)c)->getSlider()->setColour(Slider::rotarySliderOutlineColourId,param->backColour);
                 ((SendSlider*)c)->lookAndFeelChanged();
                 
             }
@@ -89,6 +88,8 @@ public:
             }
             else if(param->type == PdParamGetter::PulpParameterDesc::CNV){
                 c =new LabelComponent(param->processorIdx,*p);
+                c->setBackColour(param->backColour);
+
                 addAndMakeVisible(c);
                 ((LabelComponent*)c)->lookAndFeelChanged();
                 
@@ -96,7 +97,7 @@ public:
             if(c!=nullptr){
                 
                 c->labelSize = param->labelSize;
-                DBG(param->labelName);
+                
                 c->setName(param->labelName);
                 p->setParameterName(param->processorIdx, param->name);
                 juce_Components.add(c);
@@ -115,7 +116,7 @@ public:
                 
             }
         }
-        
+        resized();
  
     }
     
@@ -137,7 +138,7 @@ public:
             LabelComponent * c = ((LabelComponent*)juce_Components[idx]);
             if(c!=nullptr){
                 c->labelRelPos.setXY( getWidth() * param->labelRect.getX() ,
-                                      getHeight() *param->labelRect.getY()
+                                      getHeight()*(param->labelRect.getY()) - 4
                                      );
                 c->setBounds (
                               getWidth() * param->getX() ,
@@ -146,7 +147,7 @@ public:
                               getHeight()* param->getHeight()
                               )
                 ;
-                
+                c->LabelComponent::resized();
                 
                 
                 //        DBG( " resizing UI : " << c->getName() <<  " : " <<

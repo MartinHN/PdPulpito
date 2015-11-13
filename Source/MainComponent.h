@@ -29,7 +29,7 @@ public:
     void resized();
     void buttonClicked (Button* buttonThatWasClicked);
 
-
+    
 
 private:
 

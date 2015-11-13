@@ -14,15 +14,15 @@ processor(processor)
     
     addAndMakeVisible (label = new Label ("label",
                                           TRANS("Label")));
-    label->setTooltip (TRANS("Click to set the name of the corresponding Pure Data receive port."));
+    
     label->setFont (Font (15.00f, Font::plain));
     label->setJustificationType (Justification::centred);
-    label->setEditable (false, true, false);
+    label->setEditable (false, false, false);
     label->setColour (Label::backgroundColourId, Colour (0x00404040));
     label->setColour (Label::textColourId, Colour (0xffc4c4c4));
     label->setColour (TextEditor::textColourId, Colour (0xffe9e9e9));
     label->setColour (TextEditor::backgroundColourId, Colour (0x00343434));
-    label->addListener (this);
+    
     
     
     setSize (100, 130);
@@ -36,6 +36,7 @@ processor(processor)
     setPaintingIsUnclipped(true);
     
     label->setSize(200, 20);
+    backColour = new Colour(Colours::black.withAlpha(0.0f));
     //    startTimer(25);
     
 }
@@ -48,49 +49,50 @@ LabelComponent::~LabelComponent()
     label = nullptr;
     
 }
+void LabelComponent::setName(const juce::String &s){
+    Component::setName(s);
+    label->setText(s, dontSendNotification);
+};
 
 //==============================================================================
 void LabelComponent::paint (Graphics& g)
 {
     
-    //    g.fillAll(juce::Colours::red);
+    
+    
+    Path back;
+    back.addRectangle(getLocalBounds());
+    
+    g.setColour(*backColour);
+    g.fillPath(back);
+    g.setColour(Colours::white);
+//    g.drawRect(label->getBounds());
+//        g.fillAll(juce::Colours::red);
     
 }
+
+
 
 void LabelComponent::resized()
 {
     
-    Rectangle<int> area = getLocalBounds();
-    
-    label->setTopLeftPosition(//area.getX() +
-                              labelRelPos.getX(),
-                              // area.getY() +
-                              labelRelPos.getY() -labelSize);
+    label->setTopLeftPosition(labelRelPos.getX(),
+                              labelRelPos.getY() );
     Font nF = label->getFont();
     nF.setHeight(labelSize);
     label->setFont(nF);
     label->setBounds(label->getBounds().withHeight(labelSize));
     if(component){
-        component->setBounds(area);
+        component->setBounds(getLocalBounds());
         resizeComponent();
+        component->toBehind(label);
     }
     
 }
 
 
 
-void LabelComponent::labelTextChanged (Label* labelThatHasChanged)
-{
-    
-    if (labelThatHasChanged == label)
-    {
-        
-        PdAudioProcessor& p = (PdAudioProcessor&) processor;
-        p.setParameterName(index, labelThatHasChanged->getTextValue().toString());
-        
-    }
-    
-}
+
 
 
 

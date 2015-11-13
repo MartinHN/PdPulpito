@@ -43,7 +43,6 @@ class PdParamGetter {
         
         
         Rectangle<float> labelRect;
-        Rectangle<float> getEnclosing(){return getUnion(labelRect);}
         bool hasLabel;
         int labelSize;
         String labelName;
@@ -80,12 +79,19 @@ class PdParamGetter {
 protected:
     
     
-    Array<Array<StringArray > > patchString;
+    Array<Array<StringArray > > parsedString;
     int localParamCount = 0;
     Colour getPdColour(int c);
     Array<Rectangle<int> > guiSizes;
-    Array<File> guiFile;
+    Array<File> guiFiles;
     OwnedArray<PulpParameterDesc> pulpParameterDescs;
     
+    static int dollarZero;
+    
+    
+private:
+    File subPatchExists(String sub);
+    Array<StringArray>  parseText(StringArray destLines,bool isRootGUI);
+    void getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<int> region=Rectangle<int>(0,0),Point < int > offset=Point<int>(0,0));
 };
 #endif /* defined(__Pd_Pulp__PdParamGetter__) */
