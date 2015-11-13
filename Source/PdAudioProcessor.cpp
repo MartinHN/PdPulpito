@@ -11,55 +11,81 @@
 #include "MainComponent.h"
 #include "Config.h"
 
-bool PureDataAudioProcessor::otherInstanceAlreadyRunning;
+
 
 //==============================================================================
-PureDataAudioProcessor::PureDataAudioProcessor()
+PdAudioProcessor::PdAudioProcessor()
 {
     
+    static bool first = true;
     
-    
-
-    
-    if(PureDataAudioProcessor::otherInstanceAlreadyRunning) {
-        isInstanceLocked = true;
-    }
-    PureDataAudioProcessor::otherInstanceAlreadyRunning = true;
+    if(first){
     setPatchFile(File(PATCH_PATH));
+    }
+    else{
+    setPatchFile(File(PATCH_PATH2));
+    }
+    
+    first = false;
     loadFromGUI();
 
 }
 
-PureDataAudioProcessor::~PureDataAudioProcessor()
+PdAudioProcessor::~PdAudioProcessor()
 {
     pd = nullptr;
     
-    if (!isInstanceLocked) {
-        PureDataAudioProcessor::otherInstanceAlreadyRunning = false;
-    }
+
 }
 
 //==============================================================================
-void PureDataAudioProcessor::setParameterName(int index, String name)
+void PdAudioProcessor::setParameterName(int index, String name)
 {
     PdParameter* p = pdParameters.getUnchecked(index);
     p->setName(name);
 }
 
 
-void PureDataAudioProcessor::loadFromGUI(){
-    getParameterDescsFromPatch(patchfile);
+void PdAudioProcessor::loadFromGUI(){
+    PdParamGetter::getParameterDescsFromPatch(patchfile);
     setParametersFromDescs();
     updateProcessorParameters();
 }
 
-void PureDataAudioProcessor::updateProcessorParameters(){
+
+
+void PdAudioProcessor::setParametersFromDescs(){
+    // hack to allow to reload parameters on the go
+    // allow to add new or replace param as the host may need to keep same pointers
+    
+    pdParameters.clear();
+    
+    for(int i = 0; i < pulpParameterDescs.size() ; i++){
+        if(localParamCount<=i){
+            PdParameter* p = new PdParameter (0, (pulpParameterDescs[i]->name));
+            pdParameters.add(p);
+            localParamCount ++;
+        }
+        else if(i<pdParameters.size()){
+            pdParameters[i]->setName((pulpParameterDescs[i]->name));
+            pdParameters[i]->setValue(0);
+        }
+        else{
+            DBG("parameter not found " << pulpParameterDescs[i]->name << "count : " << localParamCount);
+        }
+        
+    }
+    
+}
+
+
+void PdAudioProcessor::updateProcessorParameters(){
 
     int idx = 0;
     for(auto & p:pdParameters){
         
         if(idx>=getNumParameters()){
-        addParameter(p);
+            addParameter(p);
         }
         else{
             setParameter(idx, p->getValue());
@@ -71,32 +97,32 @@ void PureDataAudioProcessor::updateProcessorParameters(){
 
 
 
-const String PureDataAudioProcessor::getName() const
+const String PdAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-const String PureDataAudioProcessor::getInputChannelName (int channelIndex) const
+const String PdAudioProcessor::getInputChannelName (int channelIndex) const
 {
     return String (channelIndex + 1);
 }
 
-const String PureDataAudioProcessor::getOutputChannelName (int channelIndex) const
+const String PdAudioProcessor::getOutputChannelName (int channelIndex) const
 {
     return String (channelIndex + 1);
 }
 
-bool PureDataAudioProcessor::isInputChannelStereoPair (int index) const
+bool PdAudioProcessor::isInputChannelStereoPair (int index) const
 {
     return true;
 }
 
-bool PureDataAudioProcessor::isOutputChannelStereoPair (int index) const
+bool PdAudioProcessor::isOutputChannelStereoPair (int index) const
 {
     return true;
 }
 
-bool PureDataAudioProcessor::acceptsMidi() const
+bool PdAudioProcessor::acceptsMidi() const
 {
 #if JucePlugin_WantsMidiInput
     return true;
@@ -105,7 +131,7 @@ bool PureDataAudioProcessor::acceptsMidi() const
 #endif
 }
 
-bool PureDataAudioProcessor::producesMidi() const
+bool PdAudioProcessor::producesMidi() const
 {
 #if JucePlugin_ProducesMidiOutput
     return true;
@@ -114,51 +140,52 @@ bool PureDataAudioProcessor::producesMidi() const
 #endif
 }
 
-bool PureDataAudioProcessor::silenceInProducesSilenceOut() const
+bool PdAudioProcessor::silenceInProducesSilenceOut() const
 {
     return false;
 }
 
-double PureDataAudioProcessor::getTailLengthSeconds() const
+double PdAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int PureDataAudioProcessor::getNumPrograms()
+int PdAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
     // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int PureDataAudioProcessor::getCurrentProgram()
+int PdAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void PureDataAudioProcessor::setCurrentProgram (int index)
+void PdAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const String PureDataAudioProcessor::getProgramName (int index)
+const String PdAudioProcessor::getProgramName (int index)
 {
     return String();
 }
 
-void PureDataAudioProcessor::changeProgramName (int index, const String& newName)
+void PdAudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
 
 //==============================================================================
-void PureDataAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    reloadPdPatch(sampleRate);
+    needsToReopenPatch = sampleRate;
+
     
     
 }
 
-void PureDataAudioProcessor::releaseResources()
+void PdAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
@@ -174,15 +201,25 @@ void PureDataAudioProcessor::releaseResources()
 }
 
 
-void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
+void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
+    int instance = -1;
     
+    if(patchfile.getFullPathName() == PATCH_PATH){
+        instance = 0;
+    }
+    else{
+        instance = 1;
+    }
+    
+    if(needsToReopenPatch>=0){
+            reloadPdPatch(needsToReopenPatch);
+            sendChangeMessage();
+            needsToReopenPatch = -2;
+    }
     
     clearMidiBuffer(buffer.getNumSamples());
     
-    if (isInstanceLocked) {
-        return;
-    }
     
     // In case we have more outputs than inputs, this code clears any output channels that didn't contain input data, (because these aren't guaranteed to be empty - they may contain garbage).
     // I've added this to avoid people getting screaming feedback when they first compile the plugin, but obviously you don't need to this code if your algorithm already fills all the output channels.
@@ -191,7 +228,7 @@ void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer
     
     int numChannels = jmin (getNumInputChannels(), getNumOutputChannels());
     int len = buffer.getNumSamples();
-    int idx = 0;
+    
     
     for (int i=0; i<pdParameters.size(); i++) {
         PdParameter* parameter = pdParameters[i];
@@ -221,12 +258,14 @@ void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer
     //output recieved
     
     
-    
+    int idx = 0;
     while (len > 0)
     {
         int max = jmin (len, pd->blockSize());
         
         /* interleave audio */
+        
+        // TODO : While loop per tick with less copy operations (i.e here + processfloat)
         {
             float* dstBuffer = pdInBuffer.getData();
             for (int i = 0; i < max; ++i)
@@ -260,7 +299,7 @@ void PureDataAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer
     
 }
 
-void PureDataAudioProcessor::sendDawInfo(){
+void PdAudioProcessor::sendDawInfo(){
     if(pd){
         
         getPlayHead()->getCurrentPosition(currentPositionInfo);
@@ -279,18 +318,18 @@ void PureDataAudioProcessor::sendDawInfo(){
 }
 
 //==============================================================================
-bool PureDataAudioProcessor::hasEditor() const
+bool PdAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* PureDataAudioProcessor::createEditor()
+AudioProcessorEditor* PdAudioProcessor::createEditor()
 {
     return new MainComponent(*this);
 }
 
 //==============================================================================
-void PureDataAudioProcessor::getStateInformation (MemoryBlock& destData)
+void PdAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
@@ -319,13 +358,14 @@ void PureDataAudioProcessor::getStateInformation (MemoryBlock& destData)
     copyXmlToBinary(xml, destData);
 }
 
-void PureDataAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
     
     // RESTORE / LOAD
     
+    if(canRestore){
     ScopedPointer<XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
     if(xml != 0 && xml->hasTagName(getName().replace(" ", "-"))) {
         
@@ -360,15 +400,12 @@ void PureDataAudioProcessor::setStateInformation (const void* data, int sizeInBy
             }
         }
     }
+    }
 }
 
-void PureDataAudioProcessor::reloadPdPatch (double sampleRate)
+void PdAudioProcessor::reloadPdPatch (double sampleRate)
 {
     DBG("reloading Patch" );
-    if (isInstanceLocked) {
-        status = "Currently only one simultaneous instance of this plugin is allowed";
-        return;
-    }
     
     if (sampleRate) {
         cachedSampleRate = sampleRate;
@@ -427,12 +464,12 @@ void PureDataAudioProcessor::reloadPdPatch (double sampleRate)
 
 
 
-void PureDataAudioProcessor::setPatchFile(File file)
+void PdAudioProcessor::setPatchFile(File file)
 {
     patchfile = file;
 }
 
-File PureDataAudioProcessor::getPatchFile()
+File PdAudioProcessor::getPatchFile()
 {
     return patchfile;
 }
@@ -441,5 +478,5 @@ File PureDataAudioProcessor::getPatchFile()
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new PureDataAudioProcessor();
+    return new PdAudioProcessor();
 }

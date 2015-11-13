@@ -13,13 +13,14 @@
 
 
 
-class MainComponent  : public PdAudioProcessorEditor,
+class MainComponent  : public AudioProcessorEditor,
                        public Timer,
                        public ButtonListener
+
 {
 public:
 
-    MainComponent (PureDataAudioProcessor& processor);
+    MainComponent (PdAudioProcessor& processor);
     ~MainComponent();
 
 
@@ -35,7 +36,7 @@ private:
     void timerCallback();
 
 
-
+    PdAudioProcessorEditor pdEditor;
     ScopedPointer<TextButton> findButton;
     ScopedPointer<Label> pathField;
     ScopedPointer<TextButton> reloadButton;
@@ -45,6 +46,9 @@ private:
     ScopedPointer<Label> label2;
 
     ScopedPointer<LookNFeel> lookNFeel;
+    
+    ScopedPointer<ResizableCornerComponent> resizer;
+    ComponentBoundsConstrainer resizeLimits;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

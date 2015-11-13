@@ -17,8 +17,8 @@ class PdParamGetter {
 
     void readPatch(File & patchFile);
     void getParameterDescsFromPatch(File & patchfile);
-    void setParametersFromDescs();
-    Array<int> connectedToOutlet(int objNum,int outNum);
+
+//    Array<int> connectedToOutlet(int objNum,int outNum);
     
     
     
@@ -29,12 +29,15 @@ class PdParamGetter {
         float max;
         enum Type{
             KNOB= 0,
+            HSL,
+            VSL,
             NUMBOX,
             TOGGLE,
             POPUP,
             CNV,
-            BANG,
-            SLIDER
+            BANG
+            
+            
         };
         Type type;
         
@@ -45,15 +48,44 @@ class PdParamGetter {
         int labelSize;
         String labelName;
         StringArray elements;
+        
+        Colour backColour;
+        Colour mainColour;
+        
+        
+        int guiNum;
+        int processorIdx;
     };
     
-    Array<PulpParameterDesc> pulpParameterDescs;
     
-    Array<PdParameter*> pdParameters;
-    Rectangle<int> patchRect;
-    File guiFile;
     
-    Array<StringArray > patchString;
+    PulpParameterDesc * getDescForIdx(int idx);
+    int getTotalParameterCount();
+    
+    Array<int> GUINumParams;
+    int getProcessorStartIdxForGUI(int guiNum);
+    int getNumGUI();
+    int getNumParamforGUI(int guiNum);
+    Rectangle<int> getBoundOfGui(int guiNum);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+protected:
+    
+    
+    Array<Array<StringArray > > patchString;
+    int localParamCount = 0;
+    Colour getPdColour(int c);
+    Array<Rectangle<int> > guiSizes;
+    Array<File> guiFile;
+    OwnedArray<PulpParameterDesc> pulpParameterDescs;
     
 };
 #endif /* defined(__Pd_Pulp__PdParamGetter__) */

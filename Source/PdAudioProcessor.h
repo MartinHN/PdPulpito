@@ -19,16 +19,17 @@
 //==============================================================================
 /**
 */
-class PureDataAudioProcessor  : public AudioProcessor,
+class PdAudioProcessor  : public AudioProcessor,
 public pd::PdReceiver,
 public pd::PdMidiReceiver,
-public PdParamGetter
+public PdParamGetter,
+public ChangeBroadcaster
 
 {
 public:
     //==============================================================================
-    PureDataAudioProcessor();
-    ~PureDataAudioProcessor();
+    PdAudioProcessor();
+    ~PdAudioProcessor();
     
     void setParameterName(int index, String name);
 
@@ -72,14 +73,18 @@ public:
     void setPatchFile(File file);
     File getPatchFile();
     
+    void setParametersFromDescs();
+    
     String status = "Select a pure data patch file...";
-    static bool otherInstanceAlreadyRunning;
-    bool isInstanceLocked = false;
 
+    Array<PdParameter*> pdParameters;
     
     
     File patchfile;
-    void clearParameters();    
+    void clearParameters();
+    // TODO : better Hack for loading Patch in audiothread
+    
+    int needsToReopenPatch = -1;
 private:
     ScopedPointer<pd::PdBase> pd;
     int pos;
@@ -103,14 +108,12 @@ private:
     
     DAWInfo dawInfo;
     void sendDawInfo();
+    bool canRestore = false;
+    
 
-    
-    
-    
-    
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PureDataAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PdAudioProcessor)
 };
 
 

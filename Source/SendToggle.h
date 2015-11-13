@@ -16,6 +16,7 @@ public:
     SendToggle(int index,AudioProcessor & p):LabelComponent(index,p){
         addAndMakeVisible(component = new ToggleButton());
         setSize (100, 130);
+        getToggle()->addListener(this);
     }
     ~SendToggle(){};
     ToggleButton* getToggle(){return (ToggleButton*) component.get();}

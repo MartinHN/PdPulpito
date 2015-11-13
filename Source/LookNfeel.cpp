@@ -286,25 +286,33 @@ void LookNFeel::drawTickBox (Graphics& g, Component& component,
 {
     const float boxSize = w * 0.7f;
     
-    drawGlassSphere (g, x, y + (h - boxSize) * 0.5f, boxSize,
-                     LookAndFeelHelpers::createBaseColour (component.findColour (TextButton::buttonColourId)
-                                                           .withMultipliedAlpha (isEnabled ? 1.0f : 0.5f),
-                                                           true, isMouseOverButton, isButtonDown),
-                     isEnabled ? ((isButtonDown || isMouseOverButton) ? 1.1f : 0.5f) : 0.3f);
-    
+//    drawGlassSphere (g, x, y + (h - boxSize) * 0.5f, boxSize,
+//                     LookAndFeelHelpers::createBaseColour (component.findColour (TextButton::buttonColourId)
+//                                                           .withMultipliedAlpha (isEnabled ? 1.0f : 0.5f),
+//                                                           true, isMouseOverButton, isButtonDown),
+//                     isEnabled ? ((isButtonDown || isMouseOverButton) ? 1.1f : 0.5f) : 0.3f);
+//    
+//    
+    Path boxPath ;
+    Rectangle<int> rect(x,y,  w, h);
+    rect.reduce(1,1);
+    boxPath.addRoundedRectangle(rect, 4.0f);
+    g.setColour(LookAndFeelHelpers::createBaseColour (component.findColour (TextButton::buttonColourId)
+                                                      .withMultipliedAlpha (isEnabled ? 1.0f : 0.5f),
+                                                      true, isMouseOverButton, isButtonDown));
+    g.strokePath(boxPath,PathStrokeType (2));
     if (ticked)
     {
         Path tick;
-        tick.startNewSubPath (1.5f, 3.0f);
-        tick.lineTo (3.0f, 6.0f);
-        tick.lineTo (6.0f, 0.0f);
+        tick.addRoundedRectangle(rect.reduced(3), 4.0f);
+        g.setColour(LookAndFeelHelpers::createBaseColour (component.findColour (TextButton::buttonColourId)
+                                                          .withMultipliedAlpha (isEnabled ? 1.0f : 0.5f),
+                                                          true, isMouseOverButton, isButtonDown));
         
-        g.setColour (isEnabled ? Colours::black : Colours::grey);
         
-        const AffineTransform trans (AffineTransform::scale (w / 9.0f, h / 9.0f)
-                                     .translated (x, y));
         
-        g.strokePath (tick, PathStrokeType (2.5f), trans);
+        
+        g.fillPath(tick);
     }
 }
 
@@ -314,14 +322,16 @@ void LookNFeel::drawToggleButton (Graphics& g, ToggleButton& button,
     if (button.hasKeyboardFocus (true))
     {
         g.setColour (button.findColour (TextEditor::focusedOutlineColourId));
-        g.drawRect (0, 0, button.getWidth(), button.getHeight());
+        Path focPath;
+        focPath.addRoundedRectangle(0, 0, button.getWidth(), button.getHeight(),4.0f);
+        g.strokePath(focPath, PathStrokeType(1));
     }
     
     float fontSize = jmin (15.0f, button.getHeight() * 0.75f);
     const float tickWidth = button.getWidth();//fontSize * 1.1f;
     
-    drawTickBox (g, button, 4.0f, (button.getHeight() - tickWidth) *0.5f,
-                 tickWidth, tickWidth,
+    drawTickBox (g, button, 0, 0,
+                 button.getWidth(), button.getHeight(),
                  button.getToggleState(),
                  button.isEnabled(),
                  isMouseOverButton,
@@ -1223,7 +1233,7 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
                                                  float /*maxSliderPos*/,
                                                  const Slider::SliderStyle /*style*/, Slider& slider)
 {
-    const float sliderRadius = (float) (getSliderThumbRadius (slider) - 2);
+    const float sliderRadius = (float) (getSliderThumbRadius (slider) );
     
     const Colour trackColour (slider.findColour (Slider::trackColourId));
     const Colour gradCol1 (trackColour.overlaidWith (Colours::black.withAlpha (slider.isEnabled() ? 0.25f : 0.13f)));
@@ -1232,32 +1242,35 @@ void LookNFeel::drawLinearSliderBackground (Graphics& g, int x, int y, int width
     
     if (slider.isHorizontal())
     {
+
         const float iy = y + height * 0.5f - sliderRadius * 0.5f;
         const float ih = sliderRadius;
         
         g.setGradientFill (ColourGradient (gradCol1, 0.0f, iy,
                                            gradCol2, 0.0f, iy + ih, false));
         
-        indent.addRoundedRectangle (x - sliderRadius * 0.5f, iy,
-                                    width + sliderRadius, ih,
-                                    5.0f);
+        indent.addRoundedRectangle (x , y,
+                                    width -2 , height,
+                                    5.0f,5.0f);
+//                                    ,false,true,
+//                                    false,true);
     }
     else
     {
+
         const float ix = x + width * 0.5f - sliderRadius * 0.5f;
         const float iw = sliderRadius;
         
         g.setGradientFill (ColourGradient (gradCol1, ix, 0.0f,
                                            gradCol2, ix + iw, 0.0f, false));
         
-        indent.addRoundedRectangle (ix, y - sliderRadius * 0.5f,
-                                    iw, height + sliderRadius,
-                                    5.0f);
+        indent.addRoundedRectangle (x , y-2,
+                                    width , height ,
+                                    5.0f,5.0f);
+//                                    true,true,
+//                                    false,false);
     }
     
-    g.fillPath (indent);
-    
-    g.setColour (Colour (0x4c000000));
     g.strokePath (indent, PathStrokeType (0.5f));
 }
 
@@ -1265,7 +1278,7 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
                                             float sliderPos, float minSliderPos, float maxSliderPos,
                                             const Slider::SliderStyle style, Slider& slider)
 {
-    const float sliderRadius = (float) (getSliderThumbRadius (slider) - 2);
+    const float sliderRadius = (float) (getSliderThumbRadius (slider) );
     
     Colour knobColour (LookAndFeelHelpers::createBaseColour (slider.findColour (Slider::thumbColourId),
                                                              slider.hasKeyboardFocus (false) && slider.isEnabled(),
@@ -1278,22 +1291,46 @@ void LookNFeel::drawLinearSliderThumb (Graphics& g, int x, int y, int width, int
     {
         float kx, ky;
         
-        if (style == Slider::LinearVertical)
+        const float sliderRadius = (float) (getSliderThumbRadius (slider) );
+        
+        const Colour trackColour (slider.findColour (Slider::trackColourId));
+        const Colour gradCol1 (trackColour.overlaidWith (Colours::black.withAlpha (slider.isEnabled() ? 0.25f : 0.13f)));
+        const Colour gradCol2 (trackColour.overlaidWith (Colour (0x14000000)));
+        Path indent;
+        
+        if (slider.isHorizontal())
         {
-            kx = x + width * 0.5f;
-            ky = sliderPos;
+            kx = sliderPos -sliderRadius -2;
+            const float iy = y + height * 0.5f - sliderRadius * 0.5f;
+            const float ih = sliderRadius;
+            
+            g.setGradientFill (ColourGradient (gradCol1, 0.0f, iy,
+                                               gradCol2, 0.0f, iy + ih, false));
+            
+            indent.addRoundedRectangle (x , y,
+                                        kx , height,
+                                        5.0f,5.0f);
+//                                        false,true,
+//                                        false,true);
         }
         else
         {
-            kx = sliderPos;
-            ky = y + height * 0.5f;
+            ky = sliderPos- sliderRadius -2;
+            const float ix = x + width * 0.5f- sliderRadius * 0.5f;
+            const float iw = sliderRadius;
+            
+            g.setGradientFill (ColourGradient (gradCol1, ix, 0.0f,
+                                               gradCol2, ix + iw, 0.0f, false));
+            
+            indent.addRoundedRectangle (x , y +ky  ,
+                                        width , height-ky,
+                                        5.0f,5.0f);
+//                                        true,true,
+//                                        false,false);
+//            DBG(y +ky - sliderRadius);
         }
         
-        drawGlassSphere (g,
-                         kx - sliderRadius,
-                         ky - sliderRadius,
-                         sliderRadius * 2.0f,
-                         knobColour, outlineThickness);
+        g.fillPath(indent);
     }
     else
     {
@@ -1382,6 +1419,8 @@ int LookNFeel::getSliderThumbRadius (Slider& slider)
 void LookNFeel::drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos,
                                        const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)
 {
+//    g.setColour(Colours::grey);
+//    g.fillAll();
     const float radius = jmin (width / 2, height / 2) - 2.0f;
     const float centreX = x + width * 0.5f;
     const float centreY = y + height * 0.5f;
@@ -1409,13 +1448,13 @@ void LookNFeel::drawRotarySlider (Graphics& g, int x, int y, int width, int heig
         {
             const float innerRadius = radius * 0.2f;
             Path p;
-            p.addTriangle (-innerRadius, 0.0f,
-                           0.0f, -radius * thickness * 1.1f,
-                           innerRadius, 0.0f);
-            
-            p.addEllipse (-innerRadius, -innerRadius, innerRadius * 2.0f, innerRadius * 2.0f);
-            
-            g.fillPath (p, AffineTransform::rotation (angle).translated (centreX, centreY));
+//            p.addTriangle (-innerRadius, 0.0f,
+//                           0.0f, -radius * thickness * 1.1f,
+//                           innerRadius, 0.0f);
+//            
+//            p.addEllipse (-innerRadius, -innerRadius, innerRadius * 2.0f, innerRadius * 2.0f);
+//            
+//            g.fillPath (p, AffineTransform::rotation (angle).translated (centreX, centreY));
         }
         
         if (slider.isEnabled())
@@ -1455,7 +1494,7 @@ class LookNFeel::SliderLabelComp  : public Label
 {
 public:
     SliderLabelComp() : Label (String::empty, String::empty) {}
-    
+    bool hitTest(int x,int y) override{return false;}
     void mouseWheelMove (const MouseEvent&, const MouseWheelDetails&) {}
 };
 
@@ -1465,7 +1504,7 @@ Label* LookNFeel::createSliderTextBox (Slider& slider)
     
     l->setJustificationType (Justification::centred);
     l->setKeyboardType (TextInputTarget::decimalKeyboard);
-    
+
     l->setColour (Label::textColourId, slider.findColour (Slider::textBoxTextColourId));
     l->setColour (Label::backgroundColourId,
                   (slider.getSliderStyle() == Slider::LinearBar || slider.getSliderStyle() == Slider::LinearBarVertical)
@@ -1540,7 +1579,7 @@ Slider::SliderLayout LookNFeel::getSliderLayout (Slider& slider)
             else if (textBoxPos == Slider::TextBoxRight)     layout.textBoxBounds.setX (localBounds.getWidth() - textBoxWidth);
             else /* above or below -> centre horizontally */ layout.textBoxBounds.setX ((localBounds.getWidth() - textBoxWidth) / 2);
             
-            if (textBoxPos == Slider::TextBoxAbove)          layout.textBoxBounds.setY (0);
+            if (textBoxPos == Slider::TextBoxAbove)          layout.textBoxBounds.setY ((localBounds.getHeight() - textBoxHeight) / 2);
             else if (textBoxPos == Slider::TextBoxBelow)     layout.textBoxBounds.setY (localBounds.getHeight() );//- textBoxHeight)
             else /* left or right -> centre vertically */    layout.textBoxBounds.setY ((localBounds.getHeight() - textBoxHeight) / 2);
         }
@@ -1558,7 +1597,7 @@ Slider::SliderLayout LookNFeel::getSliderLayout (Slider& slider)
     {
         if (textBoxPos == Slider::TextBoxLeft)       layout.sliderBounds.removeFromLeft (textBoxWidth);
         else if (textBoxPos == Slider::TextBoxRight) layout.sliderBounds.removeFromRight (textBoxWidth);
-        else if (textBoxPos == Slider::TextBoxAbove) layout.sliderBounds.removeFromTop (textBoxHeight);
+        else if (textBoxPos == Slider::TextBoxAbove) ;//layout.sliderBounds.removeFromTop (textBoxHeight);
         else if (textBoxPos == Slider::TextBoxBelow) layout.sliderBounds.removeFromBottom (0);//textBoxHeight);
         
         const int thumbIndent = getSliderThumbRadius (slider);
