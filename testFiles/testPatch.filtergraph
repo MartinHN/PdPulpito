@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FILTERGRAPH>
+  <FILTER uid="1" x="0.5" y="0.10000000149011611938" uiLastX="0" uiLastY="0">
+    <PLUGIN name="Audio Input" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="ROLI Ltd." version="1.0" file="" uid="246006c0"
+            isInstrument="0" fileTime="0" numInputs="0" numOutputs="2" isShell="0"/>
+    <STATE>0.</STATE>
+  </FILTER>
+  <FILTER uid="2" x="0.25" y="0.10000000149011611938" uiLastX="0" uiLastY="0">
+    <PLUGIN name="Midi Input" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="ROLI Ltd." version="1.0" file="" uid="cb5fde0b"
+            isInstrument="0" fileTime="0" numInputs="0" numOutputs="0" isShell="0"/>
+    <STATE>0.</STATE>
+  </FILTER>
+  <FILTER uid="3" x="0.5" y="0.89999997615814208984" uiLastX="0" uiLastY="0">
+    <PLUGIN name="Audio Output" descriptiveName="" format="Internal" category="I/O devices"
+            manufacturer="ROLI Ltd." version="1.0" file="" uid="724248cb"
+            isInstrument="0" fileTime="0" numInputs="2" numOutputs="0" isShell="0"/>
+    <STATE>0.</STATE>
+  </FILTER>
+  <FILTER uid="4" x="0.30749999999999999556" y="0.49814814814814817323"
+          uiLastX="205" uiLastY="360">
+    <PLUGIN name="PdPulpito" format="VST" category="Synth" manufacturer="mhermant"
+            version="V1.0.0" file="/Users/Tintamar/Library/Audio/Plug-Ins/VST/PdPulpito.vst"
+            uid="50444c50" isInstrument="1" fileTime="151057eae58" numInputs="2"
+            numOutputs="2" isShell="0"/>
+    <STATE>268.CMlaKA....fQBMDZ....A.EQLAE....Y....A...............................................................................................................................................................................rY0PxDxX....7.EYPUGavkFcu4COvElbg0VYzUlbLk1bz4COvElbg0VYzUlbfjlajUFd8HBLh.hag0VY8HBbgIWXsIBH1EFa0UVOh.iHu3COu.WXxEVakQWYxwTZyQmO77BTjAUcrAWZz8lO..</STATE>
+  </FILTER>
+  <FILTER uid="5" x="0.47375000000000000444" y="0.55185185185185181567"
+          uiLastX="0" uiLastY="0">
+    <PLUGIN name="AUMIDISynth" format="AudioUnit" category="Synth" manufacturer="Apple"
+            version="1.0.0" file="AudioUnit:Synths/aumu,msyn,appl" uid="6d766477"
+            isInstrument="1" fileTime="0" numInputs="0" numOutputs="2" isShell="0"/>
+    <STATE>183.hAGaoMGcv.i0AHv.DTfAGfPBJr.CTQWdvU1UyUmXzkGbkwUag4VclE1XzUmbkIGUjEFcgQkag0VYWYWYxMWZu4lDgUWa0IQaykmaRDFbvw1SPvB..............P...L.g........CTH.......v.FB.......Lvg.....fUUtQWZzwVYjAA.HTgFh7BM4DjQKA0eHB.......DP..........z....................fh</STATE>
+  </FILTER>
+  <CONNECTION srcFilter="2" srcChannel="4096" dstFilter="4" dstChannel="4096"/>
+  <CONNECTION srcFilter="4" srcChannel="4096" dstFilter="5" dstChannel="4096"/>
+  <CONNECTION srcFilter="5" srcChannel="0" dstFilter="3" dstChannel="0"/>
+  <CONNECTION srcFilter="5" srcChannel="1" dstFilter="3" dstChannel="1"/>
+</FILTERGRAPH>

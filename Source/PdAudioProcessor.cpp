@@ -204,7 +204,7 @@ void PdAudioProcessor::releaseResources()
 void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     int instance = -1;
-    
+
     if(patchfile.getFullPathName() == PATCH_PATH){
         instance = 0;
     }
@@ -218,6 +218,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
             needsToReopenPatch = -2;
     }
     
+    pd->setMainContext();
     clearMidiBuffer(buffer.getNumSamples());
     
     
@@ -243,7 +244,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
     
     while (it.getNextEvent (message, samplePosition))
     {
-        DBG("in" << message.getNoteNumber() << " , " << message.getFloatVelocity() << " c " << message.getChannel() <<  "n" << samplePosition);
+        DBG("in" << message.getNoteNumber() );//<< " , " << message.getFloatVelocity() << " c " << message.getChannel() <<  "n" << samplePosition);
         
         if (message.isNoteOn (true)) {
             pd->sendNoteOn (message.getChannel(), message.getNoteNumber(), message.getVelocity());

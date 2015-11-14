@@ -2114,12 +2114,7 @@
 		4B03319C525B0490E5ADF122 /* RTAS */ = {
 			isa = PBXGroup;
 			children = (
-				96791592D1D9CC289BF3838B /* juce_RTAS_DigiCode1.cpp */,
-				6E75AC986ED5F556D88AAFD2 /* juce_RTAS_DigiCode2.cpp */,
-				5B50E28B5A33E40959B3300D /* juce_RTAS_DigiCode3.cpp */,
 				2BB9AFD7A0926943A5538D5E /* juce_RTAS_WinUtilities.cpp */,
-				B2315294B2E11FACE81B0C84 /* juce_RTAS_Wrapper.cpp */,
-				CC3369C50513025760CCEC53 /* juce_RTAS_MacUtilities.mm */,
 				C5680B751F507AA179119B57 /* juce_RTAS_DigiCode_Header.h */,
 			);
 			name = RTAS;
@@ -2869,7 +2864,6 @@
 		A23A04E22CE53B1904A18B58 /* AU */ = {
 			isa = PBXGroup;
 			children = (
-				11435A0B57B9B31622BBCB22 /* juce_AU_Wrapper.mm */,
 			);
 			name = AU;
 			sourceTree = "<group>";
@@ -3041,8 +3035,6 @@
 		BBDFB517D1E0211ED46F4BCE /* AAX */ = {
 			isa = PBXGroup;
 			children = (
-				29C9194B4F9AA5BC4A928E6C /* juce_AAX_Wrapper.cpp */,
-				A003CDD509040463DB7B3569 /* juce_AAX_Wrapper.mm */,
 			);
 			name = AAX;
 			sourceTree = "<group>";
@@ -3555,7 +3547,6 @@
 				F4723708960F7F7C3B2B8526 /* juce_IncludeModuleHeaders.h */,
 				E5E34F92E2ED8CD305A29441 /* juce_IncludeSystemHeaders.h */,
 				36845D683875832F54D722C0 /* juce_PluginHostType.h */,
-				122F0034496FDF5E05F4E86A /* juce_PluginUtilities.cpp */,
 				B9EF4F2580A69279BF691574 /* juce_WindowsHooks.h */,
 			);
 			name = utility;
@@ -3590,8 +3581,6 @@
 		DFA2BBEB22A73BDE6B6049F3 /* VST3 */ = {
 			isa = PBXGroup;
 			children = (
-				B9220A9E3C7AAA2F2BE65AC1 /* juce_VST3_Wrapper.cpp */,
-				DC8CF8D6BD359949D2B6E6E0 /* juce_VST3_Wrapper.mm */,
 			);
 			name = VST3;
 			sourceTree = "<group>";
@@ -3765,8 +3754,6 @@
 		FD5C67CD1149F98395BE8F0F /* VST */ = {
 			isa = PBXGroup;
 			children = (
-				6C482100153A3271BB6681E0 /* juce_VST_Wrapper.cpp */,
-				48CF783FE08B11B4E617DD4E /* juce_VST_Wrapper.mm */,
 			);
 			name = VST;
 			sourceTree = "<group>";
@@ -4244,7 +4231,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"/Users/mhermant/SDKs/VST3 SDK\"",
+					"\"~/SDKs/VST3 SDK\"",
 					../../JuceLibraryCode,
 					../../JuceLibraryCode/modules,
 					"../../../libpd/pure-data/src",
@@ -4315,7 +4302,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"/Users/mhermant/SDKs/VST3 SDK\"",
+					"\"~/SDKs/VST3 SDK\"",
 					../../JuceLibraryCode,
 					../../JuceLibraryCode/modules,
 					"../../../libpd/pure-data/src",

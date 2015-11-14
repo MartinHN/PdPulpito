@@ -34,9 +34,12 @@
     #endif
 #endif
 
-extern struct  _pdinstance;
+//extern struct  _pdinstance;
 
-// TODO : Better Link with PdFloat Type (t_sample)
+
+//extern struct PdAudioCtx;
+#include "z_libpd.h"
+
 
 
 
@@ -85,6 +88,10 @@ class PdBase {
 
         PdBase();
         virtual ~PdBase();
+    void setMainContext(){
+        pdContext_current_instance = &pdContext;
+        pd_setinstance(pdContext.thisPdInstance);
+    }
 
     /// \section Initializing Pd
 
@@ -508,8 +515,8 @@ class PdBase {
             
             
                 _pdinstance * thisPdInstance;
-            void * pdAudioIn;
-            void * pdAudioOut;
+                PdAudioCtx pdAudioCtx;
+//                PdMidiCtx pdMidiCtx;
             // hide all the constructors, copy functions here
             PdContext();                        // cannot create
             virtual ~PdContext();               // cannot destroy
@@ -526,48 +533,54 @@ class PdBase {
             
                 void operator =(PdContext& from) {} // not copyable
 
-                /// libpd static callback functions
-//                static void _print(const char* s);
-//
-//                static void _bang(const char* source);
-//                static void _float(const char* source, float value);
-//                static void _symbol(const char* source, const char* symbol);
-//
-//                static void _list(const char* source, int argc, t_atom* argv);
-//                static void _message(const char* source, const char *symbol,
-//                                     int argc, t_atom *argv);
-//
-//                static void _noteon(int channel, int pitch, int velocity);
-//                static void _controlchange(int channel, int controller, int value);
-//                static void _programchange(int channel, int value);
-//                static void _pitchbend(int channel, int value);
-//                static void _aftertouch(int channel, int value);
-//                static void _polyaftertouch(int channel, int pitch, int value);
-//
-//                static void _midibyte(int port, int byte);
+
+                 static void _print(const char* s);
+
+                 static void _bang(const char* source);
+                 static void _float(const char* source, float value);
+                 static void _symbol(const char* source, const char* symbol);
+
+                 static void _list(const char* source, int argc, t_atom* argv);
+                 static void _message(const char* source, const char *symbol,
+                               int argc, t_atom *argv);
+
+                 static void _noteon(int channel, int pitch, int velocity);
+                 static void _controlchange(int channel, int controller, int value);
+                 static void _programchange(int channel, int value);
+                  static void _pitchbend(int channel, int value);
+                 static void _aftertouch(int channel, int value);
+                 static void _polyaftertouch(int channel, int pitch, int value);
+
+                 static void _midibyte(int port, int byte);
            
-            static void _print(const char* s){std::cout << std::string(s) << std::endl;};
-           
-            static void _bang(const char* source){std::cout <<"bang" <<  std::string(source) << std::endl;};
-            static void _float(const char* source, float value){std::cout << "float" << value << std::endl;};
-            static void _symbol(const char* source, const char* symbol){};
-           
-            static void _list(const char* source, int argc, t_atom* argv){};
-           static  void _message(const char* source, const char *symbol,
-                                 int argc, t_atom *argv){ std::cout << "mess" << std::string(symbol) << std::endl;};
-           
-            static  void _noteon(int channel, int pitch, int velocity){std::cout << "noteon" << pitch << std::endl;};
-            static void _controlchange(int channel, int controller, int value){};
-            static void _programchange(int channel, int value){};
-            static void _pitchbend(int channel, int value){};
-            static void _aftertouch(int channel, int value){};
-            static void _polyaftertouch(int channel, int pitch, int value){};
-           
-            static void _midibyte(int port, int byte){};
+            
+                            /// libpd static callback functions
+//            static void _print(const char* s){std::cout << std::string(s) << std::endl;};
+//           
+//            static void _bang(const char* source){std::cout <<"bang" <<  std::string(source) << std::endl;};
+//            static void _float(const char* source, float value){std::cout << "float" << value << std::endl;};
+//            static void _symbol(const char* source, const char* symbol){};
+//           
+//            static void _list(const char* source, int argc, t_atom* argv){};
+//           static  void _message(const char* source, const char *symbol,
+//                                 int argc, t_atom *argv){ std::cout << "mess" << std::string(symbol) << std::endl;};
+//           
+//            static  void _noteon(int channel, int pitch, int velocity){
+//                std::cout << "noteon" << pitch << std::endl;
+//            };
+//            static void _controlchange(int channel, int controller, int value){};
+//            static void _programchange(int channel, int value){};
+//            static void _pitchbend(int channel, int value){};
+//            static void _aftertouch(int channel, int value){};
+//            static void _polyaftertouch(int channel, int pitch, int value){};
+//           
+//            static void _midibyte(int port, int byte){};
             
             
         };
-    PdContext pdContext_instance;
+    static PdContext *  pdContext_current_instance;
+    PdContext pdContext;
+    int instanceNum;
 };
 
 } // namespace

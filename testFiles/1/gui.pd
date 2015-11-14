@@ -1,0 +1,3 @@
+#N canvas 0 22 450 300 10;
+#X obj 174 126 flatgui/knob 62 62 0 127 0 0 param empty knob 0 -8 0
+8 -262144 -1 -1 0 1;

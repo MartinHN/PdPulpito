@@ -90,7 +90,7 @@ MainComponent::MainComponent (PdAudioProcessor& processor)
     
 //    addAndMakeVisible (resizer = new ResizableCornerComponent (this, &resizeLimits));
 //    resizeLimits.setSizeLimits (150, 150, 1000, 1000);
-//    setSize (500, 385);
+    setSize (500, 385);
         resized();
     
 }
@@ -130,6 +130,7 @@ void MainComponent::resized()
     statusField->setBounds (25, 91, 311, 17);
     label->setBounds (22, 16, 170, 32);
     label2->setBounds (168, 24, 304, 16);
+    
   
     pdEditor.setTopLeftPosition(0,editButton->getBottom() + 10);
 //                       editButton->getRight() + 10,300);
