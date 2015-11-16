@@ -526,6 +526,7 @@ class PdBase {
                 bool bLibPdInited = false; //< has libpd_init be called?
                 bool bInited;      //< is this pd context inited?
                 bool bQueued; //< is this context using the libpd_queued ringbuffer?
+            static int numPdCtx;
 
                 unsigned int numBases;  //< number of pd base objects
 

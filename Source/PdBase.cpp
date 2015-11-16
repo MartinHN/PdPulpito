@@ -891,7 +891,7 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         
         // init libpd, should only be called once!
 //        if(!bLibPdInited) {
-            thisPdInstance = pdinstance_new(uid);
+            thisPdInstance = pdinstance_new();
             pd_setinstance(thisPdInstance);
             libpd_queued_init();
             init_externals();
@@ -920,7 +920,7 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
 
         // init libpd, should only be called once!
 //        if(!bLibPdInited) {
-            thisPdInstance = pdinstance_new(uid);
+            thisPdInstance = pdinstance_new();
         
             pd_setinstance(thisPdInstance);
 
@@ -947,47 +947,49 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
 void PdBase::PdContext::clear() {
 
     // detach callbacks
+    
+    // dont dettach caqllbacks as there can be other instances
     if(bInited) {
 
-        computeAudio(false);
+//        computeAudio(false);
 
         if(bQueued) {
-            libpd_set_queued_printhook(NULL);
-            libpd_set_concatenated_printhook(NULL);
-
-            libpd_set_queued_banghook(NULL);
-            libpd_set_queued_floathook(NULL);
-            libpd_set_queued_symbolhook(NULL);
-            libpd_set_queued_listhook(NULL);
-            libpd_set_queued_messagehook(NULL);
-
-            libpd_set_queued_noteonhook(NULL);
-            libpd_set_queued_controlchangehook(NULL);
-            libpd_set_queued_programchangehook(NULL);
-            libpd_set_queued_pitchbendhook(NULL);
-            libpd_set_queued_aftertouchhook(NULL);
-            libpd_set_queued_polyaftertouchhook(NULL);
-            libpd_set_queued_midibytehook(NULL);
+//            libpd_set_queued_printhook(NULL);
+//            libpd_set_concatenated_printhook(NULL);
+//
+//            libpd_set_queued_banghook(NULL);
+//            libpd_set_queued_floathook(NULL);
+//            libpd_set_queued_symbolhook(NULL);
+//            libpd_set_queued_listhook(NULL);
+//            libpd_set_queued_messagehook(NULL);
+//
+//            libpd_set_queued_noteonhook(NULL);
+//            libpd_set_queued_controlchangehook(NULL);
+//            libpd_set_queued_programchangehook(NULL);
+//            libpd_set_queued_pitchbendhook(NULL);
+//            libpd_set_queued_aftertouchhook(NULL);
+//            libpd_set_queued_polyaftertouchhook(NULL);
+//            libpd_set_queued_midibytehook(NULL);
             
             libpd_queued_release();
         }
         else {
-            libpd_set_printhook(NULL);
-            libpd_set_concatenated_printhook(NULL);
-
-            libpd_set_banghook(NULL);
-            libpd_set_floathook(NULL);
-            libpd_set_symbolhook(NULL);
-            libpd_set_listhook(NULL);
-            libpd_set_messagehook(NULL);
-
-            libpd_set_noteonhook(NULL);
-            libpd_set_controlchangehook(NULL);
-            libpd_set_programchangehook(NULL);
-            libpd_set_pitchbendhook(NULL);
-            libpd_set_aftertouchhook(NULL);
-            libpd_set_polyaftertouchhook(NULL);
-            libpd_set_midibytehook(NULL);
+//            libpd_set_printhook(NULL);
+//            libpd_set_concatenated_printhook(NULL);
+//
+//            libpd_set_banghook(NULL);
+//            libpd_set_floathook(NULL);
+//            libpd_set_symbolhook(NULL);
+//            libpd_set_listhook(NULL);
+//            libpd_set_messagehook(NULL);
+//
+//            libpd_set_noteonhook(NULL);
+//            libpd_set_controlchangehook(NULL);
+//            libpd_set_programchangehook(NULL);
+//            libpd_set_pitchbendhook(NULL);
+//            libpd_set_aftertouchhook(NULL);
+//            libpd_set_polyaftertouchhook(NULL);
+//            libpd_set_midibytehook(NULL);
         }
         }
     
@@ -1019,6 +1021,7 @@ PdBase::PdContext::PdContext() {
     numBases = false;
     receiver = NULL;
     midiReceiver = NULL;
+    numPdCtx ++;
     clear();
     maxMsgLen = 32;
 }
