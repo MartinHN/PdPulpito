@@ -13,7 +13,7 @@
 #define PATCH_PATH2 "~/Dev/PdPulpito/testFiles/2/simple2.pd"
 #define PD_CONSOLE
 #include "../JuceLibraryCode/AppConfig.h"
-#include "../JuceLibraryCode/modules/juce_core/system/juce_PlatformDefs.h"
+//#include "../JuceLibraryCode/modules/juce_core/system/juce_PlatformDefs.h"
 
 
 

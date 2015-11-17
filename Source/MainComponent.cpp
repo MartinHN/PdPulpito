@@ -9,7 +9,8 @@
 //==============================================================================
 MainComponent::MainComponent (PdAudioProcessor& processor)
 :    AudioProcessorEditor(processor),
-    pdEditor(processor)
+    pdEditor(processor),
+    TUIOClient(this,3334)
 
 {
 

@@ -8,7 +8,7 @@
 #include "PdAudioProcessor.h"
 #include "PdAudioProcessorEditor.h"
 #include "LookNfeel.h"
-
+#include "TUIO/TuioClient.h"
 
 
 
@@ -34,7 +34,7 @@ public:
 private:
 
     void timerCallback();
-
+    TUIO::TuioClient TUIOClient;
 
     PdAudioProcessorEditor pdEditor;
     ScopedPointer<TextButton> findButton;
