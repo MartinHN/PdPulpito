@@ -23,7 +23,7 @@
 #endif
 
 
-//#define LIBPD_USE_STD_MUTEX
+#define LIBPD_USE_STD_MUTEX
 
 // define this to use C++11 std::mutex for locking
 #ifdef LIBPD_USE_STD_MUTEX

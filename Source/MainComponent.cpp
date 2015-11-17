@@ -189,6 +189,6 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
 
 void MainComponent::timerCallback()
 {
-    PdAudioProcessor& p = (PdAudioProcessor&) pdEditor.processor;
-    statusField->setText(p.status, dontSendNotification);
+//    PdAudioProcessor& p = (PdAudioProcessor&) pdEditor.processor;
+//    statusField->setText(p.status, dontSendNotification);
 }

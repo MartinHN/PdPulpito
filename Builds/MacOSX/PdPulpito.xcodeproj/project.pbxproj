@@ -160,6 +160,7 @@
 		6F22E564F1DB31BEBB30F78F /* flush.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D4EF0C942E761684ECB90BD /* flush.c */; };
 		6F2DAC8B1BF4B324002A16E5 /* PdGUICanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F2DAC891BF4B324002A16E5 /* PdGUICanvas.cpp */; };
 		6F41FEDCA40E33511A35A945 /* frameaccum.c in Sources */ = {isa = PBXBuildFile; fileRef = 68F7E374E0CBF1535E8FEDD3 /* frameaccum.c */; };
+		6F7987E71BFBB548007B86E5 /* TUIOReciever.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F7987E51BFBB548007B86E5 /* TUIOReciever.cpp */; };
 		70B6A489136F8571C92C3DD5 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F6BD9D1310D7795418A0A00 /* IOKit.framework */; };
 		70BB9FEDAA09E9D40A939C2D /* matchbox.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B658A6768B93E9979F1257E /* matchbox.c */; };
 		70D3C05163F1168C2ADA72C9 /* juce_RTAS_DigiCode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B50E28B5A33E40959B3300D /* juce_RTAS_DigiCode3.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -906,6 +907,8 @@
 		6F2DAC891BF4B324002A16E5 /* PdGUICanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PdGUICanvas.cpp; path = ../../Source/PdGUICanvas.cpp; sourceTree = "<group>"; };
 		6F2DAC8A1BF4B324002A16E5 /* PdGUICanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PdGUICanvas.h; path = ../../Source/PdGUICanvas.h; sourceTree = "<group>"; };
 		6F3BCC394237C51DE6837330 /* juce_audio_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_audio_basics.mm; path = ../../JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.mm; sourceTree = SOURCE_ROOT; };
+		6F7987E51BFBB548007B86E5 /* TUIOReciever.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TUIOReciever.cpp; path = ../../Source/TUIOReciever.cpp; sourceTree = "<group>"; };
+		6F7987E61BFBB548007B86E5 /* TUIOReciever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TUIOReciever.h; path = ../../Source/TUIOReciever.h; sourceTree = "<group>"; };
 		6F863404E21E212427CA6C57 /* juce_CharPointer_UTF16.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_CharPointer_UTF16.h; path = ../../JuceLibraryCode/modules/juce_core/text/juce_CharPointer_UTF16.h; sourceTree = SOURCE_ROOT; };
 		6F8997C0942AADF0DC31F45D /* cartopol.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cartopol.c; path = ../../Source/externals/cyclone/hammer/cartopol.c; sourceTree = SOURCE_ROOT; };
 		6FB2BDF7AD7B43F7034B160F /* juce_MenuBarModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_MenuBarModel.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/menus/juce_MenuBarModel.h; sourceTree = SOURCE_ROOT; };
@@ -3393,6 +3396,8 @@
 				D84B06F94CECBF39D42F7B86 /* PdAudioProcessor.h */,
 				668B3C3148FC2E7080F17352 /* PdAudioProcessorEditor.cpp */,
 				602A91D51B515FF3334F9F7E /* PdAudioProcessorEditor.h */,
+				6F7987E51BFBB548007B86E5 /* TUIOReciever.cpp */,
+				6F7987E61BFBB548007B86E5 /* TUIOReciever.h */,
 				6F2DAC891BF4B324002A16E5 /* PdGUICanvas.cpp */,
 				6F2DAC8A1BF4B324002A16E5 /* PdGUICanvas.h */,
 				07887073959813FF21F0798F /* PdParameter.h */,
@@ -3988,6 +3993,7 @@
 				FC7F830EB574B49E6EB310D8 /* avg.c in Sources */,
 				8C25093672A2CCA365543D62 /* bitand.c in Sources */,
 				F1EC1831A2DDAB4B9120655E /* bitnot.c in Sources */,
+				6F7987E71BFBB548007B86E5 /* TUIOReciever.cpp in Sources */,
 				7B94B85DEC13E99692FDE48B /* bitor.c in Sources */,
 				94862220E9EE9B981F46D3C9 /* bitshift.c in Sources */,
 				EF14FCADFDEAC6E13264683B /* bitxor.c in Sources */,

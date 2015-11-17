@@ -23,14 +23,14 @@ extern t_pdinstance * pd_this;
 
 #ifdef LIBPD_USE_STD_MUTEX
     #if __cplusplus >= 201103L // C++ 11 check
-        #define _LOCK() mutex.lock();setMainCtx(); //DBG("locking : " << pdContext.thisPdInstance);
+        #define _LOCK() mutex.lock();setMainContext(); //DBG("locking : " << pdContext.thisPdInstance);
         #define _UNLOCK() mutex.unlock();pd_setinstance(NULL); //DBG("unlocking : " << pdContext.thisPdInstance);
 
 
     #endif
 #else
     // no ops
-    #define _LOCK() pd_setinstance(pdContext.thisPdInstance); //DBG("locking : " << pdContext.thisPdInstance);
+    #define _LOCK() setMainContext();  //DBG("locking : " << pdContext.thisPdInstance);
     #define _UNLOCK() pd_setinstance(NULL); //DBG("unlocking : " << pdContext.thisPdInstance);
 #endif
 
@@ -43,7 +43,7 @@ using namespace std;
 
 
 pd::PdBase::PdContext * pd::PdBase::pdContext_current_instance = NULL;
-
+int pd::PdBase::PdContext::numPdCtx = 0;
 namespace pd {
 
 //--------------------------------------------------------------------
@@ -890,13 +890,14 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
 //        libpd_set_queued_midibytehook(_midibyte);
         
         // init libpd, should only be called once!
-//        if(!bLibPdInited) {
+
             thisPdInstance = pdinstance_new();
             pd_setinstance(thisPdInstance);
+        if(!bLibPdInited) {
             libpd_queued_init();
             init_externals();
             bLibPdInited = true;
-//        }
+        }
     }
     else {
         libpd_set_printhook(libpd_print_concatenator);
@@ -919,15 +920,16 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         
 
         // init libpd, should only be called once!
-//        if(!bLibPdInited) {
+
             thisPdInstance = pdinstance_new();
         
             pd_setinstance(thisPdInstance);
-
+        if(!bLibPdInited) {
             libpd_init();
             init_externals();
-            bLibPdInited = true;
-//        }
+            
+        }
+        bLibPdInited = true;
     }
     pd_setinstance(thisPdInstance);
     
@@ -937,6 +939,7 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
     }
     
     pdAudioCtx =  libpd_getPdAudioCtx() ;
+    pdAudioCtx.pd = thisPdInstance;
     cout << (float*)pdAudioCtx.in << endl;
     cout << (void*)pdAudioCtx.out << endl;
     bInited = true;
@@ -1006,9 +1009,11 @@ void PdBase::PdContext::clear() {
 
 void PdBase::PdContext::computeAudio(bool state) {
     // [; pd dsp $1(
+
     libpd_start_message(1);
     libpd_add_float((float) state);
     libpd_finish_message("pd", "dsp");
+
 }
 
 /* ***** PD CONTEXT PRIVATE ***** */

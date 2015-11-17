@@ -1,5 +1,5 @@
 #N canvas 346 72 450 300 10;
-#X obj 174 126 flatgui/knob 62 62 0 127 0 0 param1 empty knob 0 -8
-0 8 -262144 -1 -1 1700 1;
-#X obj 244 82 hsl 128 15 0 127 0 1 empty empty empty -2 -8 0 10 -262144
+#X obj 174 126 flatgui/knob 62 62 0 127 0 0 param10 empty knob 0 -8
+0 8 -262144 -1 -1 0 1;
+#X obj 244 82 hsl 128 15 0 127 0 1 param11 empty empty -2 -8 0 10 -262144
 -1 -1 12700 1;

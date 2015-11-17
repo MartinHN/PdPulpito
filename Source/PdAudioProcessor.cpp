@@ -17,16 +17,16 @@
 PdAudioProcessor::PdAudioProcessor()
 {
     
-    static bool first = true;
+    static int first = 0;
     
-    if(first){
+    if(first<2){
     setPatchFile(File(PATCH_PATH));
     }
     else{
     setPatchFile(File(PATCH_PATH2));
     }
     
-    first = false;
+    first ++;
     loadFromGUI();
 
 }
@@ -179,8 +179,8 @@ void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    needsToReopenPatch = sampleRate;
-
+//    needsToReopenPatch = sampleRate;
+    reloadPdPatch(sampleRate);
     
     
 }
@@ -191,7 +191,7 @@ void PdAudioProcessor::releaseResources()
     // spare memory, etc.
     if (pd != nullptr)
     {
-        pd->computeAudio (false);
+//        pd->computeAudio (false);
         pd->closePatch (patch);
     }
     
@@ -218,7 +218,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
             needsToReopenPatch = -2;
     }
     
-    pd->setMainContext();
+//    pd->setMainContext();
     clearMidiBuffer(buffer.getNumSamples());
     
     
@@ -313,7 +313,7 @@ void PdAudioProcessor::sendDawInfo(){
         if(dawInfo.beat != newBeat){
             dawInfo.beat = newBeat;
             pd->sendFloat("pulp_beat",dawInfo.beat);
-            DBG("ppq " << dawInfo.beat );;
+//            DBG("ppq " << dawInfo.beat );;
         }
     }
 }
@@ -415,7 +415,7 @@ void PdAudioProcessor::reloadPdPatch (double sampleRate)
     }
     
     if (pd) {
-        pd->computeAudio(false);
+//        pd->computeAudio(false);
         pd->closePatch(patch);
     }
     else{
