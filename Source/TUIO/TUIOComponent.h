@@ -86,6 +86,15 @@ class TUIOComponent : public TuioListener
      */
     virtual void refresh(TuioTime ftime){};
     
+    Point<float> getScreenPos(TuioCursor * tcur);
+    
+    typedef enum {
+        ADD,
+        UPDATE,
+        REMOVE
+    }drawCmd;
+    void drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd);
+    
     static TuioClient *  TUIOClient;
     TuioClient * getGlobalTuioClient(){if(TUIOClient ==nullptr){TUIOClient = new TuioClient(3333);TUIOClient->removeAllTuioListeners();}return TUIOClient;}
     Component * parentComponent;
