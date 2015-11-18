@@ -9,8 +9,8 @@
 //==============================================================================
 MainComponent::MainComponent (PdAudioProcessor& processor)
 :    AudioProcessorEditor(processor),
-    pdEditor(processor),
-    TUIOClient(this,3334)
+    TUIOComponent(this),
+    pdEditor(processor)
 
 {
 
@@ -93,6 +93,9 @@ MainComponent::MainComponent (PdAudioProcessor& processor)
 //    resizeLimits.setSizeLimits (150, 150, 1000, 1000);
     setSize (500, 385);
         resized();
+    
+    
+
     
 }
 

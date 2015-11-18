@@ -56,7 +56,7 @@ namespace TUIO {
 		 *
 		 * @param  port  the incoming TUIO UDP port number, defaults to 3333 if no argument is provided
 		 */
-		TuioClient(Component * comp,int port=3333);
+		TuioClient(int port=3333);
 
 		/**
 		 * The destructor is doing nothing in particular. 
@@ -136,7 +136,8 @@ namespace TUIO {
 				
 	protected:
 
-        void oscMessageReceived (const OSCMessage& message) ;
+        void oscMessageReceived (const OSCMessage& message) override;
+        void oscBundleReceived (const OSCBundle& /*bundle*/) override;
 		
 	private:
 		std::list<TuioListener*> listenerList;
@@ -157,7 +158,7 @@ namespace TUIO {
 		bool locked;
 		bool connected;
         
-        Component * parentComponent;
+        
 	};
 };
 #endif /* INCLUDED_TUIOCLIENT_H */

@@ -137,6 +137,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\TUIO\TUIOComponent.cpp"/>
     <ClCompile Include="..\..\Source\TUIO\TuioClient.cpp"/>
     <ClCompile Include="..\..\Source\TUIO\TuioTime.cpp"/>
     <ClCompile Include="..\..\Source\PdBase.cpp"/>
@@ -1562,6 +1563,7 @@
     <ClCompile Include="..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\TUIO\TUIOComponent.h"/>
     <ClInclude Include="..\..\Source\TUIO\TuioClient.h"/>
     <ClInclude Include="..\..\Source\TUIO\TuioContainer.h"/>
     <ClInclude Include="..\..\Source\TUIO\TuioCursor.h"/>

@@ -27,31 +27,39 @@ using namespace TUIO;
 
 
 
-TuioClient::TuioClient(Component * comp,int port)
+TuioClient::TuioClient(int port)
 :
 currentFrame(-1)
 , maxCursorID (-1)
-,parentComponent(comp)
 , locked      (false)
 , connected   (false)
+
 {
     
     if(!osc.connect(port)){
         jassertfalse;
     };
     osc.addListener(this);
+
 }
 
 TuioClient::~TuioClient() {
 	
 }
-
+void TuioClient::oscBundleReceived (const OSCBundle& bundle) {
+    for(int i = 0; i < bundle.size() ; i++){
+        if(bundle[i].isMessage()){
+            oscMessageReceived(bundle[i].getMessage());
+        }
+    }
+    
+}
 
 
 void TuioClient::oscMessageReceived (const OSCMessage& message)  {
     
     
-
+    
     if( message.getAddressPattern() == "/tuio/2Dcur" ) {
         String cmd;
         cmd = message[0].getString();
@@ -67,7 +75,7 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
             yspeed=message[5].getFloat32();
             maccel=message[6].getFloat32();
             
-
+            
             std::list<TuioCursor*>::iterator tcur;
             for (tcur=cursorList.begin(); tcur!= cursorList.end(); tcur++)
                 if((*tcur)->getSessionID()==(long)s_id) break;
@@ -79,25 +87,17 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
                 
             } else if ( ((*tcur)->getX()!=xpos) || ((*tcur)->getY()!=ypos) || ((*tcur)->getXSpeed()!=xspeed) || ((*tcur)->getYSpeed()!=yspeed) || ((*tcur)->getMotionAccel()!=maccel) ) {
                 
-                TuioCursor *updateCursor = new TuioCursor((long)s_id,(*tcur)->getCursorID(),xpos,ypos);
+                int id = (*tcur)->getCursorID();
+                TuioCursor *updateCursor = new TuioCursor((long)s_id,id,xpos,ypos);
                 updateCursor->update(xpos,ypos,xspeed,yspeed,maccel);
                 frameCursors.push_back(updateCursor);
                 
                 
-                Desktop::Displays::Display dis = Desktop::getInstance().getDisplays().getMainDisplay();
-
                 
-                if (ComponentPeer* const peer = parentComponent->getPeer())
-                    peer->handleMouseEvent ((*tcur)->getCursorID(),
-                                            peer->globalToLocal (Point<float>((*tcur)->getX()* dis.totalArea.getWidth(),
-                                                                              (*tcur)->getY()* dis.totalArea.getHeight()
-                                                                                                      ))
-                                            , 0,
-                                            MouseInputSource::invalidPressure, Time::currentTimeMillis());
                 
             }
             
-           
+            
             
             
         } else if (cmd=="alive") {
@@ -107,6 +107,7 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
                 aliveCursorList.push_back(message[i].getInt32());
             }
             
+
         } else if( cmd== "fseq"  ){
             
             int32 fseq;
@@ -122,7 +123,7 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
 			
             if (!lateFrame) {
                 
-//                lockCursorList();
+                //                lockCursorList();
                 // find the removed cursors first
                 for (std::list<TuioCursor*>::iterator tcur=cursorList.begin(); tcur != cursorList.end(); tcur++) {
                     std::list<long>::iterator iter = find(aliveCursorList.begin(), aliveCursorList.end(), (*tcur)->getSessionID());
@@ -132,7 +133,7 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
                         frameCursors.push_back(*tcur);
                     }
                 }
-//                unlockCursorList();
+                //                unlockCursorList();
                 
                 for (std::list<TuioCursor*>::iterator iter=frameCursors.begin(); iter != frameCursors.end(); iter++) {
                     TuioCursor *tcur = (*iter);
@@ -147,7 +148,7 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
                             for (std::list<TuioListener*>::iterator listener=listenerList.begin(); listener != listenerList.end(); listener++)
                                 (*listener)->removeTuioCursor(frameCursor);
                             
-//                            lockCursorList();
+                            //                            lockCursorList();
                             for (std::list<TuioCursor*>::iterator delcur=cursorList.begin(); delcur!=cursorList.end(); delcur++) {
                                 if((*delcur)->getSessionID()==frameCursor->getSessionID()) {
                                     cursorList.erase(delcur);
@@ -185,11 +186,11 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
                                 freeCursorList.push_back(frameCursor);
                             }
                             
-//                            unlockCursorList();
+                            //                            unlockCursorList();
                             break;
                         case TUIO_ADDED:
                             
-//                            lockCursorList();
+                            //                            lockCursorList();
                             c_id = (int)cursorList.size();
                             if (((int)(cursorList.size())<=maxCursorID) && ((int)(freeCursorList.size())>0)) {
                                 std::list<TuioCursor*>::iterator closestCursor = freeCursorList.begin();
@@ -208,15 +209,16 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
                             cursorList.push_back(frameCursor);
                             
                             delete tcur;
-//                            unlockCursorList();
+                            //                            unlockCursorList();
                             
-                            for (std::list<TuioListener*>::iterator listener=listenerList.begin(); listener != listenerList.end(); listener++)
+                            for (std::list<TuioListener*>::iterator listener=listenerList.begin(); listener != listenerList.end(); listener++){
                                 (*listener)->addTuioCursor(frameCursor);
+                            }
                             
                             break;
                         default:
                             
-//                            lockCursorList();
+                            //                            lockCursorList();
                             std::list<TuioCursor*>::iterator iter;
                             for (iter=cursorList.begin(); iter != cursorList.end(); iter++) {
                                 if((*iter)->getSessionID()==tcur->getSessionID()) {
@@ -231,11 +233,11 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
                                 frameCursor->update(currentTime,tcur->getX(),tcur->getY(),tcur->getXSpeed(),tcur->getYSpeed(),tcur->getMotionAccel());
                             
                             delete tcur;
-//                            unlockCursorList();
+                            //                            unlockCursorList();
                             
                             for (std::list<TuioListener*>::iterator listener=listenerList.begin(); listener != listenerList.end(); listener++)
                                 (*listener)->updateTuioCursor(frameCursor);
-                    }	
+                    }
                 }
                 
                 for (std::list<TuioListener*>::iterator listener=listenerList.begin(); listener != listenerList.end(); listener++)
@@ -372,24 +374,24 @@ void TuioClient::oscMessageReceived (const OSCMessage& message)  {
         //                            else
         //                                frameObject->update(currentTime,tobj->getX(),tobj->getY(),tobj->getAngle(),tobj->getXSpeed(),tobj->getYSpeed(),tobj->getRotationSpeed(),tobj->getMotionAccel(),tobj->getRotationAccel());
         //                            unlockObjectList();
-        //                            
+        //
         //                            for (std::list<TuioListener*>::iterator listener=listenerList.begin(); listener != listenerList.end(); listener++)
         //                                (*listener)->updateTuioObject(frameObject);
-        //                            
+        //
         //                    }
         //                    delete tobj;
         //                }
-        //                
+        //
         //                for (std::list<TuioListener*>::iterator listener=listenerList.begin(); listener != listenerList.end(); listener++)
         //                    (*listener)->refresh(currentTime);
-        //                
+        //
         //            } else {
         //                for (std::list<TuioObject*>::iterator iter=frameObjects.begin(); iter != frameObjects.end(); iter++) {
         //                    TuioObject *tobj = (*iter);
         //                    delete tobj;
         //                }
         //            }
-        //            
+        //
         //            frameObjects.clear();
         //        }
     }
@@ -408,40 +410,40 @@ void TuioClient::removeTuioListener(TuioListener *listener) {
 }
 
 TuioObject* TuioClient::getTuioObject(long s_id) {
-//	lockObjectList();
+    //	lockObjectList();
 	for (std::list<TuioObject*>::iterator iter=objectList.begin(); iter != objectList.end(); iter++) {
 		if((*iter)->getSessionID()==s_id) {
-//			unlockObjectList();
+            //			unlockObjectList();
 			return (*iter);
 		}
-	}	
-//	unlockObjectList();
+	}
+    //	unlockObjectList();
 	return NULL;
 }
 
 TuioCursor* TuioClient::getTuioCursor(long s_id) {
-//	lockCursorList();
+    //	lockCursorList();
 	for (std::list<TuioCursor*>::iterator iter=cursorList.begin(); iter != cursorList.end(); iter++) {
 		if((*iter)->getSessionID()==s_id) {
-//			unlockCursorList();
+            //			unlockCursorList();
 			return (*iter);
 		}
 	}	
-//	unlockCursorList();
+    //	unlockCursorList();
 	return NULL;
 }
 
 std::list<TuioObject*> TuioClient::getTuioObjects() {
-//	lockObjectList();
+    //	lockObjectList();
 	std::list<TuioObject*> listBuffer = objectList;
-//	unlockObjectList();
+    //	unlockObjectList();
 	return listBuffer;
 }
 
 std::list<TuioCursor*> TuioClient::getTuioCursors() {
-//	lockCursorList();
+    //	lockCursorList();
 	std::list<TuioCursor*> listBuffer = cursorList;
-//	unlockCursorList();
+    //	unlockCursorList();
 	return listBuffer;
 }
 

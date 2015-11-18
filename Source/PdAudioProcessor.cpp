@@ -99,7 +99,7 @@ void PdAudioProcessor::updateProcessorParameters(){
 
 const String PdAudioProcessor::getName() const
 {
-    return JucePlugin_Name;
+    return PdParamGetter::getPdRootName();
 }
 
 const String PdAudioProcessor::getInputChannelName (int channelIndex) const

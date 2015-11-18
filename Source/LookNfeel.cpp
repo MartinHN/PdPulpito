@@ -60,7 +60,7 @@ namespace LookAndFeelHelpers
 LookNFeel::LookNFeel()
 {
     // initialise the standard set of colours..
-    const uint32 textButtonColour      = 0xffbbbbff;
+    const uint32 textButtonColour      = 0xff000000;
     const uint32 textHighlightColour   = 0x401111ee;
     const uint32 standardOutlineColour = 0xb2808080;
     

@@ -108,7 +108,7 @@ private:
     
     DAWInfo dawInfo;
     void sendDawInfo();
-    bool canRestore = true;
+    bool canRestore = false;
    int maximumParameterCount = 0;
 
 

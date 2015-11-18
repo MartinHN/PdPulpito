@@ -352,6 +352,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\TUIO\TUIOComponent.cpp">
+      <Filter>PdPulpito\Source\TUIO</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\TUIO\TuioClient.cpp">
       <Filter>PdPulpito\Source\TUIO</Filter>
     </ClCompile>
@@ -2478,6 +2481,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\TUIO\TUIOComponent.h">
+      <Filter>PdPulpito\Source\TUIO</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\TUIO\TuioClient.h">
       <Filter>PdPulpito\Source\TUIO</Filter>
     </ClInclude>

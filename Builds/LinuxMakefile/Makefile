@@ -49,6 +49,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/TUIOComponent_1dd8f317.o \
   $(OBJDIR)/TuioClient_a232f55b.o \
   $(OBJDIR)/TuioTime_7ee25e1d.o \
   $(OBJDIR)/PdBase_917893ee.o \
@@ -372,6 +373,11 @@ clean:
 strip:
 	@echo Stripping PdPulpito
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/TUIOComponent_1dd8f317.o: ../../Source/TUIO/TUIOComponent.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling TUIOComponent.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/TuioClient_a232f55b.o: ../../Source/TUIO/TuioClient.cpp
 	-@mkdir -p $(OBJDIR)

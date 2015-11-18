@@ -15,7 +15,6 @@
 class PdParamGetter {
     public :
 
-    void readPatch(File & patchFile);
     void getParameterDescsFromPatch(File & patchfile);
 
 //    Array<int> connectedToOutlet(int objNum,int outNum);
@@ -66,8 +65,8 @@ class PdParamGetter {
     int getNumGUI();
     int getNumParamforGUI(int guiNum);
     Rectangle<int> getBoundOfGui(int guiNum);
-    
-    
+    String    PdRootName;
+    String getPdRootName() const {if(PdRootName==""){jassertfalse;}return PdRootName;}
     
     
     

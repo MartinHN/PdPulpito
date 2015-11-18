@@ -25,12 +25,14 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     pulpParameterDescs.clear();
     localParamCount =0;
     GUINumParams.clear();
+    PdRootName = patchfile.getFileName();
     
     juce::StringArray destLines;
 
     File f = File(patchfile.getParentDirectory().getChildFile("gui.pd"));
     guiFiles.add(f);
     if(!guiFiles[0].exists()){
+        jassertfalse;
         return;
     }
     
@@ -241,6 +243,8 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                     else{
                         found = false;
                     }
+                    
+                    
                     
                     if(region.getWidth()>0 && !region.contains(p->getX(),p->getY())){
                         DBG("dropping component out of scope");

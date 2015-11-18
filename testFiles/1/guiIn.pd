@@ -1,14 +1,14 @@
-#N canvas 470 57 1317 824 10;
-#X obj 53 188 hsl 128 65 0 2 0 0 horizontal empty horizontal -2 0 0
+#N canvas 625 241 653 323 10;
+#X obj 46 187 hsl 128 65 0 2 0 0 horizontal empty horizontal -2 0 0
 10 -4032 -1 -1 0 1;
-#X obj 110 93 tgl 15 0 toggle empty toggle 17 7 0 10 -262144 -1 -1
+#X obj 123 124 tgl 15 0 toggle empty toggle 17 7 0 10 -262144 -1 -1
 0 1;
 #X obj 194 187 hsl 128 65 0 2 0 0 horizontal empty horizontal -2 -8
 0 10 -4032 -1 -1 0 1;
 #X obj 15 112 cnv 15 100 60 empty empty canvas 20 10 0 14 -261234 -4034
 0;
-#X obj 193 36 vsl 65 128 0 6 0 0 param2 empty vertical 0 0 0 10 -262144
+#X obj 169 130 vsl 65 128 0 6 0 0 param2 empty vertical 0 0 0 10 -262144
 -260097 -4032 0 1;
 #X obj 32 81 flatgui/knob 60 60 0 400 0 0 param2 empty knob 0 -8 0
 8 -262144 -1 -1 0 1;
-#X obj 331 59 guiIn;
+#X coords 0 -1 1 1 285 260 1 100 100;

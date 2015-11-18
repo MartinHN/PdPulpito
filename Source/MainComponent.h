@@ -8,14 +8,17 @@
 #include "PdAudioProcessor.h"
 #include "PdAudioProcessorEditor.h"
 #include "LookNfeel.h"
-#include "TUIO/TuioClient.h"
+#include "TuioClient.h"
+#include "TuioListener.h"
+#include "TUIOComponent.h"
 
 
-
+using namespace TUIO;
 
 class MainComponent  : public AudioProcessorEditor,
                        public Timer,
-                       public ButtonListener
+                       public ButtonListener,
+                        public TUIOComponent
 
 {
 public:
@@ -29,12 +32,11 @@ public:
     void resized();
     void buttonClicked (Button* buttonThatWasClicked);
 
-    
 
 private:
 
     void timerCallback();
-    TUIO::TuioClient TUIOClient;
+    
 
     PdAudioProcessorEditor pdEditor;
     ScopedPointer<TextButton> findButton;
