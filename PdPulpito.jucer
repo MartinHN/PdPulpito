@@ -10,7 +10,7 @@
               pluginAUExportPrefix="PdPulpAU" pluginRTASCategory="" aaxIdentifier="com.mhermant.pulpito"
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.0.1"
               companyName="mhermant" companyWebsite="github.com/martinHN" companyEmail=""
-              defines="ZEXY_LIBRARY">
+              defines="ZEXY_LIBRARY&#10;MAXLIB">
   <MAINGROUP id="bHW1xW" name="PdPulpito">
     <GROUP id="{F7E3C56F-7CAF-CB35-5672-4BC60FA8EA87}" name="Source">
       <GROUP id="{43A75B83-F8BC-0373-9643-94AEFBC61E84}" name="TUIO">
@@ -47,6 +47,71 @@
         <FILE id="lhlU4G" name="LookNfeel.h" compile="0" resource="0" file="Source/LookNfeel.h"/>
       </GROUP>
       <GROUP id="{5D7D6ED1-0423-E120-9857-5660E502F63B}" name="externals">
+        <GROUP id="{7BCF36F9-84BD-A05A-FA73-38932E67C6A3}" name="maxlib">
+          <FILE id="feUMOf" name="allow.c" compile="1" resource="0" file="../pd/externals/maxlib/allow.c"/>
+          <FILE id="JzWrfI" name="arbran.c" compile="1" resource="0" file="../pd/externals/maxlib/arbran.c"/>
+          <FILE id="JybO2W" name="arraycopy.c" compile="1" resource="0" file="../pd/externals/maxlib/arraycopy.c"/>
+          <FILE id="qkrMgt" name="average.c" compile="1" resource="0" file="../pd/externals/maxlib/average.c"/>
+          <FILE id="kGpig8" name="beat.c" compile="1" resource="0" file="../pd/externals/maxlib/beat.c"/>
+          <FILE id="idCXJt" name="beta.c" compile="1" resource="0" file="../pd/externals/maxlib/beta.c"/>
+          <FILE id="O8HKnD" name="bilex.c" compile="1" resource="0" file="../pd/externals/maxlib/bilex.c"/>
+          <FILE id="HitZVU" name="borax.c" compile="1" resource="0" file="../pd/externals/maxlib/borax.c"/>
+          <FILE id="srdgLn" name="cauchy.c" compile="1" resource="0" file="../pd/externals/maxlib/cauchy.c"/>
+          <FILE id="izoJQ9" name="chord.c" compile="1" resource="0" file="../pd/externals/maxlib/chord.c"/>
+          <FILE id="UJua2Z" name="delta.c" compile="1" resource="0" file="../pd/externals/maxlib/delta.c"/>
+          <FILE id="CD2En5" name="deny.c" compile="1" resource="0" file="../pd/externals/maxlib/deny.c"/>
+          <FILE id="lJzl1H" name="dist.c" compile="1" resource="0" file="../pd/externals/maxlib/dist.c"/>
+          <FILE id="VwD9p4" name="divide.c" compile="1" resource="0" file="../pd/externals/maxlib/divide.c"/>
+          <FILE id="QARzc9" name="divmod.c" compile="1" resource="0" file="../pd/externals/maxlib/divmod.c"/>
+          <FILE id="fE2gd4" name="edge.c" compile="1" resource="0" file="../pd/externals/maxlib/edge.c"/>
+          <FILE id="fW2c6S" name="expo.c" compile="1" resource="0" file="../pd/externals/maxlib/expo.c"/>
+          <FILE id="k2YFq3" name="fifo.c" compile="1" resource="0" file="../pd/externals/maxlib/fifo.c"/>
+          <FILE id="MQl3GM" name="gauss.c" compile="1" resource="0" file="../pd/externals/maxlib/gauss.c"/>
+          <FILE id="S2KkOK" name="gestalt.c" compile="1" resource="0" file="../pd/externals/maxlib/gestalt.c"/>
+          <FILE id="giqMyx" name="history.c" compile="1" resource="0" file="../pd/externals/maxlib/history.c"/>
+          <FILE id="jRFlsC" name="ignore.c" compile="1" resource="0" file="../pd/externals/maxlib/ignore.c"/>
+          <FILE id="Ps2feT" name="iso.c" compile="1" resource="0" file="../pd/externals/maxlib/iso.c"/>
+          <FILE id="KY4eLg" name="lifo.c" compile="1" resource="0" file="../pd/externals/maxlib/lifo.c"/>
+          <FILE id="xeTL9O" name="limit.c" compile="1" resource="0" file="../pd/externals/maxlib/limit.c"/>
+          <FILE id="gcsza4" name="linear.c" compile="1" resource="0" file="../pd/externals/maxlib/linear.c"/>
+          <FILE id="d5u0gL" name="listfifo.c" compile="1" resource="0" file="../pd/externals/maxlib/listfifo.c"/>
+          <FILE id="RbtiTH" name="listfunnel.c" compile="1" resource="0" file="../pd/externals/maxlib/listfunnel.c"/>
+          <FILE id="LF9BLG" name="match.c" compile="1" resource="0" file="../pd/externals/maxlib/match.c"/>
+          <FILE id="kW1D2W" name="maxlib.c" compile="1" resource="0" file="../pd/externals/maxlib/maxlib.c"/>
+          <FILE id="XynBan" name="minus.c" compile="1" resource="0" file="../pd/externals/maxlib/minus.c"/>
+          <FILE id="j87TF5" name="mlife.c" compile="1" resource="0" file="../pd/externals/maxlib/mlife.c"/>
+          <FILE id="qjBQIt" name="multi.c" compile="1" resource="0" file="../pd/externals/maxlib/multi.c"/>
+          <FILE id="vjX80L" name="nchange.c" compile="1" resource="0" file="../pd/externals/maxlib/nchange.c"/>
+          <FILE id="WbSnCx" name="netclient.c" compile="1" resource="0" file="../pd/externals/maxlib/netclient.c"/>
+          <FILE id="ohBrgT" name="netdist.c" compile="1" resource="0" file="../pd/externals/maxlib/netdist.c"/>
+          <FILE id="LDfNNx" name="netrec.c" compile="1" resource="0" file="../pd/externals/maxlib/netrec.c"/>
+          <FILE id="S3oJO6" name="netserver.c" compile="1" resource="0" file="../pd/externals/maxlib/netserver.c"/>
+          <FILE id="aLbBy5" name="nroute.c" compile="1" resource="0" file="../pd/externals/maxlib/nroute.c"/>
+          <FILE id="HzkxQ3" name="pitch.c" compile="1" resource="0" file="../pd/externals/maxlib/pitch.c"/>
+          <FILE id="sEHzVr" name="plus.c" compile="1" resource="0" file="../pd/externals/maxlib/plus.c"/>
+          <FILE id="rikTew" name="poisson.c" compile="1" resource="0" file="../pd/externals/maxlib/poisson.c"/>
+          <FILE id="SSYeoU" name="pong.c" compile="1" resource="0" file="../pd/externals/maxlib/pong.c"/>
+          <FILE id="nObtzy" name="pulse.c" compile="1" resource="0" file="../pd/externals/maxlib/pulse.c"/>
+          <FILE id="ItlLV5" name="remote.c" compile="1" resource="0" file="../pd/externals/maxlib/remote.c"/>
+          <FILE id="ejfDqw" name="rewrap.c" compile="1" resource="0" file="../pd/externals/maxlib/rewrap.c"/>
+          <FILE id="K6dGmN" name="rhythm.c" compile="1" resource="0" file="../pd/externals/maxlib/rhythm.c"/>
+          <FILE id="YGwwPI" name="scale.c" compile="1" resource="0" file="../pd/externals/maxlib/scale.c"/>
+          <FILE id="DWOJWv" name="score.c" compile="1" resource="0" file="../pd/externals/maxlib/score.c"/>
+          <FILE id="bTcUyf" name="speedlim.c" compile="1" resource="0" file="../pd/externals/maxlib/speedlim.c"/>
+          <FILE id="W6pYgO" name="split.c" compile="1" resource="0" file="../pd/externals/maxlib/split.c"/>
+          <FILE id="Hwf0gQ" name="step.c" compile="1" resource="0" file="../pd/externals/maxlib/step.c"/>
+          <FILE id="XoWzpn" name="subst.c" compile="1" resource="0" file="../pd/externals/maxlib/subst.c"/>
+          <FILE id="dbfqBr" name="sync.c" compile="1" resource="0" file="../pd/externals/maxlib/sync.c"/>
+          <FILE id="ogVjRG" name="temperature.c" compile="1" resource="0" file="../pd/externals/maxlib/temperature.c"/>
+          <FILE id="t9ECKT" name="tilt.c" compile="1" resource="0" file="../pd/externals/maxlib/tilt.c"/>
+          <FILE id="TiOfv5" name="timebang.c" compile="1" resource="0" file="../pd/externals/maxlib/timebang.c"/>
+          <FILE id="SXDCaU" name="triang.c" compile="1" resource="0" file="../pd/externals/maxlib/triang.c"/>
+          <FILE id="JMYGEu" name="unroute.c" compile="1" resource="0" file="../pd/externals/maxlib/unroute.c"/>
+          <FILE id="A7NSHf" name="urn.c" compile="1" resource="0" file="../pd/externals/maxlib/urn.c"/>
+          <FILE id="fIUAcM" name="velocity.c" compile="1" resource="0" file="../pd/externals/maxlib/velocity.c"/>
+          <FILE id="xWFxtq" name="weibull.c" compile="1" resource="0" file="../pd/externals/maxlib/weibull.c"/>
+          <FILE id="AoHhZQ" name="wrap.c" compile="1" resource="0" file="../pd/externals/maxlib/wrap.c"/>
+        </GROUP>
         <GROUP id="{E61AD9F8-CD17-9637-1001-825361651097}" name="cyclone">
           <FILE id="kwOp3z" name="build_counter" compile="0" resource="1" file="Source/externals/cyclone/build_counter"/>
           <GROUP id="{E1BB1704-E3E8-5615-5ACD-426B6AEAAEC5}" name="hammer">
@@ -403,6 +468,8 @@
           </GROUP>
         </GROUP>
       </GROUP>
+      <FILE id="n7hacJ" name="PdGUICanvas.cpp" compile="1" resource="0" file="Source/PdGUICanvas.cpp"/>
+      <FILE id="BlxYcz" name="PdGUICanvas.h" compile="0" resource="0" file="Source/PdGUICanvas.h"/>
       <FILE id="tiQXB4" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="MSXKzP" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
@@ -430,7 +497,7 @@
                extraDefs="MACOSX&#10;" vst3Folder="" prebuildCommand="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="64BitUniversal"
-                       isDebug="1" optimisation="1" targetName="PdPulpito" headerPath="../../../libpd/pure-data/src&#10;../../../libpd/libpd_wrapper&#10;../../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
+                       isDebug="1" optimisation="1" targetName="PdPulpito" headerPath="../../../libpd/pure-data/src&#10;../../../libpd/libpd_wrapper&#10;../../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared&#10;/usr/include"
                        libraryPath="$(LIBPD)" customXcodeFlags="LIBPD=/Users/mhermant/Documents/Work/Dev/libpd/libs, ONLY_ACTIVE_ARCH=true"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="32BitUniversal"
                        isDebug="0" optimisation="3" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"

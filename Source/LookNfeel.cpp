@@ -1553,9 +1553,9 @@ Slider::SliderLayout LookNFeel::getSliderLayout (Slider& slider)
     Slider::TextEntryBoxPosition textBoxPos = slider.getTextBoxPosition();
     
     if (textBoxPos == Slider::TextBoxLeft || textBoxPos == Slider::TextBoxRight)
-        minXSpace = 30;
+        minXSpace = 10;
     else
-        minYSpace = 15;
+        minYSpace = 5;
     
     Rectangle<int> localBounds = slider.getLocalBounds();
     

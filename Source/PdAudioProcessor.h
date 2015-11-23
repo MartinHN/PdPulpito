@@ -81,7 +81,6 @@ public:
     
     
     File patchfile;
-    void clearParameters();
     // TODO : better Hack for loading Patch in audiothread
     
     int needsToReopenPatch = -1;
@@ -108,7 +107,7 @@ private:
     
     DAWInfo dawInfo;
     void sendDawInfo();
-    bool canRestore = true;
+    bool canRestore = false;
    int maximumParameterCount = 0;
 
 

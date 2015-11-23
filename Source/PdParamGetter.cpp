@@ -78,7 +78,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
         
         if(l[0] == "#X") {
             
-            if( l[1] == "obj"){
+            if( l[1] == "obj" || l[1] == "text"){
                 
                 if(l.size()>4){
                     String pdType = l[4];
@@ -92,7 +92,30 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         pdType = pdType.substring(8);
                     }
                     
-                    if(pdType == "nbx" || pdType == "knob" || pdType == "bng" || pdType == "vsl"|| pdType == "hsl"){
+                    
+                    
+                    if (l[1] == "text"){
+                        p->type=PulpParameterDesc::CNV;
+                        String name = "";
+                        for(int i = 4 ; i < l.size() ; i++){
+                            name.append(l[i].replaceCharacters("\\","") + " ", 200);
+                        }
+                        
+                        p->labelName = name;
+                        p->name = name;
+                        p->hasLabel = true;
+                        p->labelSize = 13;
+                        p->setBounds(l[2].getFloatValue(),
+                                     l[3].getFloatValue()+p->labelSize,
+                                     name.length() * p->labelSize,
+                                     p->labelSize);
+                        p->labelRect.setBounds(0,
+                                               0,
+                                               (name.length()*p->labelSize),
+                                               (p->labelSize));
+                    
+                    }
+                    else if(pdType == "nbx" || pdType == "knob" ||  pdType == "vsl"|| pdType == "hsl"){
                         p->hasLabel = l[13]!="empty";
                         p->labelName = l[13];
                         p->min = l[7].getFloatValue();
@@ -158,18 +181,40 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         
                         
                     }
-                    else if(pdType == "bng"){
-                        p->type = PulpParameterDesc::BANG;
+                    else if (pdType == "vradio" || pdType == "hradio"){
+                        p->type = pdType == "vradio"?PulpParameterDesc::VRADIO:PulpParameterDesc::HRADIO;
                         p->hasLabel = l[9]!="empty";
                         p->labelName =  l[9];
-                        p->name = l[7];
+                        p->name = l[9];
                         p->labelSize = l[13].getFloatValue();
+                        int size = l[8].getIntValue();
+                        int w = l[5].getFloatValue();
+                        for(int i = 0 ; i < size ; i++){
+                            p->elements.add(String(i));
+                        }
+                        p->setBounds(l[2].getFloatValue(),
+                                     l[3].getFloatValue(),
+                                     pdType == "vradio"?w:size *w,
+                                     pdType == "vradio"?w*size:w);
+                        p->labelRect.setBounds((l[10].getFloatValue()),
+                                               (l[11].getFloatValue()),
+                                               (p->name.length()*p->labelSize),
+                                               (p->labelSize));
+                        
+                        
+                    }
+                    else if(pdType == "bng"){
+                        p->type = PulpParameterDesc::BANG;
+                        p->hasLabel = l[11]!="empty";
+                        p->labelName =  l[11];
+                        p->name = l[11];
+                        p->labelSize = l[15].getFloatValue();
                         p->setBounds(l[2].getFloatValue(),
                                      l[3].getFloatValue(),
                                      l[5].getFloatValue(),
                                      l[5].getFloatValue());
-                        p->labelRect.setBounds((l[10].getFloatValue()),
-                                               (l[11].getFloatValue()),
+                        p->labelRect.setBounds((l[12].getFloatValue()),
+                                               (l[13].getFloatValue()),
                                                (p->name.length()*p->labelSize),
                                                (p->labelSize));
                         
@@ -225,7 +270,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         
                         Array<StringArray> parsedText = parseText(destlines,false);
                         
-                        if(parsedText.getLast().size()> 8 && parsedText.getLast()[1] == "coords" && parsedText.getLast()[8].getIntValue() == 1){
+                        if(parsedText.getLast().size()> 8 && parsedText.getLast()[1] == "coords" && parsedText.getLast()[8].getIntValue() > 0){
                             Rectangle<int> Nregion;
                             Nregion.setBounds(parsedText.getLast()[9].getIntValue(),
                                               parsedText.getLast()[10].getIntValue(),
@@ -236,7 +281,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                             
                             
                         }
-                        
+                        found = false;
                         
                         
                     }
@@ -247,7 +292,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                     
                     
                     if(region.getWidth()>0 && !region.contains(p->getX(),p->getY())){
-                        DBG("dropping component out of scope");
+//                        DBG("dropping component out of scope");
                         found = false;
                     }
                     if(found){
@@ -261,6 +306,12 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                                      p->labelRect.getWidth()/patchRect.getWidth(),
                                      p->labelRect.getHeight()/patchRect.getHeight());
                         DBG("adding p " << p->name << " at "<< ((Rectangle<float>)*p).toString());
+                        if(p->name==""){
+                            for(auto ll:l){
+                                DBGN(ll);
+                            }
+                            DBG("");
+                        }
                         
                         p->processorIdx = localParamCount;
                         localParamCount++;
@@ -268,7 +319,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                     }
                     else{
                         delete p;
-                        DBG( "not found gui object for type " << pdType );
+//                        DBG( "not found gui object for type " << pdType );
                     }
                 }
                 
@@ -290,15 +341,17 @@ return guiFiles[0].getParentDirectory().getChildFile(sub+".pd");
 Array<StringArray>  PdParamGetter::parseText(StringArray destLines,bool isRootGUI){
     String concatL = "";
     Array<StringArray> curA;
-    Rectangle<int> patchRect;
+    
+    bool firstLine = true;
     for(auto  l : destLines){
         concatL +=l;
         concatL+=" ";
         if(l.endsWith(";")){
             juce::StringArray curS ;
             curS.addTokens (concatL," ;","");
-            if(curS[0] == "#N" && curS[1] == "canvas"){
-                patchRect.setSize(curS[4].getIntValue(),curS[5].getIntValue());
+            if(firstLine && isRootGUI && curS[0] == "#N" && curS[1] == "canvas"){
+                Rectangle<int> patchRect(0,0,curS[4].getIntValue(),curS[5].getIntValue());
+                guiSizes.add(patchRect);
                 
             }
             if(curS[0]=="#X"){
@@ -307,9 +360,10 @@ Array<StringArray>  PdParamGetter::parseText(StringArray destLines,bool isRootGU
             }
             concatL.clear();
         }
+        firstLine = false;
     }
     
-    if(isRootGUI)guiSizes.add(patchRect);
+    
     return curA;
 }
 

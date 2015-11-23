@@ -23,7 +23,7 @@ public:
     void setBackColour(Colour b){
         *backColour = b;
     };
-
+    void setLabelVisible(bool v);
     
     
     ScopedPointer<Colour> backColour;

@@ -20,6 +20,9 @@
     <Filter Include="PdPulpito\Source\externals">
       <UniqueIdentifier>{7FECB94B-F2FB-3AB0-2779-E8352CFE7300}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PdPulpito\Source\externals\maxlib">
+      <UniqueIdentifier>{7B6D8F74-42A9-DE6E-3BCB-CF6E02E3B950}</UniqueIdentifier>
+    </Filter>
     <Filter Include="PdPulpito\Source\externals\cyclone">
       <UniqueIdentifier>{E8D37C0A-2A4B-8C92-A8D0-0A4400C6D3F3}</UniqueIdentifier>
     </Filter>
@@ -375,6 +378,195 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\LookNfeel.cpp">
       <Filter>PdPulpito\Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\allow.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\arbran.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\arraycopy.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\average.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\beat.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\beta.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\bilex.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\borax.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\cauchy.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\chord.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\delta.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\deny.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\dist.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\divide.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\divmod.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\edge.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\expo.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\fifo.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\gauss.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\gestalt.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\history.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\ignore.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\iso.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\lifo.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\limit.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\linear.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\listfifo.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\listfunnel.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\match.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\maxlib.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\minus.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\mlife.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\multi.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\nchange.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\netclient.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\netdist.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\netrec.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\netserver.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\nroute.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\pitch.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\plus.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\poisson.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\pong.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\pulse.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\remote.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\rewrap.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\rhythm.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\scale.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\score.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\speedlim.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\split.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\step.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\subst.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\sync.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\temperature.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\tilt.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\timebang.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\triang.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\unroute.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\urn.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\velocity.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\weibull.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pd\externals\maxlib\wrap.c">
+      <Filter>PdPulpito\Source\externals\maxlib</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\accum.c">
       <Filter>PdPulpito\Source\externals\cyclone\hammer</Filter>
@@ -1215,6 +1407,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\externals\zexy\src\zexy.c">
       <Filter>PdPulpito\Source\externals\zexy\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PdGUICanvas.cpp">
+      <Filter>PdPulpito\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>PdPulpito\Source</Filter>
@@ -2630,6 +2825,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\externals\zexy\src\zexySIMD.h">
       <Filter>PdPulpito\Source\externals\zexy\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PdGUICanvas.h">
+      <Filter>PdPulpito\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MainComponent.h">
       <Filter>PdPulpito\Source</Filter>

@@ -34,7 +34,6 @@ PdAudioProcessor::PdAudioProcessor()
 PdAudioProcessor::~PdAudioProcessor()
 {
     pd = nullptr;
-    
 
 }
 
@@ -50,6 +49,7 @@ void PdAudioProcessor::loadFromGUI(){
     PdParamGetter::getParameterDescsFromPatch(patchfile);
     setParametersFromDescs();
     updateProcessorParameters();
+    
 }
 
 
@@ -57,8 +57,7 @@ void PdAudioProcessor::loadFromGUI(){
 void PdAudioProcessor::setParametersFromDescs(){
     // hack to allow to reload parameters on the go
     // allow to add new or replace param as the host may need to keep same pointers
-    
-    pdParameters.clear();
+
     
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
         if(maximumParameterCount<=i){
@@ -180,8 +179,8 @@ void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 //    needsToReopenPatch = sampleRate;
+//    loadFromGUI();
     reloadPdPatch(sampleRate);
-    
     
 }
 
@@ -292,11 +291,14 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
         len -= max;
     }
     
+    //   send daw info if needed
+    sendDawInfo();
+    
+    
     midiMessages = getMidiBuffer();
     
     
-    //   send daw info if needed
-    sendDawInfo();
+
     
 }
 
@@ -310,10 +312,11 @@ void PdAudioProcessor::sendDawInfo(){
             DBG("set bpm : " << dawInfo.tempo);
         }
         int newBeat = (int)(currentPositionInfo.ppqPosition*currentPositionInfo.timeSigNumerator);
+//        DBG("ppq " <<currentPositionInfo.ppqPosition <<","<< currentPositionInfo.timeInSeconds << "," << dawInfo.beat );;
         if(dawInfo.beat != newBeat){
             dawInfo.beat = newBeat;
             pd->sendFloat("pulp_beat",dawInfo.beat);
-//            DBG("ppq " << dawInfo.beat );;
+            
         }
     }
 }

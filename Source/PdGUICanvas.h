@@ -15,6 +15,7 @@
 
 #include "SendSlider.h"
 #include "SendToggle.h"
+#include "SendRadio.h"
 #include "PdAudioProcessor.h"
 
 class PdGUICanvas : public AudioProcessorEditor{
@@ -80,8 +81,20 @@ public:
                 addAndMakeVisible(c);
                 ((SendSlider*)c)->lookAndFeelChanged();
             }
-            else if(param->type == PdParamGetter::PulpParameterDesc::TOGGLE){
+            else if(param->type == PdParamGetter::PulpParameterDesc::TOGGLE || param->type ==PdParamGetter::PulpParameterDesc::BANG){
                 c =new SendToggle(param->processorIdx,*p);
+                addAndMakeVisible(c);
+                ((SendToggle*)c)->lookAndFeelChanged();
+                
+            }
+            else if( param->type == PdParamGetter::PulpParameterDesc::VRADIO ){
+                c =new SendRadio(param->processorIdx,*p,param->elements.size(),SendRadio::VERTICAL);
+                addAndMakeVisible(c);
+                ((SendToggle*)c)->lookAndFeelChanged();
+                
+            }
+            else if( param->type == PdParamGetter::PulpParameterDesc::HRADIO ){
+                c =new SendRadio(param->processorIdx,*p,param->elements.size(),SendRadio::HORIZONTAL);
                 addAndMakeVisible(c);
                 ((SendToggle*)c)->lookAndFeelChanged();
                 
@@ -99,6 +112,7 @@ public:
                 c->labelSize = param->labelSize;
                 
                 c->setName(param->labelName);
+                c->setLabelVisible(param->hasLabel);
                 p->setParameterName(param->processorIdx, param->name);
                 juce_Components.add(c);
                 
@@ -112,7 +126,11 @@ public:
                
             }
             else{
-                DBG( "no viable parameters for "<<param->name);;;
+                delete c;
+
+                DBG( "no viable parameters for "<<param->name);
+                // for now, only accept drawed component
+                jassertfalse;
                 
             }
         }
@@ -145,14 +163,8 @@ public:
                               getHeight()* param->getY(),
                               getWidth() * param->getWidth() ,
                               getHeight()* param->getHeight()
-                              )
-                ;
+                              );
                 c->LabelComponent::resized();
-                
-                
-                //        DBG( " resizing UI : " << c->getName() <<  " : " <<
-                //            ((SendSlider*)c)->labelRelPos.toString() << " / "
-                //            << c->getBounds().toString() );;
             }
             idx++;
         }

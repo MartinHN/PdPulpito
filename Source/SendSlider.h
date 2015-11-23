@@ -107,6 +107,7 @@ public:
     
     void resizeComponent(){
         getSlider()->setTextBoxStyle (Slider::TextBoxAbove, true, component->getWidth() , component->getHeight());
+        getSlider()->lookAndFeelChanged();
     
     };
     void sliderValueChanged (Slider* sliderThatWasMoved){

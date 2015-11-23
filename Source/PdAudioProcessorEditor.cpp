@@ -47,6 +47,7 @@ void PdAudioProcessorEditor::setCanvasVisible(int idx){
     
     showedCanvas = idx;
     setSize(PdCanvas[idx]->getWidth(),PdCanvas[idx]->getHeight());
+    DBG2(PdCanvas[idx]->getWidth(),PdCanvas[idx]->getHeight());
     getParentComponent()->setBounds(getBounds().getUnion(getParentComponent()->getBounds()));
 }
 

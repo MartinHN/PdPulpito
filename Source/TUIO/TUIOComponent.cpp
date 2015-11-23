@@ -69,8 +69,20 @@ void TUIOComponent::updateTuioCursor(TuioCursor *tcur){
 
 
 void TUIOComponent::removeTuioCursor(TuioCursor *tcur){
-    Point<float>dummy(0,0);
-    drawCursor(tcur, dummy, drawCmd::REMOVE);
+    if (parentComponent)
+        if(ComponentPeer* const peer = parentComponent->getPeer()){
+            Point<float> global = getScreenPos(tcur);
+            Point<float> local = peer->globalToLocal (global);
+            DBG("Mouse " << (tcur)->getCursorID() << " :" << local.toString() <<"," <<  global.toString());
+            
+            peer->handleMouseEvent ((tcur)->getCursorID()+TUIOTOUCH0,
+                                    local
+                                    , 0,
+                                    MouseInputSource::invalidPressure, Time::currentTimeMillis());
+            
+            drawCursor(tcur, local, drawCmd::REMOVE);
+        }
+
     
 }
 
@@ -105,6 +117,9 @@ void TUIOComponent::drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd){
             shape.addEllipse(pos.getX()-radius*.5,pos.getY()-radius*.5, radius,radius);
             DrawablePath * p = new DrawablePath();
             p->setPath(shape);
+            p->setFill(FillType(Colours::black.withAlpha(0.0f)));
+            p->setStrokeType(PathStrokeType(2));
+            p->setStrokeFill(FillType(Colours::black));
             dbgDraw.add(p);
             parentComponent->addAndMakeVisible(p);
         }

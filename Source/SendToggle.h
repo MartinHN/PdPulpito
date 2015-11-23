@@ -14,9 +14,11 @@
 class SendToggle : public LabelComponent,public Button::Listener{
 public:
     SendToggle(int index,AudioProcessor & p):LabelComponent(index,p){
-        addAndMakeVisible(component = new ToggleButton());
+        ToggleButton * tb = new ToggleButton();
+        addAndMakeVisible(component = tb);
         setSize (100, 130);
         getToggle()->addListener(this);
+
     }
     ~SendToggle(){};
     ToggleButton* getToggle(){return (ToggleButton*) component.get();}

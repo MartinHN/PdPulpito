@@ -49,8 +49,8 @@ private:
 
     ScopedPointer<LookNFeel> lookNFeel;
     
-    ScopedPointer<ResizableCornerComponent> resizer;
-    ComponentBoundsConstrainer resizeLimits;
+//    ScopedPointer<ResizableCornerComponent> resizer;
+//    ComponentBoundsConstrainer resizeLimits;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

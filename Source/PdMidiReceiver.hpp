@@ -33,7 +33,7 @@ namespace pd {
             msg.setTimeStamp(juce::Time::currentTimeMillis());
             buf.addEvent(msg, sampleNumber);
             sampleNumber++;
-            DBG( "noteOn  :" << pitch << " , " << velocity );;
+//            DBG( "noteOn  :" << pitch << " , " << velocity );;
             
         }
         virtual void receiveControlChange(const int channel, const int controller, const int value) {

@@ -11,9 +11,10 @@ LabelComponent::LabelComponent (int index, AudioProcessor& processor)
 processor(processor)
 {
     
+    label = new Label ("label",
+                       TRANS("Label"));
     
-    addAndMakeVisible (label = new Label ("label",
-                                          TRANS("Label")));
+    addAndMakeVisible (label);
     
     label->setFont (Font (15.00f, Font::plain));
     label->setJustificationType (Justification::centred);
@@ -90,7 +91,11 @@ void LabelComponent::resized()
     
 }
 
-
+void     LabelComponent::setLabelVisible(bool v){
+    
+    label->setVisible(v);
+    
+}
 
 
 

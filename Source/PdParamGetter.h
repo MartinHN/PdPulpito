@@ -34,7 +34,9 @@ class PdParamGetter {
             TOGGLE,
             POPUP,
             CNV,
-            BANG
+            BANG,
+            HRADIO,
+            VRADIO
             
             
         };
@@ -45,7 +47,10 @@ class PdParamGetter {
         bool hasLabel;
         int labelSize;
         String labelName;
+        
+        // container for variable Size objects
         StringArray elements;
+        
         
         Colour backColour;
         Colour mainColour;

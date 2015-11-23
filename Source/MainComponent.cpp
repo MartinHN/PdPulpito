@@ -57,7 +57,7 @@ MainComponent::MainComponent (PdAudioProcessor& processor)
     statusField->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (label = new Label ("new label",
-                                          TRANS("PD Pulp")));
+                                          TRANS("PD-Pulpito")));
     label->setFont (Font ("DIN Alternate", 29.20f, Font::bold));
     label->setJustificationType (Justification::topLeft);
     label->setEditable (false, false, false);
@@ -91,7 +91,7 @@ MainComponent::MainComponent (PdAudioProcessor& processor)
     
 //    addAndMakeVisible (resizer = new ResizableCornerComponent (this, &resizeLimits));
 //    resizeLimits.setSizeLimits (150, 150, 1000, 1000);
-    setSize (500, 385);
+//    setSize (500, 385);
         resized();
     
     
