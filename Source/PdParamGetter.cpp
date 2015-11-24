@@ -192,6 +192,8 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         p->name = l[9];
                         p->labelSize = l[13].getFloatValue();
                         int size = l[8].getIntValue();
+                        p->min = 0;
+                        p->max = size-1;
                         int w = l[5].getFloatValue();
                         for(int i = 0 ; i < size ; i++){
                             p->elements.add(String(i));

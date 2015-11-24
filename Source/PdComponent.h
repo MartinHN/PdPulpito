@@ -11,7 +11,7 @@
 
 
 
-class PdComponent  : public Component
+class PdComponent  : public Component,public Timer
 {
 public:
     //==============================================================================
@@ -34,7 +34,7 @@ public:
     Point<float> labelRelPos;
     float labelSize = 15;
     PdParameter * getPdParameter(){return dynamic_cast<PdParameter*> (processor->getParameters()[paramDesc->processorIdx]);};
-    
+    void setValueFromGUI(float v);
 
 protected:
 
@@ -47,7 +47,7 @@ protected:
     ScopedPointer<Component> component;
     ScopedPointer<Label> label;
     
-    
+    void timerCallback();
     
     
     //==============================================================================

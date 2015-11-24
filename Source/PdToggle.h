@@ -21,6 +21,8 @@ public:
 
     }
     ~PdToggle(){};
+    
+    
     void setValue(float f,NotificationType n) override{
         getToggle()->setToggleState(f>0, n);
     }
@@ -28,7 +30,7 @@ public:
     ToggleButton* getToggle(){return (ToggleButton*) component.get();}
     void buttonClicked (Button* b){
         if (b == getToggle())
-            getPdParameter()->setValueNotifyingHost(b->getToggleState());
+            setValueFromGUI(b->getToggleState());
     };
 };
 

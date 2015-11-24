@@ -10,7 +10,7 @@
 
 
 
-class PdSlider  : public PdComponent,public SliderListener,public Timer
+class PdSlider  : public PdComponent,public SliderListener
 {
 public:
     
@@ -20,33 +20,7 @@ public:
         VSL
     };
     //==============================================================================
-    PdSlider (PulpParameterDesc * p,PdAudioProcessor * proc)
-    : PdComponent(p,proc)
-    
-    {
-        
-        
-        addAndMakeVisible (component = new Slider ("slider"));
-        
-        getSlider()->setSliderStyle (Slider::RotaryVerticalDrag);
-        getSlider()->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 12);
-        getSlider()->setColour (Slider::thumbColourId, Colour (0xff5c5c5c));
-        getSlider()->setColour (Slider::rotarySliderFillColourId, Colour (0x7fdddddd));
-        getSlider()->setColour (Slider::rotarySliderOutlineColourId, Colour (0x66e6e6e6));
-        getSlider()->setColour (Slider::textBoxHighlightColourId, Colour (0x40a6a6a6));
-        getSlider()->setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::transparentWhite);
-        getSlider()->setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::transparentWhite);
-        getSlider()->addListener (this);
-        getSlider()->setTextBoxStyle (Slider::TextBoxAbove,//TextEntryBoxPosition newPosition,
-                                      true,//bool isReadOnly,
-                                      10,//int textEntryBoxWidth,
-                                      10//int textEntryBoxHeight
-                                      );
-        
-        setSize (100, 130);
-        startTimer(100);
-        
-    }
+
     PdSlider (PulpParameterDesc * p,PdAudioProcessor * proc,type t)
     :PdComponent(p,proc)
     
@@ -95,7 +69,7 @@ public:
         
         
         setSize (100, 130);
-        startTimer(100);
+        
         
     }
     ~PdSlider(){};
@@ -106,24 +80,7 @@ public:
 }
 
 
-// from DAW
-void timerCallback(){
 
-    if(!getSlider()->isMouseButtonDown()){
-
-        getSlider()->setValue(getPdParameter()->getTrueValue() ,NotificationType::dontSendNotification);
-        if (getPdParameter()->hasChanged())
-        {
-            startTimer (1000 / 50);
-        }
-        else
-        {
-            startTimer (jmin (1000 / 3, getTimerInterval() + 10));
-        }
-        
-        getSlider()->repaint();
-    }
-};
 
 void resizeComponent(){
     getSlider()->setTextBoxStyle (Slider::TextBoxAbove, true, component->getWidth() , component->getHeight());
@@ -135,15 +92,12 @@ void resizeComponent(){
 // fromGUI
 void sliderValueChanged (Slider* sliderThatWasMoved){
     if (sliderThatWasMoved == getSlider()){
-        getPdParameter()->setTrueValue(getSlider()->getValue());
-        getPdParameter()->setValueNotifyingHost(getPdParameter()->getValue());
-
-        
+        setValueFromGUI(sliderThatWasMoved->getValue());
     }
 }
 
 void setValue(float v,NotificationType notif)override {
-getSlider()->setValue(v,notif);
+        getSlider()->setValue(v,notif);
 }
 
 void setRange(float min,float max){

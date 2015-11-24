@@ -42,6 +42,10 @@ processor(processor)
     label->setSize(200, 20);
     backColour = new Colour(Colours::black.withAlpha(0.0f));
     
+    
+    
+    if(getPdParameter()!=nullptr)startTimer(1000/5);
+    
 }
 
 PdComponent::~PdComponent()
@@ -99,6 +103,33 @@ void PdComponent::setLabelVisible(bool v){
     
 }
 
+
+
+void PdComponent::setValueFromGUI(float v){
+    getPdParameter()->setTrueValue(v);
+    getPdParameter()->setValueNotifyingHost(getPdParameter()->getValue());
+}
+
+
+// from DAW
+void PdComponent::timerCallback(){
+    
+    //    if(!getSlider()->isMouseButtonDown()){
+
+    if (getPdParameter()->hasChanged())
+    {
+        setValue(getPdParameter()->getTrueValue() ,NotificationType::dontSendNotification);
+        startTimer (1000 / 50);
+        repaint();
+    }
+    else
+    {
+        startTimer (jmin (1000 / 3, getTimerInterval() + 10));
+    }
+    
+    
+    //    }
+};
 
 
 

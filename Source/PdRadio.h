@@ -36,12 +36,12 @@ public:
     ~PdRadio(){};
     
     
-    ToggleButton* getToggle(int num){return (ToggleButton*) component.get();}
+    ToggleButton* getToggle(int num){return (ToggleButton*) component->getChildComponent(num);}
     void buttonClicked (Button* b){
         if(b->getToggleState()){
-        int num = component->getIndexOfChildComponent(b);
-        if (num>=0)
-            setValue(num, NotificationType::sendNotification);//processor.AudioProcessor::setParameterNotifyingHost(index, num);
+            int num = component->getIndexOfChildComponent(b);
+            if (num>=0)
+                setValueFromGUI(num);//processor.AudioProcessor::setParameterNotifyingHost(index, num);
         }
     };
     
@@ -60,13 +60,15 @@ public:
     };
     
     
-    void setValue(float v, NotificationType notif){
+    void setValue(float v, NotificationType notif) override{
+    if(v < getNumChildComponents()){
         getToggle((int)v )->setToggleState(true, notif);
     }
-    
-    Orientation orientation;
-    
-    
+}
+
+Orientation orientation;
+
+
 };
 
 
