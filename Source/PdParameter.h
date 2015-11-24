@@ -19,26 +19,24 @@ class PdParameter : public AudioProcessorParameter
 {
 public:
     
-    PdParameter (float defaultParameterValue, PulpParameterDesc * desc)
-    : defaultValue (defaultParameterValue),
+    PdParameter (float defaultParameterValue, PulpParameterDesc * desc):
+    defaultValue (defaultParameterValue),
     value (defaultParameterValue),
-    name (desc->name),min(desc->min),max(desc->max),idx(desc->processorIdx)
+    name (desc->name),
+    min(desc->min),
+    max(desc->max),
+    processorIdx(desc->processorIdx)
     {
     }
     
-    float getValue() const override
-    {
-        return value;
-    }
-    float getTrueValue(){
-        return value*(max-min) + min;
-    }
-    void setStringType(bool t){stringType=t;}
-    bool isStringType(){return stringType;}
+    float getValue() const override                         {return value;}
+    float getTrueValue()                                    {return value*(max-min) + min;}
+    float getDefaultValue() const override                  {return defaultValue;}
+    String getName (int maximumStringLength)const override  {return name;}
+    int getIdx()                                            {return processorIdx;}
+    float getValueForText(const String& text)const override {return text.getFloatValue();}
+    String getLabel() const                                 {return name;}
     
-    String getStringValue(){return stringValue[value];}
-    
-    void setStringValue(StringArray &s){stringValue=s;}
     
     bool hasToObserve(){
         bool _c = updated;
@@ -50,6 +48,10 @@ public:
         changed = false;
         return _c;
     }
+    
+    
+    
+    
     void setValue (float newValue) override
     {   updated = true;
         float oldv = value;
@@ -62,35 +64,10 @@ public:
         value = (v-min)/(max-min);
         changed = oldv!=value;
     }
-    void setMinMax(float min,float max){
-        min = min;
-        max = max;
-    }
+    void setMinMax(float min,float max)                     {min = min;max = max;}
+    void setName (String n)                                 {name = n;}
     
-    float getDefaultValue() const override
-    {
-        return defaultValue;
-    }
-    
-    String getName (int maximumStringLength) const override
-    {
-        return name;
-    }
-    
-    void setName (String n)
-    {
-        name = n;
-    }
-    
-    String getLabel() const override
-    {
-        return String();
-    }
-    
-    float getValueForText (const String& text) const override
-    {
-        return text.getFloatValue();
-    }
+
     
     void serialize(XmlElement * xml){
         xml->setAttribute("index", (int) getParameterIndex());
@@ -98,23 +75,18 @@ public:
         xml->setAttribute("value", (double) getValue());
     }
     
-    void deSerialize(XmlElement * parameterElement){
-        setName( parameterElement->getStringAttribute("name"));
-        
-
-    }
+    void deSerialize(XmlElement * parameterElement)         {setName( parameterElement->getStringAttribute("name"));}
     
-    int getIdx(){return idx;};
+
     
 private:
     float defaultValue, value;
     float min,max;
-    int idx = -1;
+    int processorIdx = -1;
     bool volatile updated ;
     bool volatile changed;
     String name;
-    bool stringType=false;
-    StringArray stringValue;
+
 };
 
 
