@@ -27,6 +27,7 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     localObjectCount =0;
     localParamCount = 0;
     GUINumParams.clear();
+    GUINumObjects.clear();
     PdRootName = patchfile.getFileName();
     
     juce::StringArray destLines;
@@ -51,10 +52,11 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     
     for(auto  g:parsedString){
   
-        int tmpCount = localObjectCount;
+        int tmpCount = localParamCount;
+        int tmpObjCount = localObjectCount;
         getParamsFromText(g, guiIdx);
-        
-        GUINumParams.add(localObjectCount-tmpCount);
+        GUINumObjects.add(localObjectCount - tmpObjCount);
+        GUINumParams.add(localParamCount-tmpCount);
         // find top left most coordinate from pd
         if(pulpParameterDescs.size()>0){
             float minX = std::min(std::min(minX, pulpParameterDescs[0]->getX()),pulpParameterDescs[0]->labelRect.getX()) ;
@@ -393,7 +395,7 @@ Array<StringArray>  PdParamGetter::parseText(StringArray destLines,bool isRootGU
 
 
 
-PdParamGetter::PulpParameterDesc * PdParamGetter::getObjectForIdx(int idx){
+PulpParameterDesc * PdParamGetter::getObjectForIdx(int idx){
     if( idx >= pulpParameterDescs.size())jassertfalse;
     return pulpParameterDescs[idx];
 }
@@ -402,7 +404,7 @@ int PdParamGetter::getTotalObjectCount(){
     
 }
 
-PdParamGetter::PulpParameterDesc * PdParamGetter::getParamForIdx(int idx){
+PulpParameterDesc * PdParamGetter::getParamForIdx(int idx){
     if( idx >= audioParameters.size())jassertfalse;
     return audioParameters[idx];
 }
@@ -413,10 +415,10 @@ int PdParamGetter::getTotalParameterCount(){
 
 
 
-int PdParamGetter::getNumParamforGUI(int guiNum){
-    if(guiNum>=GUINumParams.size())jassertfalse;
+int PdParamGetter::getNumObjectsForGUI(int guiNum){
+    if(guiNum>=GUINumObjects.size())jassertfalse;
     
-    return GUINumParams[guiNum];
+    return GUINumObjects[guiNum];
 }
 
 
@@ -425,7 +427,7 @@ int PdParamGetter::getNumParamforGUI(int guiNum){
 int PdParamGetter::getProcessorStartIdxForGUI(int guiNum){
     int guiI=0;
     int start = 0;
-    for(auto g:GUINumParams){
+    for(auto g:GUINumObjects){
         if(guiI<guiNum){start+=g;}
         if(guiI==guiNum){
             return start;

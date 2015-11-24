@@ -1,17 +1,17 @@
 //
-//  SendRadio.h
+//  PdRadio.h
 //  PdPulpito
 //
 //  Created by martin hermant on 23/11/15.
 //
 //
 
-#ifndef PdPulpito_SendRadio_h
-#define PdPulpito_SendRadio_h
+#ifndef PdPulpito_PdRadio_h
+#define PdPulpito_PdRadio_h
 
-#include "LabelComponent.h"
+#include "PdComponent.h"
 
-class SendRadio : public LabelComponent,public Button::Listener{
+class PdRadio : public PdComponent,public Button::Listener{
 public:
     
     enum Orientation{
@@ -19,7 +19,7 @@ public:
         HORIZONTAL
     };
     
-    SendRadio(int index,PdAudioProcessor & p,int size,Orientation o):LabelComponent(index,p){
+    PdRadio(PulpParameterDesc * p,PdAudioProcessor * proc,int size,Orientation o):PdComponent(p,proc){
         component = new Component;
         addAndMakeVisible(component);
         static int radioGroupId = 0;
@@ -33,7 +33,7 @@ public:
         }
         orientation = o;
     }
-    ~SendRadio(){};
+    ~PdRadio(){};
     
     
     ToggleButton* getToggle(int num){return (ToggleButton*) component.get();}
@@ -41,7 +41,7 @@ public:
         if(b->getToggleState()){
         int num = component->getIndexOfChildComponent(b);
         if (num>=0)
-            processor.AudioProcessor::setParameterNotifyingHost(index, num);
+            setValue(num, NotificationType::sendNotification);//processor.AudioProcessor::setParameterNotifyingHost(index, num);
         }
     };
     
@@ -59,6 +59,10 @@ public:
         
     };
     
+    
+    void setValue(float v, NotificationType notif){
+        getToggle((int)v )->setToggleState(true, notif);
+    }
     
     Orientation orientation;
     

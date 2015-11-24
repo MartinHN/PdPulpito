@@ -13,16 +13,16 @@
 #include "JuceHeader.h"
 #include "PdParamGetter.h"
 
-#include "SendSlider.h"
-#include "SendToggle.h"
-#include "SendRadio.h"
+#include "PdToggle.h"
+#include "PdSlider.h"
+#include "PdRadio.h"
 #include "PdAudioProcessor.h"
 
 class PdGUICanvas : public AudioProcessorEditor{
 public:
     
     
-    PdGUICanvas(AudioProcessor * pin ,int guiNum):AudioProcessorEditor(pin),guiNum(guiNum){
+    PdGUICanvas(PdAudioProcessor * pin ,int guiNum):AudioProcessorEditor(pin),guiNum(guiNum){
 
     };
     
@@ -37,74 +37,75 @@ public:
         
         setBounds(paramGetter()->getBoundOfGui(guiNum));
         
-        PdAudioProcessor* p = (PdAudioProcessor*)pin;
+        PdAudioProcessor* p = dynamic_cast<PdAudioProcessor*>(pin);
+
         
         int startidx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
-        int endIdx = startidx + paramGetter()->getNumParamforGUI(guiNum);
+        int endIdx = startidx + paramGetter()->getNumObjectsForGUI(guiNum);
         for(int i= startidx ; i < endIdx ; i++){
-            PdParamGetter::PulpParameterDesc * param = paramGetter()->getObjectForIdx(i);
-            LabelComponent *c=nullptr;
+            PulpParameterDesc * param = paramGetter()->getObjectForIdx(i);
+            PdComponent *c=nullptr;
             
             
-            if(param->type == PdParamGetter::PulpParameterDesc::KNOB ){
-                c =new SendSlider(param->processorIdx,*p,SendSlider::ROTARY);
-                ((SendSlider*)c)->setRange(param->min, param->max);
+            if(param->type == PulpParameterDesc::KNOB ){
+                c =new PdSlider(param,p,PdSlider::ROTARY);
+                ((PdSlider*)c)->setRange(param->min, param->max);
                 addAndMakeVisible(c);
-                ((SendSlider*)c)->getSlider()->setColour(Slider::rotarySliderFillColourId,param->mainColour);
-//                ((SendSlider*)c)->getSlider()->setColour(Slider::rotarySliderOutlineColourId,param->backColour);
-                ((SendSlider*)c)->lookAndFeelChanged();
+                ((PdSlider*)c)->getSlider()->setColour(Slider::rotarySliderFillColourId,param->mainColour);
+//                ((PdSlider*)c)->getSlider()->setColour(Slider::rotarySliderOutlineColourId,param->backColour);
+                ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if ( param->type == PdParamGetter::PulpParameterDesc::VSL ){
-                c =new SendSlider(param->processorIdx,*p,SendSlider::VSL);
-                ((SendSlider*)c)->setRange(param->min, param->max);
-                ((SendSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
-                ((SendSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
+            else if ( param->type == PulpParameterDesc::VSL ){
+                c =new PdSlider(param,p,PdSlider::VSL);
+                ((PdSlider*)c)->setRange(param->min, param->max);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
                 addAndMakeVisible(c);
-                ((SendSlider*)c)->lookAndFeelChanged();
+                ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if(  param->type == PdParamGetter::PulpParameterDesc::HSL ){
-                c =new SendSlider(param->processorIdx,*p,SendSlider::HSL);
-                ((SendSlider*)c)->setRange(param->min, param->max);
-                ((SendSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
-                ((SendSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
+            else if(  param->type == PulpParameterDesc::HSL ){
+                c =new PdSlider(param,p,PdSlider::HSL);
+                ((PdSlider*)c)->setRange(param->min, param->max);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
                 addAndMakeVisible(c);
-                ((SendSlider*)c)->lookAndFeelChanged();
+                ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if( param->type == PdParamGetter::PulpParameterDesc::NUMBOX ){
-                c =new SendSlider(param->processorIdx,*p,SendSlider::ROTARY);
-                ((SendSlider*)c)->setRange(param->min, param->max);
-                ((SendSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
-                ((SendSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
+            else if( param->type == PulpParameterDesc::NUMBOX ){
+                c =new PdSlider(param,p,PdSlider::ROTARY);
+                ((PdSlider*)c)->setRange(param->min, param->max);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
                 addAndMakeVisible(c);
-                ((SendSlider*)c)->lookAndFeelChanged();
+                ((PdSlider*)c)->lookAndFeelChanged();
             }
-            else if(param->type == PdParamGetter::PulpParameterDesc::TOGGLE || param->type ==PdParamGetter::PulpParameterDesc::BANG){
-                c =new SendToggle(param->processorIdx,*p);
+            else if(param->type == PulpParameterDesc::TOGGLE || param->type ==PulpParameterDesc::BANG){
+                c =new PdToggle(param,p);
                 addAndMakeVisible(c);
-                ((SendToggle*)c)->lookAndFeelChanged();
+                ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if( param->type == PdParamGetter::PulpParameterDesc::VRADIO ){
-                c =new SendRadio(param->processorIdx,*p,param->elements.size(),SendRadio::VERTICAL);
+            else if( param->type == PulpParameterDesc::VRADIO ){
+                c =new PdRadio(param,p,param->elements.size(),PdRadio::VERTICAL);
                 addAndMakeVisible(c);
-                ((SendToggle*)c)->lookAndFeelChanged();
+                ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if( param->type == PdParamGetter::PulpParameterDesc::HRADIO ){
-                c =new SendRadio(param->processorIdx,*p,param->elements.size(),SendRadio::HORIZONTAL);
+            else if( param->type == PulpParameterDesc::HRADIO ){
+                c =new PdRadio(param,p,param->elements.size(),PdRadio::HORIZONTAL);
                 addAndMakeVisible(c);
-                ((SendToggle*)c)->lookAndFeelChanged();
+                ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if(param->type == PdParamGetter::PulpParameterDesc::CNV){
-                c =new LabelComponent(param->processorIdx,*p);
+            else if(param->type == PulpParameterDesc::CNV){
+                c =new PdComponent(param,p);
                 c->setBackColour(param->backColour);
 
                 addAndMakeVisible(c);
-                ((LabelComponent*)c)->lookAndFeelChanged();
+                ((PdComponent*)c)->lookAndFeelChanged();
                 
             }
             if(c!=nullptr){
@@ -151,9 +152,9 @@ public:
         }
         
         int idx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
-        for(int i= idx ; i < paramGetter()->getNumParamforGUI(guiNum) ; i++){
-            PdParamGetter::PulpParameterDesc * param = paramGetter()->getObjectForIdx(idx);
-            LabelComponent * c = ((LabelComponent*)juce_Components[idx]);
+        for(int i= idx ; i < paramGetter()->getNumObjectsForGUI(guiNum) ; i++){
+            PulpParameterDesc * param = paramGetter()->getObjectForIdx(idx);
+            PdComponent * c = ((PdComponent*)juce_Components[idx]);
             if(c!=nullptr){
                 c->labelRelPos.setXY( getWidth() * param->labelRect.getX() ,
                                       getHeight()*(param->labelRect.getY()) - 4
@@ -164,7 +165,7 @@ public:
                               getWidth() * param->getWidth() ,
                               getHeight()* param->getHeight()
                               );
-                c->LabelComponent::resized();
+                c->PdComponent::resized();
             }
             idx++;
         }

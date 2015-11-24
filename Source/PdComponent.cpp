@@ -2,13 +2,14 @@
 #include "PdAudioProcessor.h"
 
 
-#include "LabelComponent.h"
+#include "PdComponent.h"
 
 
 //==============================================================================
-LabelComponent::LabelComponent (int index, PdAudioProcessor& processor)
-: index(index),
+PdComponent::PdComponent (PulpParameterDesc * p,PdAudioProcessor * processor)
+:paramDesc(p),
 processor(processor)
+
 {
     
     label = new Label ("label",
@@ -28,10 +29,9 @@ processor(processor)
     
     
     setSize (100, 130);
-    
-    PdAudioProcessor* p = dynamic_cast<PdAudioProcessor*>(& processor);
+    index = p->processorIdx;
     if(index!=-1){
-    String labelText(p->getParameterName(index));
+    String labelText(p->name);
     setName(labelText);
     }
     label->setJustificationType(juce::Justification::left);
@@ -41,11 +41,10 @@ processor(processor)
     
     label->setSize(200, 20);
     backColour = new Colour(Colours::black.withAlpha(0.0f));
-    //    startTimer(25);
     
 }
 
-LabelComponent::~LabelComponent()
+PdComponent::~PdComponent()
 {
     
     
@@ -53,13 +52,13 @@ LabelComponent::~LabelComponent()
     label = nullptr;
     
 }
-void LabelComponent::setName(const juce::String &s){
+void PdComponent::setName(const juce::String &s){
     Component::setName(s);
     label->setText(s, dontSendNotification);
 };
 
 //==============================================================================
-void LabelComponent::paint (Graphics& g)
+void PdComponent::paint (Graphics& g)
 {
     
     
@@ -77,7 +76,7 @@ void LabelComponent::paint (Graphics& g)
 
 
 
-void LabelComponent::resized()
+void PdComponent::resized()
 {
     
     label->setTopLeftPosition(labelRelPos.getX(),
@@ -94,7 +93,7 @@ void LabelComponent::resized()
     
 }
 
-void LabelComponent::setLabelVisible(bool v){
+void PdComponent::setLabelVisible(bool v){
     
     label->setVisible(v);
     

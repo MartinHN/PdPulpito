@@ -64,7 +64,7 @@ void PdAudioProcessor::setParametersFromDescs(){
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
         if(pulpParameterDescs[i]->isAudioParameter()){
             if(maximumParameterCount<=i){
-                PdParameter* p = new PdParameter (0, (pulpParameterDescs[i]->name),pulpParameterDescs[i]->min,pulpParameterDescs[i]->max);
+                PdParameter* p = new PdParameter (0, pulpParameterDescs[i]);
                 pdParameters.add(p);
                 maximumParameterCount ++;
             }
@@ -237,8 +237,10 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
     
     for (int i=0; i<pdParameters.size(); i++) {
         PdParameter* parameter = pdParameters[i];
-        if(parameter->hasToObserve())
+        if(parameter->hasToObserve()){
+
             pd->sendFloat(parameter->getName(300).toStdString(), parameter->getTrueValue());
+        }
     }
     
     MidiMessage message;

@@ -12,15 +12,17 @@
 #define FLOATPARAMETER_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "PdParamGetter.h"
+
 
 class PdParameter : public AudioProcessorParameter
 {
 public:
     
-    PdParameter (float defaultParameterValue, const String& paramName,float min=0,float max=1)
+    PdParameter (float defaultParameterValue, PulpParameterDesc * desc)
     : defaultValue (defaultParameterValue),
     value (defaultParameterValue),
-    name (paramName),min(min),max(max)
+    name (desc->name),min(desc->min),max(desc->max),idx(desc->processorIdx)
     {
     }
     
@@ -102,9 +104,12 @@ public:
 
     }
     
+    int getIdx(){return idx;};
+    
 private:
     float defaultValue, value;
     float min,max;
+    int idx = -1;
     bool volatile updated ;
     bool volatile changed;
     String name;

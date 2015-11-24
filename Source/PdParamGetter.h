@@ -10,7 +10,53 @@
 #define __Pd_Pulp__PdParamGetter__
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "PdParameter.h"
+//#include "PdParameter.h"
+
+
+
+class PulpParameterDesc: public juce::Rectangle<float>{
+public:
+    String name;
+    float min;
+    float max;
+    enum Type{
+        KNOB= 0,
+        HSL,
+        VSL,
+        NUMBOX,
+        TOGGLE,
+        POPUP,
+        CNV,
+        BANG,
+        HRADIO,
+        VRADIO
+        
+        
+    };
+    Type type;
+    
+    
+    Rectangle<float> labelRect;
+    bool hasLabel;
+    int labelSize;
+    String labelName;
+    
+    bool isAudioParameter(){return (type!= CNV);}
+    
+    // container for variable Size objects
+    StringArray elements;
+    
+    
+    Colour backColour;
+    Colour mainColour;
+    
+    
+    int guiNum;
+    int processorIdx;
+    int pdObjectIdx;
+};
+
+
 
 class PdParamGetter {
     public :
@@ -21,47 +67,7 @@ class PdParamGetter {
     
     
     
-    class PulpParameterDesc: public juce::Rectangle<float>{
-    public:
-        String name;
-        float min;
-        float max;
-        enum Type{
-            KNOB= 0,
-            HSL,
-            VSL,
-            NUMBOX,
-            TOGGLE,
-            POPUP,
-            CNV,
-            BANG,
-            HRADIO,
-            VRADIO
-            
-            
-        };
-        Type type;
-        
-        
-        Rectangle<float> labelRect;
-        bool hasLabel;
-        int labelSize;
-        String labelName;
-        
-        bool isAudioParameter(){return (type!= CNV);}
-        
-        // container for variable Size objects
-        StringArray elements;
-        
-        
-        Colour backColour;
-        Colour mainColour;
-        
-        
-        int guiNum;
-        int processorIdx;
-        int pdObjectIdx;
-    };
+
     
     
     
@@ -73,9 +79,10 @@ class PdParamGetter {
     
     
     Array<int> GUINumParams;
+    Array<int> GUINumObjects;
     int getProcessorStartIdxForGUI(int guiNum);
     int getNumGUI();
-    int getNumParamforGUI(int guiNum);
+    int getNumObjectsForGUI(int guiNum);
     Rectangle<int> getBoundOfGui(int guiNum);
     String    PdRootName;
     String getPdRootName() const {if(PdRootName==""){jassertfalse;}return PdRootName;}

@@ -28,13 +28,15 @@ public:
     // if processor change sub pd patch ,rebuild graphics
     void changeListenerCallback (ChangeBroadcaster* source) override;
 
-    
+    PdAudioProcessor * getPdProcessor(){if(pdProcessor == nullptr){pdProcessor = dynamic_cast<PdAudioProcessor*>(&processor);}return pdProcessor;}
 
 private:
 
     ScopedPointer<TabbedButtonBar> tabBar;
     OwnedArray<PdGUICanvas>PdCanvas;
     int showedCanvas;
+    PdAudioProcessor * pdProcessor = nullptr;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PdAudioProcessorEditor)
 };

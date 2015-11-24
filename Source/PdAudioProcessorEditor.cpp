@@ -11,7 +11,7 @@ PdAudioProcessorEditor::PdAudioProcessorEditor (PdAudioProcessor& p)
     setVisible(true);
     p.addChangeListener(this);
     showedCanvas = -1;
-    
+    pdProcessor = &p;
 }
 
 
@@ -28,7 +28,7 @@ void PdAudioProcessorEditor::buildCanvas(){
     PdCanvas.clear();
     int num = (dynamic_cast<PdParamGetter*>(&processor))->getNumGUI();
     for(int i = 0; i < num;i++){
-        PdCanvas.add(new PdGUICanvas(&processor,i));
+        PdCanvas.add(new PdGUICanvas(getPdProcessor(),i));
     }
     for(auto & c:PdCanvas){
         addChildComponent(c);

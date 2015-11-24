@@ -22,11 +22,15 @@ void TUIOComponent::addTuioCursor(TuioCursor *tcur){
         if(ComponentPeer* const peer = parentComponent->getPeer()){
             Point<float> global = getScreenPos(tcur);
             Point<float> local = peer->globalToLocal (global);
-            DBG("Mouse " << (tcur)->getCursorID() << " :" << local.toString() <<"," <<  global.toString());
-            
+//            DBG("Mouse " << (tcur)->getCursorID() << " :" << local.toString() <<"," <<  global.toString());
+            ModifierKeys mods;
             peer->handleMouseEvent ((tcur)->getCursorID()+TUIOTOUCH0,
                                     local
                                     , 0,
+                                    MouseInputSource::invalidPressure, Time::currentTimeMillis());
+            peer->handleMouseEvent ((tcur)->getCursorID()+TUIOTOUCH0,
+                                    local
+                                    , mods.withFlags(ModifierKeys::leftButtonModifier),
                                     MouseInputSource::invalidPressure, Time::currentTimeMillis());
             
             drawCursor(tcur, local, drawCmd::ADD);
@@ -48,7 +52,7 @@ void TUIOComponent::updateTuioCursor(TuioCursor *tcur){
             Point<float> local = peer->globalToLocal (global);
             
 
-            DBG("Mouse " << (tcur)->getCursorID() << " :" << (tcur)->getX() <<"," << (tcur)->getY() <<" / " <<  local.toString() <<"," <<  global.toString());
+//            DBG("Mouse " << (tcur)->getCursorID() << " :" << (tcur)->getX() <<"," << (tcur)->getY() <<" / " <<  local.toString() <<"," <<  global.toString());
             ModifierKeys mods;
             peer->handleMouseEvent ((tcur)->getCursorID()+TUIOTOUCH0,
                                     local
@@ -73,7 +77,7 @@ void TUIOComponent::removeTuioCursor(TuioCursor *tcur){
         if(ComponentPeer* const peer = parentComponent->getPeer()){
             Point<float> global = getScreenPos(tcur);
             Point<float> local = peer->globalToLocal (global);
-            DBG("Mouse " << (tcur)->getCursorID() << " :" << local.toString() <<"," <<  global.toString());
+//            DBG("Mouse " << (tcur)->getCursorID() << " :" << local.toString() <<"," <<  global.toString());
             
             peer->handleMouseEvent ((tcur)->getCursorID()+TUIOTOUCH0,
                                     local
@@ -138,6 +142,6 @@ void TUIOComponent::drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd){
             break;
             
     }
-    
+    parentComponent->repaint();
     
 }

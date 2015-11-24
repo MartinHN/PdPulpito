@@ -14,6 +14,7 @@
 #include "PdBase.hpp"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PdParamGetter.h"
+#include "PdParameter.h"
 
 
 //==============================================================================

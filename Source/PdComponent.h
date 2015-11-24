@@ -6,15 +6,17 @@
 
 #include "JuceHeader.h"
 #include "PdAudioProcessor.h"
+#include "PdParamGetter.h"
 
 
 
-class LabelComponent  : public Component
+
+class PdComponent  : public Component
 {
 public:
     //==============================================================================
-    LabelComponent (int index, PdAudioProcessor& processor);
-    ~LabelComponent();
+    PdComponent (PulpParameterDesc * p,PdAudioProcessor * processor);
+    ~PdComponent();
     
     
     void paint (Graphics& g);
@@ -25,16 +27,20 @@ public:
         *backColour = b;
     };
     void setLabelVisible(bool v);
+    virtual void setValue(float v,NotificationType notif) {};
     
     
     ScopedPointer<Colour> backColour;
     Point<float> labelRelPos;
     float labelSize = 15;
-    PdParameter * getPdParameter(){return processor.pdParameters[index];};
+    PdParameter * getPdParameter(){return dynamic_cast<PdParameter*> (processor->getParameters()[paramDesc->processorIdx]);};
+    
+
 protected:
 
     int index;
-    PdAudioProcessor& processor;
+    PdAudioProcessor* processor;
+    PulpParameterDesc *paramDesc;
 
     
     //==============================================================================
@@ -45,7 +51,7 @@ protected:
     
     
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LabelComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PdComponent)
 };
 
 

@@ -5,12 +5,12 @@
 
 
 #include "JuceHeader.h"
-#include "LabelComponent.h"
+#include "PdComponent.h"
 
 
 
 
-class SendSlider  : public LabelComponent,public SliderListener,public Timer
+class PdSlider  : public PdComponent,public SliderListener,public Timer
 {
 public:
     
@@ -20,8 +20,8 @@ public:
         VSL
     };
     //==============================================================================
-    SendSlider (int index, PdAudioProcessor& processor)
-    : LabelComponent(index,processor)
+    PdSlider (PulpParameterDesc * p,PdAudioProcessor * proc)
+    : PdComponent(p,proc)
     
     {
         
@@ -47,8 +47,8 @@ public:
         startTimer(100);
         
     }
-    SendSlider (int index, PdAudioProcessor& processor,type t)
-    : LabelComponent(index,processor)
+    PdSlider (PulpParameterDesc * p,PdAudioProcessor * proc,type t)
+    :PdComponent(p,proc)
     
     {
         
@@ -98,7 +98,7 @@ public:
         startTimer(100);
         
     }
-    ~SendSlider(){};
+    ~PdSlider(){};
     
     void lookAndFeelChanged()override{
     getSlider()->setTextBoxIsEditable(false);
@@ -142,6 +142,10 @@ void sliderValueChanged (Slider* sliderThatWasMoved){
     }
 }
 
+void setValue(float v,NotificationType notif)override {
+getSlider()->setValue(v,notif);
+}
+
 void setRange(float min,float max){
     float range = abs(max-min);
     int po = log10(range) - 3;
@@ -153,7 +157,7 @@ void setRange(float min,float max){
 Slider* getSlider(){return (Slider*) component.get();}
 
 //==============================================================================
-JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SendSlider)
+JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PdSlider)
 };
 
 
