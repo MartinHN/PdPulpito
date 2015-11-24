@@ -48,6 +48,7 @@ void PdAudioProcessor::setParameterName(int index, String name)
 
 
 void PdAudioProcessor::loadFromGUI(){
+    
     PdParamGetter::getParameterDescsFromPatch(patchfile);
     setParametersFromDescs();
     updateProcessorParameters();
@@ -57,13 +58,14 @@ void PdAudioProcessor::loadFromGUI(){
 
 
 void PdAudioProcessor::setParametersFromDescs(){
+    
     // hack to allow to reload parameters on the go
     // allow to add new or replace param as the host may need to keep same pointers
-    
-    
+//    pdParameters.clear();
+//    maximumParameterCount = 0;
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
         if(pulpParameterDescs[i]->isAudioParameter()){
-            if(maximumParameterCount<=i){
+            if(i>=maximumParameterCount){
                 PdParameter* p = new PdParameter (0, pulpParameterDescs[i]);
                 pdParameters.add(p);
                 maximumParameterCount ++;
@@ -86,6 +88,8 @@ void PdAudioProcessor::setParametersFromDescs(){
 void PdAudioProcessor::updateProcessorParameters(){
     
     int idx = 0;
+    
+    
     for(auto & p:pdParameters){
         
         if(idx>=getNumParameters()){
@@ -144,7 +148,9 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
     }
     
     if(needsToReopenPatch>=0){
+        loadFromGUI();
         reloadPdPatch(needsToReopenPatch);
+        
         sendChangeMessage();
         needsToReopenPatch = -2;
     }
@@ -279,7 +285,9 @@ void PdAudioProcessor::getStateInformation (MemoryBlock& destData)
         parameterListElement->addChildElement(parameterElement);
     }
     xml.addChildElement(parameterListElement);
-    
+    XmlElement * meta = new XmlElement("meta");
+    meta->setAttribute("lastModificationTime",getLastModificationTime().getSeconds());
+    xml.addChildElement(meta);
     //    MemoryOutputStream stream;
     //    xml.writeToStream(stream, "");
     //DBG("save [" << stream.toString() << "] " );;
@@ -293,14 +301,20 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
     // whose contents will have been created by the getStateInformation() call.
     
     // RESTORE / LOAD
-    
-    if(canRestore){
+
         ScopedPointer<XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
+    
         if(xml != 0 && xml->hasTagName(getName().replace(" ", "-"))) {
             
             MemoryOutputStream stream;
             xml->writeToStream(stream, "<?xml version=\"1.0\"?>");
-            
+            forEachXmlChildElementWithTagName(*xml, child, "meta"){
+                int seconds = child->getIntAttribute("lastModificationTime");
+                if(getLastModificationTime().getSeconds()!=seconds){
+                    canRestore = false;
+                    break;
+                }
+            }
             forEachXmlChildElement (*xml, child)
             {
                 DBG(" - load : " << child->getTagName() );;
@@ -309,8 +323,8 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
                     
                     forEachXmlChildElement (*child, parameterElement) {
                         
-                        // TODO : change index based retrieval
-                        // no need atm because of pd patches are bound in the begining
+                        // TODO : change index based retrieval to safer?
+                        
                         int index = parameterElement->getIntAttribute("index");
                         if(index<pdParameters.size()){
                             DBG("loading param " << parameterElement->getStringAttribute("name"));
@@ -321,14 +335,16 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
                             
                         }
                         else{
+                            
                             DBG("DAW saved old Parameter" );;
+                            return;
                         }
                         
                         
                     }
                 }
             }
-        }
+        
     }
 }
 
@@ -338,7 +354,7 @@ bool PdAudioProcessor::hasNewFilesSince(Time t){
     
 }
 
-Time PdAudioProcessor::lastModTime(){
+Time PdAudioProcessor::getLastModificationTime(){
     Time t1 = getLastPdGUIModTime();
     Time t2 = File(patchfile).getLastModificationTime();
     return jmax(t1,t2);
@@ -348,7 +364,7 @@ void PdAudioProcessor::reloadPdPatch (double sampleRate)
 {
     DBG("reloading Patch" );
     
-    if (sampleRate) {
+    if (sampleRate> 10) {
         cachedSampleRate = sampleRate;
     } else {
         sampleRate = cachedSampleRate;

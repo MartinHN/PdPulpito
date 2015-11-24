@@ -49,7 +49,7 @@ public:
     
     
     bool hasNewFilesSince(Time t);
-    Time lastModTime();
+    Time getLastModificationTime();
     
     
     
