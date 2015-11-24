@@ -20,28 +20,30 @@ PdAudioProcessor::PdAudioProcessor()
     static int first = 0;
     
     if(first<2){
-    setPatchFile(File(PATCH_PATH));
+        setPatchFile(File(PATCH_PATH));
     }
     else{
-    setPatchFile(File(PATCH_PATH2));
+        setPatchFile(File(PATCH_PATH2));
     }
     
     first ++;
     loadFromGUI();
-
+    
 }
 
 PdAudioProcessor::~PdAudioProcessor()
 {
     pd = nullptr;
-
+    
 }
 
 //==============================================================================
 void PdAudioProcessor::setParameterName(int index, String name)
 {
+    if(index>=0){
     PdParameter* p = pdParameters.getUnchecked(index);
     p->setName(name);
+    }
 }
 
 
@@ -57,20 +59,23 @@ void PdAudioProcessor::loadFromGUI(){
 void PdAudioProcessor::setParametersFromDescs(){
     // hack to allow to reload parameters on the go
     // allow to add new or replace param as the host may need to keep same pointers
-
+    
     
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
-        if(maximumParameterCount<=i){
-            PdParameter* p = new PdParameter (0, (pulpParameterDescs[i]->name));
-            pdParameters.add(p);
-            maximumParameterCount ++;
-        }
-        else if(i<pdParameters.size()){
-            pdParameters[i]->setName((pulpParameterDescs[i]->name));
-            pdParameters[i]->setValue(0);
-        }
-        else{
-            DBG("parameter not found " << pulpParameterDescs[i]->name << " count : " << maximumParameterCount);
+        if(pulpParameterDescs[i]->isAudioParameter()){
+            if(maximumParameterCount<=i){
+                PdParameter* p = new PdParameter (0, (pulpParameterDescs[i]->name),pulpParameterDescs[i]->min,pulpParameterDescs[i]->max);
+                pdParameters.add(p);
+                maximumParameterCount ++;
+            }
+            else if(i<pdParameters.size()){
+                pdParameters[i]->setName((pulpParameterDescs[i]->name));
+                pdParameters[i]->setMinMax(pulpParameterDescs[i]->min,pulpParameterDescs[i]->max);
+                pdParameters[i]->setValue(0);
+            }
+            else{
+                DBG("parameter not found " << pulpParameterDescs[i]->name << " count : " << maximumParameterCount);
+            }
         }
         
     }
@@ -79,7 +84,7 @@ void PdAudioProcessor::setParametersFromDescs(){
 
 
 void PdAudioProcessor::updateProcessorParameters(){
-
+    
     int idx = 0;
     for(auto & p:pdParameters){
         
@@ -178,8 +183,8 @@ void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-//    needsToReopenPatch = sampleRate;
-//    loadFromGUI();
+    //    needsToReopenPatch = sampleRate;
+    //    loadFromGUI();
     reloadPdPatch(sampleRate);
     
 }
@@ -190,7 +195,7 @@ void PdAudioProcessor::releaseResources()
     // spare memory, etc.
     if (pd != nullptr)
     {
-//        pd->computeAudio (false);
+        //        pd->computeAudio (false);
         pd->closePatch (patch);
     }
     
@@ -203,7 +208,7 @@ void PdAudioProcessor::releaseResources()
 void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     int instance = -1;
-
+    
     if(patchfile.getFullPathName() == PATCH_PATH){
         instance = 0;
     }
@@ -212,12 +217,12 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
     }
     
     if(needsToReopenPatch>=0){
-            reloadPdPatch(needsToReopenPatch);
-            sendChangeMessage();
-            needsToReopenPatch = -2;
+        reloadPdPatch(needsToReopenPatch);
+        sendChangeMessage();
+        needsToReopenPatch = -2;
     }
     
-//    pd->setMainContext();
+    //    pd->setMainContext();
     clearMidiBuffer(buffer.getNumSamples());
     
     
@@ -233,7 +238,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
     for (int i=0; i<pdParameters.size(); i++) {
         PdParameter* parameter = pdParameters[i];
         if(parameter->hasToObserve())
-            pd->sendFloat(parameter->getName(300).toStdString(), parameter->getValue());
+            pd->sendFloat(parameter->getName(300).toStdString(), parameter->getTrueValue());
     }
     
     MidiMessage message;
@@ -298,7 +303,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
     midiMessages = getMidiBuffer();
     
     
-
+    
     
 }
 
@@ -312,7 +317,7 @@ void PdAudioProcessor::sendDawInfo(){
             DBG("set bpm : " << dawInfo.tempo);
         }
         int newBeat = (int)(currentPositionInfo.ppqPosition*currentPositionInfo.timeSigNumerator);
-//        DBG("ppq " <<currentPositionInfo.ppqPosition <<","<< currentPositionInfo.timeInSeconds << "," << dawInfo.beat );;
+        //        DBG("ppq " <<currentPositionInfo.ppqPosition <<","<< currentPositionInfo.timeInSeconds << "," << dawInfo.beat );;
         if(dawInfo.beat != newBeat){
             dawInfo.beat = newBeat;
             pd->sendFloat("pulp_beat",dawInfo.beat);
@@ -342,7 +347,7 @@ void PdAudioProcessor::getStateInformation (MemoryBlock& destData)
     // STORE / SAVE
     
     XmlElement xml(getName().replace(" ", "-"));
-
+    
     
     // parameters
     XmlElement* parameterListElement = new XmlElement("parameterList");
@@ -355,8 +360,8 @@ void PdAudioProcessor::getStateInformation (MemoryBlock& destData)
     }
     xml.addChildElement(parameterListElement);
     
-//    MemoryOutputStream stream;
-//    xml.writeToStream(stream, "");
+    //    MemoryOutputStream stream;
+    //    xml.writeToStream(stream, "");
     //DBG("save [" << stream.toString() << "] " );;
     
     copyXmlToBinary(xml, destData);
@@ -370,40 +375,40 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
     // RESTORE / LOAD
     
     if(canRestore){
-    ScopedPointer<XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
-    if(xml != 0 && xml->hasTagName(getName().replace(" ", "-"))) {
-        
-        MemoryOutputStream stream;
-        xml->writeToStream(stream, "<?xml version=\"1.0\"?>");
-
-        forEachXmlChildElement (*xml, child)
-        {
-            DBG(" - load : " << child->getTagName() );;
-
-            if(child->hasTagName("parameterList")) {
+        ScopedPointer<XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
+        if(xml != 0 && xml->hasTagName(getName().replace(" ", "-"))) {
+            
+            MemoryOutputStream stream;
+            xml->writeToStream(stream, "<?xml version=\"1.0\"?>");
+            
+            forEachXmlChildElement (*xml, child)
+            {
+                DBG(" - load : " << child->getTagName() );;
                 
-                forEachXmlChildElement (*child, parameterElement) {
-
-                    // TODO : change index based retrieval
-                    // no need atm because of pd patches are bound in the begining
-                    int index = parameterElement->getIntAttribute("index");
-                    if(index<pdParameters.size()){
-                        DBG("loading param " << parameterElement->getStringAttribute("name"));
-                       PdParameter* p = pdParameters.getUnchecked(index);
-                        p->deSerialize(parameterElement);
+                if(child->hasTagName("parameterList")) {
+                    
+                    forEachXmlChildElement (*child, parameterElement) {
                         
-                        setParameter(p->getParameterIndex(), (float) p->getValue());
+                        // TODO : change index based retrieval
+                        // no need atm because of pd patches are bound in the begining
+                        int index = parameterElement->getIntAttribute("index");
+                        if(index<pdParameters.size()){
+                            DBG("loading param " << parameterElement->getStringAttribute("name"));
+                            PdParameter* p = pdParameters.getUnchecked(index);
+                            p->deSerialize(parameterElement);
+                            
+                            setParameter(p->getParameterIndex(), (float) p->getValue());
+                            
+                        }
+                        else{
+                            DBG("DAW saved old Parameter" );;
+                        }
+                        
                         
                     }
-                    else{
-                        DBG("DAW saved old Parameter" );;
-                    }
-                    
-                    
                 }
             }
         }
-    }
     }
 }
 
@@ -418,7 +423,7 @@ void PdAudioProcessor::reloadPdPatch (double sampleRate)
     }
     
     if (pd) {
-//        pd->computeAudio(false);
+        //        pd->computeAudio(false);
         pd->closePatch(patch);
     }
     else{
@@ -461,9 +466,18 @@ void PdAudioProcessor::reloadPdPatch (double sampleRate)
     
     // clear info to send it again on next process block
     dawInfo.clear();
-
+    
     
 }
+
+
+void PdAudioProcessor::print(const std::string& message) {
+    if(getActiveEditor()!=nullptr){
+        
+            MainComponent * mainEditor =dynamic_cast<MainComponent*>(getActiveEditor()) ;
+        mainEditor->addPdLog(message);
+    }
+};
 
 
 
@@ -484,3 +498,6 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new PdAudioProcessor();
 }
+
+
+

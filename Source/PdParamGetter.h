@@ -48,6 +48,8 @@ class PdParamGetter {
         int labelSize;
         String labelName;
         
+        bool isAudioParameter(){return (type!= CNV);}
+        
         // container for variable Size objects
         StringArray elements;
         
@@ -58,12 +60,17 @@ class PdParamGetter {
         
         int guiNum;
         int processorIdx;
+        int pdObjectIdx;
     };
     
     
     
-    PulpParameterDesc * getDescForIdx(int idx);
+    PulpParameterDesc * getObjectForIdx(int idx);
+    int getTotalObjectCount();
+    
+    PulpParameterDesc * getParamForIdx(int idx);
     int getTotalParameterCount();
+    
     
     Array<int> GUINumParams;
     int getProcessorStartIdxForGUI(int guiNum);
@@ -84,12 +91,12 @@ protected:
     
     
     Array<Array<StringArray > > parsedString;
-    int localParamCount = 0;
+    int localParamCount = 0,localObjectCount=0;
     Colour getPdColour(int c);
     Array<Rectangle<int> > guiSizes;
     Array<File> guiFiles;
     OwnedArray<PulpParameterDesc> pulpParameterDescs;
-    
+    Array<PulpParameterDesc * > audioParameters;
     static int dollarZero;
     
     

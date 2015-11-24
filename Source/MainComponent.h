@@ -11,14 +11,16 @@
 #include "TuioClient.h"
 #include "TuioListener.h"
 #include "TUIOComponent.h"
-
+#include "PulpConfigUI.h"
 
 using namespace TUIO;
 
 class MainComponent  : public AudioProcessorEditor,
                        public Timer,
-                       public ButtonListener,
-                        public TUIOComponent
+                    public TUIOComponent,
+                    public KeyListener,
+                    public ChangeListener,
+                    public ChangeBroadcaster
 
 {
 public:
@@ -30,22 +32,20 @@ public:
 
     void paint (Graphics& g);
     void resized();
-    void buttonClicked (Button* buttonThatWasClicked);
-
-
+    bool keyPressed (const KeyPress& key,
+                     Component* originatingComponent) ;
+    void ToggleConfigVisibility(bool config,bool console);
+    void changeListenerCallback (ChangeBroadcaster* source);
+    void    addPdLog(String message);
+    StringArray log;
 private:
 
     void timerCallback();
     
-
+    PulpConfigUI pulpConfigUI;
     PdAudioProcessorEditor pdEditor;
-    ScopedPointer<TextButton> findButton;
-    ScopedPointer<Label> pathField;
-    ScopedPointer<TextButton> reloadButton;
-    ScopedPointer<TextButton> editButton;
-    ScopedPointer<Label> statusField;
-    ScopedPointer<Label> label;
-    ScopedPointer<Label> label2;
+    TextEditor pulpConsole;
+
 
     ScopedPointer<LookNFeel> lookNFeel;
     

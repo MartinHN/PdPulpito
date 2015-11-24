@@ -10,7 +10,7 @@
 
 
 
-class SendSlider  : public LabelComponent,public SliderListener
+class SendSlider  : public LabelComponent,public SliderListener,public Timer
 {
 public:
     
@@ -20,7 +20,7 @@ public:
         VSL
     };
     //==============================================================================
-    SendSlider (int index, AudioProcessor& processor)
+    SendSlider (int index, PdAudioProcessor& processor)
     : LabelComponent(index,processor)
     
     {
@@ -44,16 +44,17 @@ public:
                                       );
         
         setSize (100, 130);
+        startTimer(100);
         
     }
-    SendSlider (int index, AudioProcessor& processor,type t)
+    SendSlider (int index, PdAudioProcessor& processor,type t)
     : LabelComponent(index,processor)
     
     {
         
         
         addAndMakeVisible (component = new Slider ("slider"));
-
+        
         
         switch(t){
             case ROTARY:
@@ -94,42 +95,65 @@ public:
         
         
         setSize (100, 130);
+        startTimer(100);
         
     }
     ~SendSlider(){};
     
     void lookAndFeelChanged()override{
     getSlider()->setTextBoxIsEditable(false);
-        getSlider()->lookAndFeelChanged();
-    }
-    
-    void timerCallback(){getSlider()->setValue(processor.getParameter(index), NotificationType::dontSendNotification);};
-    
-    void resizeComponent(){
-        getSlider()->setTextBoxStyle (Slider::TextBoxAbove, true, component->getWidth() , component->getHeight());
-        getSlider()->lookAndFeelChanged();
-    
-    };
-    void sliderValueChanged (Slider* sliderThatWasMoved){
-        if (sliderThatWasMoved == getSlider()){
-            processor.setParameterNotifyingHost(index, sliderThatWasMoved->getValue());
-            //            sliderThatWasMoved->setValue(processor.getParameter(index), NotificationType::dontSendNotification);
-            
+    getSlider()->lookAndFeelChanged();
+}
+
+
+// from DAW
+void timerCallback(){
+
+    if(!getSlider()->isMouseButtonDown()){
+
+        getSlider()->setValue(getPdParameter()->getTrueValue() ,NotificationType::dontSendNotification);
+        if (getPdParameter()->hasChanged())
+        {
+            startTimer (1000 / 50);
         }
+        else
+        {
+            startTimer (jmin (1000 / 3, getTimerInterval() + 10));
+        }
+        
+        getSlider()->repaint();
     }
+};
+
+void resizeComponent(){
+    getSlider()->setTextBoxStyle (Slider::TextBoxAbove, true, component->getWidth() , component->getHeight());
+    getSlider()->lookAndFeelChanged();
     
+};
+
+
+// fromGUI
+void sliderValueChanged (Slider* sliderThatWasMoved){
+    if (sliderThatWasMoved == getSlider()){
+        getPdParameter()->setTrueValue(getSlider()->getValue());
+        getPdParameter()->setValueNotifyingHost(getPdParameter()->getValue());
+
+        
+    }
+}
+
 void setRange(float min,float max){
     float range = abs(max-min);
     int po = log10(range) - 3;
     float step = pow(10,po);
     getSlider()->setRange(min,max,step);}
-    
 
-    
-    Slider* getSlider(){return (Slider*) component.get();}
 
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SendSlider)
+
+Slider* getSlider(){return (Slider*) component.get();}
+
+//==============================================================================
+JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SendSlider)
 };
 
 

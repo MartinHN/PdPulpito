@@ -19,7 +19,7 @@ public:
         HORIZONTAL
     };
     
-    SendRadio(int index,AudioProcessor & p,int size,Orientation o):LabelComponent(index,p){
+    SendRadio(int index,PdAudioProcessor & p,int size,Orientation o):LabelComponent(index,p){
         component = new Component;
         addAndMakeVisible(component);
         static int radioGroupId = 0;
@@ -41,7 +41,7 @@ public:
         if(b->getToggleState()){
         int num = component->getIndexOfChildComponent(b);
         if (num>=0)
-            processor.setParameterNotifyingHost(index, num);
+            processor.AudioProcessor::setParameterNotifyingHost(index, num);
         }
     };
     

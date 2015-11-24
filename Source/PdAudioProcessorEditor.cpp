@@ -12,7 +12,6 @@ PdAudioProcessorEditor::PdAudioProcessorEditor (PdAudioProcessor& p)
     p.addChangeListener(this);
     showedCanvas = -1;
     
-    
 }
 
 
@@ -60,7 +59,6 @@ void PdAudioProcessorEditor::resized()
 {
     
     AudioProcessorEditor::resized();
-
     setCanvasVisible(0);
     
 }
@@ -70,7 +68,6 @@ void PdAudioProcessorEditor::updatePatch (){
     PdAudioProcessor* p =  (PdAudioProcessor*)&processor;
     
     if(p!=NULL && p->patchfile.exists()){
-        
         p->updateProcessorParameters();
         rebuildGUIParams(p);
         PdAudioProcessorEditor::resized();

@@ -10,75 +10,14 @@
 MainComponent::MainComponent (PdAudioProcessor& processor)
 :    AudioProcessorEditor(processor),
     TUIOComponent(this),
-    pdEditor(processor)
-
+    pdEditor(processor),
+    pulpConfigUI(&processor)
 {
 
     lookNFeel = new LookNFeel();
     setLookAndFeel(lookNFeel);
-    addAndMakeVisible (findButton = new TextButton ("new button"));
-    findButton->setButtonText (TRANS("Find patch..."));
-    findButton->addListener (this);
-    findButton->setColour (TextButton::buttonColourId, Colour (0xffadadad));
-    findButton->setColour (TextButton::buttonOnColourId, Colour (0xff727272));
+    addAndMakeVisible(pulpConfigUI);
 
-    addAndMakeVisible (pathField = new Label ("new label",
-                                              String::empty));
-    pathField->setFont (Font (15.00f, Font::plain));
-    pathField->setJustificationType (Justification::centred);
-    pathField->setEditable (false, false, false);
-    pathField->setColour (Label::backgroundColourId, Colour (0x21000000));
-    pathField->setColour (Label::textColourId, Colour (0xffbcbcbc));
-    pathField->setColour (TextEditor::textColourId, Colours::black);
-    pathField->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    addAndMakeVisible (reloadButton = new TextButton ("new button"));
-    reloadButton->setTooltip (TRANS("Reload the pd patch file."));
-    reloadButton->setButtonText (TRANS("Reload"));
-    reloadButton->addListener (this);
-    reloadButton->setColour (TextButton::buttonColourId, Colour (0xffadadad));
-    reloadButton->setColour (TextButton::buttonOnColourId, Colour (0xff727272));
-
-    addAndMakeVisible (editButton = new TextButton ("new button"));
-    editButton->setTooltip (TRANS("Opens PD editor if existent."));
-    editButton->setButtonText (TRANS("Edit"));
-    editButton->addListener (this);
-    editButton->setColour (TextButton::buttonColourId, Colour (0xffadadad));
-    editButton->setColour (TextButton::buttonOnColourId, Colour (0xff727272));
-
-    addAndMakeVisible (statusField = new Label ("new label",
-                                                String::empty));
-    statusField->setFont (Font (11.00f, Font::plain));
-    statusField->setJustificationType (Justification::centred);
-    statusField->setEditable (false, false, false);
-    statusField->setColour (Label::backgroundColourId, Colour (0x00000000));
-    statusField->setColour (Label::textColourId, Colour (0xbcbcbcbc));
-    statusField->setColour (TextEditor::textColourId, Colours::black);
-    statusField->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    addAndMakeVisible (label = new Label ("new label",
-                                          TRANS("PD-Pulpito")));
-    label->setFont (Font ("DIN Alternate", 29.20f, Font::bold));
-    label->setJustificationType (Justification::topLeft);
-    label->setEditable (false, false, false);
-    label->setColour (Label::textColourId, Colours::white);
-    label->setColour (TextEditor::textColourId, Colours::black);
-    label->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    addAndMakeVisible (label2 = new Label ("new label",
-                                           TRANS("a pure data audio plugin runtime environment")));
-    label2->setFont (Font (14.00f, Font::italic));
-    label2->setJustificationType (Justification::bottomRight);
-    label2->setEditable (false, false, false);
-    label2->setColour (Label::textColourId, Colour (0x94ffffff));
-    label2->setColour (TextEditor::textColourId, Colours::black);
-    label2->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-
-    
-
-    PdAudioProcessor& p = (PdAudioProcessor&) processor;
-    pathField->setText(p.getPatchFile().getFileName(), dontSendNotification);
     
     startTimer(25);
 
@@ -87,13 +26,22 @@ MainComponent::MainComponent (PdAudioProcessor& processor)
     addAndMakeVisible(pdEditor);
     pdEditor.buildCanvas();
     pdEditor.updatePatch();
+    addKeyListener(this);
     
     
+    pulpConsole.setReadOnly(true);
+    pulpConsole.setMultiLine(true);
+    pulpConsole.setScrollToShowCursor(true);
+    pulpConsole.setSize(400, 500);
+    addAndMakeVisible(pulpConsole);
 //    addAndMakeVisible (resizer = new ResizableCornerComponent (this, &resizeLimits));
 //    resizeLimits.setSizeLimits (150, 150, 1000, 1000);
 //    setSize (500, 385);
         resized();
+    addChangeListener(this);
     
+    
+
     
 
     
@@ -103,13 +51,6 @@ MainComponent::~MainComponent()
 {
 
 
-    findButton = nullptr;
-    pathField = nullptr;
-    reloadButton = nullptr;
-    editButton = nullptr;
-    statusField = nullptr;
-    label = nullptr;
-    label2 = nullptr;
 
 
 
@@ -127,72 +68,56 @@ void MainComponent::paint (Graphics& g)
 void MainComponent::resized()
 {
 
-    findButton->setBounds (368, 56, 104, 24);
-    pathField->setBounds (24, 56, 328, 24);
-    reloadButton->setBounds (352, 90, 64, 20);
-    editButton->setBounds (424, 90, 48, 20);
-    statusField->setBounds (25, 91, 311, 17);
-    label->setBounds (22, 16, 170, 32);
-    label2->setBounds (168, 24, 304, 16);
-    
+
+
   
-    pdEditor.setTopLeftPosition(0,editButton->getBottom() + 10);
+    pdEditor.setTopLeftPosition(0,    pulpConfigUI.isVisible()?pulpConfigUI.getBottom() + 10:10);
+
+    setSize(pdEditor.getWidth() +(pulpConsole.isVisible()?pulpConsole.getWidth():0), pdEditor.getBottom());
+    
+    pulpConsole.setBounds(pdEditor.getRight(), 10, pulpConsole.getWidth(), getBottom());
 //                       editButton->getRight() + 10,300);
 
-    
-    
-    
-//    resizer->setBounds (getWidth() - 16, getHeight() - 16, 16, 16);
 
 }
 
 
+void MainComponent::addPdLog(String message){
+    log.addLines(message);
 
-void MainComponent::buttonClicked (Button* buttonThatWasClicked)
-{
+    ChangeBroadcaster::sendChangeMessage();
 
-    PdAudioProcessor& p = (PdAudioProcessor&) pdEditor.processor;
-
-
-    if (buttonThatWasClicked == findButton)
-    {
-
-        FileChooser fc ("Choose a pd file to open...",
-                        File::getCurrentWorkingDirectory(),
-                        "*",
-                        true);
-
-        if (fc.browseForFileToOpen())
-        {
-            pathField->setText(fc.getResult().getFileName(), dontSendNotification);
-            p.setPatchFile(fc.getResult());
-            p.needsToReopenPatch = 0;
-//            p.reloadPdPatch(NULL);
-            pdEditor.updatePatch();
+}
+void MainComponent::changeListenerCallback(juce::ChangeBroadcaster *source){
+    if(source == this){
+        
+        if(log.size()>1000){
+            log.removeRange(0, log.size()-1000);
         }
-
+            pulpConsole.setText(log.joinIntoString("\n"));
     }
-    else if (buttonThatWasClicked == reloadButton)
-    {
-
-        p.needsToReopenPatch = 0;
-
-
-    }
-    else if (buttonThatWasClicked == editButton)
-    {
-
-//        p.guiFile[0].startAsProcess();
-
-    }
-
 }
 
 
+void MainComponent::ToggleConfigVisibility(bool config,bool console){
 
+    if(config){pulpConfigUI.setVisible(!pulpConfigUI.isVisible());}
+    if(console){pulpConsole.setVisible(!pulpConsole.isVisible());}
+    if(config || console)resized();
+
+}
 
 void MainComponent::timerCallback()
 {
 //    PdAudioProcessor& p = (PdAudioProcessor&) pdEditor.processor;
 //    statusField->setText(p.status, dontSendNotification);
+}
+
+bool MainComponent::keyPressed (const KeyPress& key,
+                 Component* originatingComponent) {
+
+    juce_wchar c = key.getTextCharacter();
+
+        ToggleConfigVisibility(c=='c',c=='r');
+    
 }

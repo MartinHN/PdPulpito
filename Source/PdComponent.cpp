@@ -6,7 +6,7 @@
 
 
 //==============================================================================
-LabelComponent::LabelComponent (int index, AudioProcessor& processor)
+LabelComponent::LabelComponent (int index, PdAudioProcessor& processor)
 : index(index),
 processor(processor)
 {
@@ -23,14 +23,17 @@ processor(processor)
     label->setColour (Label::textColourId, Colour (0xffc4c4c4));
     label->setColour (TextEditor::textColourId, Colour (0xffe9e9e9));
     label->setColour (TextEditor::backgroundColourId, Colour (0x00343434));
-    
+    label->setInterceptsMouseClicks(false,false);
+    setInterceptsMouseClicks(false,true);
     
     
     setSize (100, 130);
     
     PdAudioProcessor* p = dynamic_cast<PdAudioProcessor*>(& processor);
+    if(index!=-1){
     String labelText(p->getParameterName(index));
     setName(labelText);
+    }
     label->setJustificationType(juce::Justification::left);
     
     
@@ -91,7 +94,7 @@ void LabelComponent::resized()
     
 }
 
-void     LabelComponent::setLabelVisible(bool v){
+void LabelComponent::setLabelVisible(bool v){
     
     label->setVisible(v);
     

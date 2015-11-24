@@ -13,7 +13,7 @@
 
 class SendToggle : public LabelComponent,public Button::Listener{
 public:
-    SendToggle(int index,AudioProcessor & p):LabelComponent(index,p){
+    SendToggle(int index,PdAudioProcessor & p):LabelComponent(index,p){
         ToggleButton * tb = new ToggleButton();
         addAndMakeVisible(component = tb);
         setSize (100, 130);
@@ -24,7 +24,7 @@ public:
     ToggleButton* getToggle(){return (ToggleButton*) component.get();}
     void buttonClicked (Button* b){
         if (b == getToggle())
-            processor.setParameterNotifyingHost(index, b->getToggleState());
+            processor.juce::AudioProcessor::setParameterNotifyingHost(index, b->getToggleState());
     };
 };
 

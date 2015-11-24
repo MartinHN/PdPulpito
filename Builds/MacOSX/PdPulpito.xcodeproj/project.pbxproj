@@ -195,6 +195,7 @@
 		6F211ED9281C102144FE216B /* juce_RTAS_DigiCode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBA469F0305A2D7BD2F00FC4 /* juce_RTAS_DigiCode1.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6F22E564F1DB31BEBB30F78F /* flush.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D4EF0C942E761684ECB90BD /* flush.c */; };
 		6F41FEDCA40E33511A35A945 /* frameaccum.c in Sources */ = {isa = PBXBuildFile; fileRef = 68F7E374E0CBF1535E8FEDD3 /* frameaccum.c */; };
+		6F4E23E61C04585100C58DC7 /* PulpConfigUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F4E23E41C04585100C58DC7 /* PulpConfigUI.cpp */; };
 		6FF2F78D1C0393570078776C /* midifile.c in Sources */ = {isa = PBXBuildFile; fileRef = 6FF2F78C1C0393570078776C /* midifile.c */; };
 		6FF2F78F1C0397000078776C /* path.c in Sources */ = {isa = PBXBuildFile; fileRef = 6FF2F78E1C0397000078776C /* path.c */; };
 		6FF2F7941C0397B50078776C /* import.c in Sources */ = {isa = PBXBuildFile; fileRef = 6FF2F7931C0397B50078776C /* import.c */; };
@@ -994,6 +995,8 @@
 		6E523B5D95A52222FBE2B7AE /* juce_KeyboardFocusTraverser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_KeyboardFocusTraverser.cpp; path = ../../../JUCE/modules/juce_gui_basics/keyboard/juce_KeyboardFocusTraverser.cpp; sourceTree = SOURCE_ROOT; };
 		6E69D173A1D8C509685725CC /* juce_DrawableShape.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_DrawableShape.cpp; path = ../../../JUCE/modules/juce_gui_basics/drawables/juce_DrawableShape.cpp; sourceTree = SOURCE_ROOT; };
 		6EC214962A2FD39C6AF72F5B /* juce_AU_Wrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_AU_Wrapper.mm; path = ../../../JUCE/modules/juce_audio_plugin_client/AU/juce_AU_Wrapper.mm; sourceTree = SOURCE_ROOT; };
+		6F4E23E41C04585100C58DC7 /* PulpConfigUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PulpConfigUI.cpp; path = ../../Source/PulpConfigUI.cpp; sourceTree = "<group>"; };
+		6F4E23E51C04585100C58DC7 /* PulpConfigUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PulpConfigUI.h; path = ../../Source/PulpConfigUI.h; sourceTree = "<group>"; };
 		6F545110814CC2B56AC1E525 /* juce_LagrangeInterpolator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_LagrangeInterpolator.h; path = ../../../JUCE/modules/juce_audio_basics/effects/juce_LagrangeInterpolator.h; sourceTree = SOURCE_ROOT; };
 		6F7F2935C4FB1EE478BF3468 /* juce_MouseEvent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MouseEvent.cpp; path = ../../../JUCE/modules/juce_gui_basics/mouse/juce_MouseEvent.cpp; sourceTree = SOURCE_ROOT; };
 		6F8997C0942AADF0DC31F45D /* cartopol.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cartopol.c; path = ../../Source/externals/cyclone/hammer/cartopol.c; sourceTree = SOURCE_ROOT; };
@@ -3693,6 +3696,8 @@
 				C3722925569CC4B7ABA8FC7A /* PdGUICanvas.h */,
 				62E53E6A4A1A64A5BA27C500 /* MainComponent.cpp */,
 				D877386565E78671543BD0E2 /* MainComponent.h */,
+				6F4E23E41C04585100C58DC7 /* PulpConfigUI.cpp */,
+				6F4E23E51C04585100C58DC7 /* PulpConfigUI.h */,
 				5A5098795F6BD176F513217D /* PdAudioProcessor.cpp */,
 				D84B06F94CECBF39D42F7B86 /* PdAudioProcessor.h */,
 				668B3C3148FC2E7080F17352 /* PdAudioProcessorEditor.cpp */,
@@ -4181,6 +4186,7 @@
 				BBFED05198425162A9A6DC52 /* deny.c in Sources */,
 				5C52CA54BB0FABFEA41CEA71 /* dist.c in Sources */,
 				4A3486F47B7EA7C53CCD2211 /* divide.c in Sources */,
+				6F4E23E61C04585100C58DC7 /* PulpConfigUI.cpp in Sources */,
 				C1283D8853F3B1366E81553D /* divmod.c in Sources */,
 				60764BE409C2B772F069BA51 /* edge.c in Sources */,
 				E2731ED05CFFB6B18500E7B9 /* expo.c in Sources */,

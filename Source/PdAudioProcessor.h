@@ -84,6 +84,12 @@ public:
     // TODO : better Hack for loading Patch in audiothread
     
     int needsToReopenPatch = -1;
+    
+    
+
+    
+    void print(const std::string& message) override;
+
 private:
     ScopedPointer<pd::PdBase> pd;
     int pos;
@@ -109,7 +115,7 @@ private:
     void sendDawInfo();
     bool canRestore = false;
    int maximumParameterCount = 0;
-
+    
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PdAudioProcessor)

@@ -42,7 +42,7 @@ public:
         int startidx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
         int endIdx = startidx + paramGetter()->getNumParamforGUI(guiNum);
         for(int i= startidx ; i < endIdx ; i++){
-            PdParamGetter::PulpParameterDesc * param = paramGetter()->getDescForIdx(i);
+            PdParamGetter::PulpParameterDesc * param = paramGetter()->getObjectForIdx(i);
             LabelComponent *c=nullptr;
             
             
@@ -152,7 +152,7 @@ public:
         
         int idx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
         for(int i= idx ; i < paramGetter()->getNumParamforGUI(guiNum) ; i++){
-            PdParamGetter::PulpParameterDesc * param = paramGetter()->getDescForIdx(idx);
+            PdParamGetter::PulpParameterDesc * param = paramGetter()->getObjectForIdx(idx);
             LabelComponent * c = ((LabelComponent*)juce_Components[idx]);
             if(c!=nullptr){
                 c->labelRelPos.setXY( getWidth() * param->labelRect.getX() ,

@@ -5,6 +5,7 @@
 
 
 #include "JuceHeader.h"
+#include "PdAudioProcessor.h"
 
 
 
@@ -12,7 +13,7 @@ class LabelComponent  : public Component
 {
 public:
     //==============================================================================
-    LabelComponent (int index, AudioProcessor& processor);
+    LabelComponent (int index, PdAudioProcessor& processor);
     ~LabelComponent();
     
     
@@ -29,10 +30,11 @@ public:
     ScopedPointer<Colour> backColour;
     Point<float> labelRelPos;
     float labelSize = 15;
+    PdParameter * getPdParameter(){return processor.pdParameters[index];};
 protected:
 
     int index;
-    AudioProcessor& processor;
+    PdAudioProcessor& processor;
 
     
     //==============================================================================

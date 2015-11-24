@@ -23,7 +23,9 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     guiFiles.clear();
     dollarZero++;
     pulpParameterDescs.clear();
-    localParamCount =0;
+    audioParameters.clear();
+    localObjectCount =0;
+    localParamCount = 0;
     GUINumParams.clear();
     PdRootName = patchfile.getFileName();
     
@@ -49,10 +51,10 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     
     for(auto  g:parsedString){
   
-        int tmpCount = localParamCount;
+        int tmpCount = localObjectCount;
         getParamsFromText(g, guiIdx);
         
-        GUINumParams.add(localParamCount-tmpCount);
+        GUINumParams.add(localObjectCount-tmpCount);
         // find top left most coordinate from pd
         if(pulpParameterDescs.size()>0){
             float minX = std::min(std::min(minX, pulpParameterDescs[0]->getX()),pulpParameterDescs[0]->labelRect.getX()) ;
@@ -312,10 +314,18 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                             }
                             DBG("");
                         }
-                        
-                        p->processorIdx = localParamCount;
-                        localParamCount++;
+                        if(p->isAudioParameter()){
+                            p->processorIdx = localParamCount;
+                            localParamCount++;
+                            audioParameters.add(p);
+                        }
+                        else{
+                            p->processorIdx = -1;
+                        }
+                        p->pdObjectIdx = localObjectCount;
+                        localObjectCount++;
                         pulpParameterDescs.add(p);
+                        
                     }
                     else{
                         delete p;
@@ -381,14 +391,24 @@ Array<StringArray>  PdParamGetter::parseText(StringArray destLines,bool isRootGU
 //}
 
 
-int PdParamGetter::getTotalParameterCount(){
-    return localParamCount;
+
+
+PdParamGetter::PulpParameterDesc * PdParamGetter::getObjectForIdx(int idx){
+    if( idx >= pulpParameterDescs.size())jassertfalse;
+    return pulpParameterDescs[idx];
+}
+int PdParamGetter::getTotalObjectCount(){
+    return pulpParameterDescs.size();
     
 }
 
-PdParamGetter::PulpParameterDesc * PdParamGetter::getDescForIdx(int idx){
-    if( idx >= pulpParameterDescs.size())jassertfalse;
-    return pulpParameterDescs[idx];
+PdParamGetter::PulpParameterDesc * PdParamGetter::getParamForIdx(int idx){
+    if( idx >= audioParameters.size())jassertfalse;
+    return audioParameters[idx];
+}
+int PdParamGetter::getTotalParameterCount(){
+    return audioParameters.size();
+    
 }
 
 
