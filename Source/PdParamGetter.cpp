@@ -12,11 +12,6 @@
 
 int PdParamGetter::dollarZero = 1002;
 
-
-
-
-
-
 void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     parsedString.clear();
     guiSizes.clear();
@@ -283,10 +278,11 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                                               parsedText.getLast()[6].getIntValue(),
                                               parsedText.getLast()[7].getIntValue());
                             Point <int> Noffset(l[2].getIntValue(),l[3].getIntValue());
-                        getParamsFromText(parsedText,guiIdx,Nregion,Noffset);
+                            getParamsFromText(parsedText,guiIdx,Nregion,Noffset);
                             
                             
                         }
+                        // this is only a container not a component
                         found = false;
                         
                         
@@ -296,11 +292,13 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                     }
                     
                     
-                    
+                    // ignore component that are not visible
                     if(region.getWidth()>0 && !region.contains(p->getX(),p->getY())){
 //                        DBG("dropping component out of scope");
                         found = false;
                     }
+                    
+                    
                     if(found){
                         
                         p->setBounds((p->getX()-region.getX()+offset.x)/patchRect.getWidth(),

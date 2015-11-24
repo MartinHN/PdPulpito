@@ -101,82 +101,9 @@ void PdAudioProcessor::updateProcessorParameters(){
 
 
 
-const String PdAudioProcessor::getName() const
-{
-    return PdParamGetter::getPdRootName();
-}
 
-const String PdAudioProcessor::getInputChannelName (int channelIndex) const
-{
-    return String (channelIndex + 1);
-}
 
-const String PdAudioProcessor::getOutputChannelName (int channelIndex) const
-{
-    return String (channelIndex + 1);
-}
 
-bool PdAudioProcessor::isInputChannelStereoPair (int index) const
-{
-    return true;
-}
-
-bool PdAudioProcessor::isOutputChannelStereoPair (int index) const
-{
-    return true;
-}
-
-bool PdAudioProcessor::acceptsMidi() const
-{
-#if JucePlugin_WantsMidiInput
-    return true;
-#else
-    return false;
-#endif
-}
-
-bool PdAudioProcessor::producesMidi() const
-{
-#if JucePlugin_ProducesMidiOutput
-    return true;
-#else
-    return false;
-#endif
-}
-
-bool PdAudioProcessor::silenceInProducesSilenceOut() const
-{
-    return false;
-}
-
-double PdAudioProcessor::getTailLengthSeconds() const
-{
-    return 0.0;
-}
-
-int PdAudioProcessor::getNumPrograms()
-{
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-    // so this should be at least 1, even if you're not really implementing programs.
-}
-
-int PdAudioProcessor::getCurrentProgram()
-{
-    return 0;
-}
-
-void PdAudioProcessor::setCurrentProgram (int index)
-{
-}
-
-const String PdAudioProcessor::getProgramName (int index)
-{
-    return String();
-}
-
-void PdAudioProcessor::changeProgramName (int index, const String& newName)
-{
-}
 
 //==============================================================================
 void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
@@ -328,16 +255,7 @@ void PdAudioProcessor::sendDawInfo(){
     }
 }
 
-//==============================================================================
-bool PdAudioProcessor::hasEditor() const
-{
-    return true; // (change this to false if you choose to not supply an editor)
-}
 
-AudioProcessorEditor* PdAudioProcessor::createEditor()
-{
-    return new MainComponent(*this);
-}
 
 //==============================================================================
 void PdAudioProcessor::getStateInformation (MemoryBlock& destData)
@@ -414,6 +332,18 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
     }
 }
 
+
+bool PdAudioProcessor::hasNewFilesSince(Time t){
+   return t>getLastPdGUIModTime() && t>File(patchfile).getLastModificationTime();
+    
+}
+
+Time PdAudioProcessor::lastModTime(){
+    Time t1 = getLastPdGUIModTime();
+    Time t2 = File(patchfile).getLastModificationTime();
+    return jmax(t1,t2);
+}
+
 void PdAudioProcessor::reloadPdPatch (double sampleRate)
 {
     DBG("reloading Patch" );
@@ -484,15 +414,11 @@ void PdAudioProcessor::print(const std::string& message) {
 
 
 
-void PdAudioProcessor::setPatchFile(File file)
-{
-    patchfile = file;
-}
+void PdAudioProcessor::setPatchFile(File file)          {patchfile = file;}
 
-File PdAudioProcessor::getPatchFile()
-{
-    return patchfile;
-}
+File PdAudioProcessor::getPatchFile()                   {return patchfile;}
+
+AudioProcessorEditor* PdAudioProcessor::createEditor()  {return new MainComponent(*this);}
 
 //==============================================================================
 // This creates new instances of the plugin..

@@ -73,6 +73,7 @@ public:
         xml->setAttribute("index", (int) getParameterIndex());
         xml->setAttribute("name", getName(256));
         xml->setAttribute("value", (double) getValue());
+
     }
     
     void deSerialize(XmlElement * parameterElement)         {setName( parameterElement->getStringAttribute("name"));}
