@@ -19,6 +19,7 @@ PdAudioProcessor::PdAudioProcessor()
     
     cachedSampleRate = 44100;
     isPdPatchLoaded = false;
+    addChangeListener(this);
     static int first = 0;
     if(first<2){
         setPatchFile(File(PATCH_PATH));
@@ -53,6 +54,9 @@ void PdAudioProcessor::loadFromGUI(){
     PdParamGetter::getParameterDescsFromPatch(patchfile);
     setParametersFromDescs();
     updateProcessorParameters();
+    for(auto s:pulpParameterDescs){
+    pd->subscribe(s->recieveName.toStdString());
+    }
     
 }
 
@@ -72,12 +76,11 @@ void PdAudioProcessor::setParametersFromDescs(){
                 maximumParameterCount ++;
             }
             else if(i<pdParameters.size()){
-                pdParameters[i]->setName((pulpParameterDescs[i]->name));
-                pdParameters[i]->setMinMax(pulpParameterDescs[i]->min,pulpParameterDescs[i]->max);
+                pdParameters[i]->setFromDesc(pulpParameterDescs[i]);
                 pdParameters[i]->setValue(0);
             }
             else{
-                DBG("parameter not found " << pulpParameterDescs[i]->name << " count : " << maximumParameterCount);
+                DBG("parameter not found " << pulpParameterDescs[i]->sendName << " count : " << maximumParameterCount);
             }
         }
         
@@ -139,18 +142,24 @@ void PdAudioProcessor::releaseResources()
 }
 
 
+void PdAudioProcessor::doOpenNewPatch(juce::File file){
+   
+    if(!isPdPatchLoaded && patchfile.exists()){
+        reloadPdPatch();
+        PdParamGetter::dollarZero = patch.dollarZero();
+        loadFromGUI();
+        isPdPatchLoaded = true;
+        sendChangeMessage();
+        
+    }
+}
 void PdAudioProcessor::openNewPatch(juce::File file){
     if(file.exists()){
         setPatchFile(file);
     }
     isPdPatchLoaded = false;
-    if(patchfile.exists()){
-        reloadPdPatch();
-        PdParamGetter::dollarZero = patch.dollarZero();
-        loadFromGUI();
-        sendChangeMessage();
-        isPdPatchLoaded = true;
-    }
+    sendChangeMessage();
+   
 }
 
 void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
@@ -180,7 +189,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
             PdParameter* parameter = pdParameters[i];
             if(parameter->hasToObserve()){
                 
-                pd->sendFloat(parameter->getName(300).toStdString(), parameter->getTrueValue());
+                pd->sendFloat(parameter->getName(70).toStdString(), parameter->getTrueValue());
             }
         }
         
@@ -243,7 +252,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
         sendDawInfo();
         
         
-        midiMessages = getMidiBuffer();
+        midiMessages.swapWith( getMidiBuffer() );
         
         
     }
@@ -323,7 +332,7 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
     String name = "PdPulpito";//getName().replace(" ", "-");
     
     ScopedPointer<XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
-    
+    bool needsToReopenPatch = false;;
     if(xml != 0 && xml->hasTagName(name)) {
         
         MemoryOutputStream stream;
@@ -338,12 +347,12 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
             if(getLastModificationTime().toMilliseconds()!=milliseconds){
                 canRestore = false;
                 DBG3("not Restoring State because patch was Modified",getLastModificationTime().toMilliseconds(),milliseconds);
-                needsToReopenPatch = -2;
+                needsToReopenPatch = false;
                 return;
             }
             else{
                 
-                needsToReopenPatch = 0;
+                needsToReopenPatch = true;
                 
             }
             
@@ -380,7 +389,7 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
         }
         
     }
-    if(needsToReopenPatch>=0){
+    if(needsToReopenPatch){
         openNewPatch();
     }
 }
@@ -453,10 +462,21 @@ void PdAudioProcessor::reloadPdPatch ()
     
 }
 
-//extern "C"{
-//extern void * error_object;
-//}
-//#include "s_print.c"
+void PdAudioProcessor::receiveFloat(const std::string& dest, float num)
+{
+    if(getActiveEditor()!=nullptr){
+        MainComponent * mainEditor =dynamic_cast<MainComponent*>(getActiveEditor()) ;
+        for(auto & c:mainEditor->pdEditor.pdCanvas){
+            for(auto & cc:c->PdGUICanvas::pdComponents){
+                if(cc->getDescription()->recieveName == dest){
+                    cc->setValueFromPd(num);
+                }
+            }
+        }
+    }
+};
+
+
 void PdAudioProcessor::print(const std::string& message) {
     if(getActiveEditor()!=nullptr){
         
@@ -469,10 +489,13 @@ void PdAudioProcessor::print(const std::string& message) {
     }
 };
 
+void PdAudioProcessor::changeListenerCallback (ChangeBroadcaster* source){
+    doOpenNewPatch();
+}
 
 
 
-void PdAudioProcessor::setPatchFile(File file)          {patchfile = file;}
+void PdAudioProcessor::setPatchFile(File file)          {patchfile = file;sendChangeMessage();}
 
 File PdAudioProcessor::getPatchFile()                   {return patchfile;}
 

@@ -30,10 +30,10 @@ public:
     
     void rebuildGUIParams(AudioProcessor * pin){
         
-        for(auto & c:juce_Components){
+        for(auto & c:pdComponents){
             removeChildComponent(c);
         }
-        juce_Components.clear();
+        pdComponents.clear();
         
         setBounds(paramGetter()->getBoundOfGui(guiNum));
         
@@ -114,8 +114,8 @@ public:
                 
                 c->setName(param->labelName);
                 c->setLabelVisible(param->hasLabel);
-                p->setParameterName(param->processorIdx, param->name);
-                juce_Components.add(c);
+                p->setParameterName(param->processorIdx, param->sendName);
+                pdComponents.add(c);
                 
                 c->setBounds (
                               getWidth() * param->getX(),
@@ -129,7 +129,7 @@ public:
             else{
                 delete c;
 
-                DBG( "no viable parameters for "<<param->name);
+                DBG( "no viable parameters for "<<param->sendName);
                 // for now, only accept drawed component
                 jassertfalse;
                 
@@ -147,14 +147,14 @@ public:
     void resized(){
 
         
-        if(juce_Components.size()==0){
+        if(pdComponents.size()==0){
             return;
         }
         
         int idx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
         for(int i= idx ; i < paramGetter()->getNumObjectsForGUI(guiNum) ; i++){
             PulpParameterDesc * param = paramGetter()->getObjectForIdx(idx);
-            PdComponent * c = ((PdComponent*)juce_Components[idx]);
+            PdComponent * c = ((PdComponent*)pdComponents[idx]);
             if(c!=nullptr){
                 c->labelRelPos.setXY( getWidth() * param->labelRect.getX() ,
                                       getHeight()*(param->labelRect.getY()) - 4
@@ -173,7 +173,7 @@ public:
     
     
     int guiNum =-1;
-    OwnedArray<Component> juce_Components;
+    OwnedArray<PdComponent> pdComponents;
     PdParamGetter * paramGetter(){
         return dynamic_cast<PdParamGetter*>(&processor);
     }

@@ -55,71 +55,74 @@ OBJECTS := \
   $(OBJDIR)/PdBase_917893ee.o \
   $(OBJDIR)/PdTypes_2c8748c6.o \
   $(OBJDIR)/ringbuffer_42114019.o \
-  $(OBJDIR)/LabelComponent_ec4bff72.o \
+  $(OBJDIR)/PdComponent_3d4a5f4a.o \
   $(OBJDIR)/LookNfeel_4af74696.o \
-  $(OBJDIR)/allow_1a4dc203.o \
-  $(OBJDIR)/arbran_5be09c3e.o \
-  $(OBJDIR)/arraycopy_23e4f448.o \
-  $(OBJDIR)/average_5e67ea97.o \
-  $(OBJDIR)/beat_2b70c886.o \
-  $(OBJDIR)/beta_2b792440.o \
-  $(OBJDIR)/bilex_4a10eb72.o \
-  $(OBJDIR)/borax_54a0bab6.o \
-  $(OBJDIR)/cauchy_c7f511cd.o \
-  $(OBJDIR)/chord_7d723256.o \
-  $(OBJDIR)/delta_ad107ab2.o \
-  $(OBJDIR)/deny_2ee0755c.o \
-  $(OBJDIR)/dist_2f1b0676.o \
-  $(OBJDIR)/divide_d90f61c9.o \
-  $(OBJDIR)/divmod_d94cbc21.o \
-  $(OBJDIR)/edge_3083bccd.o \
-  $(OBJDIR)/expo_31a1cfc2.o \
-  $(OBJDIR)/fifo_327ebc1c.o \
-  $(OBJDIR)/gauss_456e6cb5.o \
-  $(OBJDIR)/gestalt_da11f6c4.o \
-  $(OBJDIR)/history_ea32f4e.o \
-  $(OBJDIR)/ignore_695cf0e2.o \
-  $(OBJDIR)/iso_b77d557f.o \
-  $(OBJDIR)/lifo_3cbbcfd6.o \
-  $(OBJDIR)/limit_5b1f15f5.o \
-  $(OBJDIR)/linear_a387975.o \
-  $(OBJDIR)/listfifo_870658ba.o \
-  $(OBJDIR)/listfunnel_674faee4.o \
-  $(OBJDIR)/match_82be497f.o \
-  $(OBJDIR)/maxlib_dc5e4df1.o \
-  $(OBJDIR)/minus_9018d96a.o \
-  $(OBJDIR)/mlife_94e9e7a3.o \
-  $(OBJDIR)/multi_a47637f3.o \
-  $(OBJDIR)/nchange_b292b9d8.o \
-  $(OBJDIR)/netclient_9e10ac22.o \
-  $(OBJDIR)/netdist_1fd9bbd.o \
-  $(OBJDIR)/netrec_1157c4a3.o \
-  $(OBJDIR)/netserver_ba1ee99a.o \
-  $(OBJDIR)/nroute_b8b1ab6b.o \
-  $(OBJDIR)/pitch_2f17c03a.o \
-  $(OBJDIR)/plus_43c0596a.o \
-  $(OBJDIR)/poisson_d916303.o \
-  $(OBJDIR)/pong_43e74448.o \
-  $(OBJDIR)/pulse_43286653.o \
-  $(OBJDIR)/remote_a4c71e56.o \
-  $(OBJDIR)/rewrap_b5f9614d.o \
-  $(OBJDIR)/rhythm_583516a6.o \
-  $(OBJDIR)/scale_c285abc4.o \
-  $(OBJDIR)/score_c34daf0c.o \
-  $(OBJDIR)/speedlim_77db7779.o \
-  $(OBJDIR)/split_d94e8994.o \
-  $(OBJDIR)/step_49484e1c.o \
-  $(OBJDIR)/subst_e14e655b.o \
-  $(OBJDIR)/sync_4992aa2b.o \
-  $(OBJDIR)/temperature_18feedae.o \
-  $(OBJDIR)/tilt_4a6561cd.o \
-  $(OBJDIR)/timebang_994cc215.o \
-  $(OBJDIR)/triang_1c9f1c1f.o \
-  $(OBJDIR)/unroute_6069670a.o \
-  $(OBJDIR)/urn_b825f76b.o \
-  $(OBJDIR)/velocity_dc139e6d.o \
-  $(OBJDIR)/weibull_efbd1328.o \
-  $(OBJDIR)/wrap_4ffdb01a.o \
+  $(OBJDIR)/import_3779d35.o \
+  $(OBJDIR)/path_fa3ee875.o \
+  $(OBJDIR)/midifile_532cc0ed.o \
+  $(OBJDIR)/allow_58b822b.o \
+  $(OBJDIR)/arbran_d85ae116.o \
+  $(OBJDIR)/arraycopy_bc766070.o \
+  $(OBJDIR)/average_713640bf.o \
+  $(OBJDIR)/beat_aee6635e.o \
+  $(OBJDIR)/beta_aeeebf18.o \
+  $(OBJDIR)/bilex_354eab9a.o \
+  $(OBJDIR)/borax_3fde7ade.o \
+  $(OBJDIR)/cauchy_446f56a5.o \
+  $(OBJDIR)/chord_68aff27e.o \
+  $(OBJDIR)/delta_984e3ada.o \
+  $(OBJDIR)/deny_b2561034.o \
+  $(OBJDIR)/dist_b290a14e.o \
+  $(OBJDIR)/divide_5589a6a1.o \
+  $(OBJDIR)/divmod_55c700f9.o \
+  $(OBJDIR)/edge_b3f957a5.o \
+  $(OBJDIR)/expo_b5176a9a.o \
+  $(OBJDIR)/fifo_b5f456f4.o \
+  $(OBJDIR)/gauss_30ac2cdd.o \
+  $(OBJDIR)/gestalt_ece04cec.o \
+  $(OBJDIR)/history_21718576.o \
+  $(OBJDIR)/ignore_e5d735ba.o \
+  $(OBJDIR)/iso_c3fcffa7.o \
+  $(OBJDIR)/lifo_c0316aae.o \
+  $(OBJDIR)/limit_465cd61d.o \
+  $(OBJDIR)/linear_86b2be4d.o \
+  $(OBJDIR)/listfifo_ce02c792.o \
+  $(OBJDIR)/listfunnel_e0ebc7bc.o \
+  $(OBJDIR)/match_6dfc09a7.o \
+  $(OBJDIR)/maxlib_58d892c9.o \
+  $(OBJDIR)/minus_7b569992.o \
+  $(OBJDIR)/mlife_8027a7cb.o \
+  $(OBJDIR)/multi_8fb3f81b.o \
+  $(OBJDIR)/nchange_c5611000.o \
+  $(OBJDIR)/netclient_36a2184a.o \
+  $(OBJDIR)/netdist_14cbf1e5.o \
+  $(OBJDIR)/netrec_8dd2097b.o \
+  $(OBJDIR)/netserver_52b055c2.o \
+  $(OBJDIR)/nroute_352bf043.o \
+  $(OBJDIR)/pitch_1a558062.o \
+  $(OBJDIR)/plus_c735f442.o \
+  $(OBJDIR)/poisson_205fb92b.o \
+  $(OBJDIR)/pong_c75cdf20.o \
+  $(OBJDIR)/pulse_2e66267b.o \
+  $(OBJDIR)/remote_2141632e.o \
+  $(OBJDIR)/rewrap_3273a625.o \
+  $(OBJDIR)/rhythm_d4af5b7e.o \
+  $(OBJDIR)/scale_adc36bec.o \
+  $(OBJDIR)/score_ae8b6f34.o \
+  $(OBJDIR)/speedlim_bed7e651.o \
+  $(OBJDIR)/split_c48c49bc.o \
+  $(OBJDIR)/step_ccbde8f4.o \
+  $(OBJDIR)/subst_cc8c2583.o \
+  $(OBJDIR)/sync_cd084503.o \
+  $(OBJDIR)/temperature_d2e5efd6.o \
+  $(OBJDIR)/tilt_cddafca5.o \
+  $(OBJDIR)/timebang_e04930ed.o \
+  $(OBJDIR)/triang_991960f7.o \
+  $(OBJDIR)/unroute_7337bd32.o \
+  $(OBJDIR)/urn_c4a5a193.o \
+  $(OBJDIR)/velocity_23100d45.o \
+  $(OBJDIR)/weibull_28b6950.o \
+  $(OBJDIR)/wrap_d3734af2.o \
   $(OBJDIR)/accum_9b178248.o \
   $(OBJDIR)/acos_bab39301.o \
   $(OBJDIR)/active_e436ef01.o \
@@ -400,6 +403,7 @@ OBJECTS := \
   $(OBJDIR)/z~_778ac8cc.o \
   $(OBJDIR)/zexy_bebd7634.o \
   $(OBJDIR)/PdGUICanvas_9f886dc0.o \
+  $(OBJDIR)/PulpConfigUI_9dc37c8.o \
   $(OBJDIR)/MainComponent_a6ffb4a5.o \
   $(OBJDIR)/PdAudioProcessor_dc268ef9.o \
   $(OBJDIR)/PdAudioProcessorEditor_1788cb06.o \
@@ -468,9 +472,9 @@ $(OBJDIR)/ringbuffer_42114019.o: ../../Source/ringbuffer.c
 	@echo "Compiling ringbuffer.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/LabelComponent_ec4bff72.o: ../../Source/LabelComponent.cpp
+$(OBJDIR)/PdComponent_3d4a5f4a.o: ../../Source/PdComponent.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling LabelComponent.cpp"
+	@echo "Compiling PdComponent.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/LookNfeel_4af74696.o: ../../Source/LookNfeel.cpp
@@ -478,317 +482,332 @@ $(OBJDIR)/LookNfeel_4af74696.o: ../../Source/LookNfeel.cpp
 	@echo "Compiling LookNfeel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/allow_1a4dc203.o: ../../../pd/externals/maxlib/allow.c
+$(OBJDIR)/import_3779d35.o: ../../Source/externals/import.c
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling import.c"
+	@$(CC) $(CFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/path_fa3ee875.o: ../../Source/externals/path.c
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling path.c"
+	@$(CC) $(CFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/midifile_532cc0ed.o: ../../Source/externals/midifile.c
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling midifile.c"
+	@$(CC) $(CFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/allow_58b822b.o: ../../Source/externals/maxlib/allow.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling allow.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/arbran_5be09c3e.o: ../../../pd/externals/maxlib/arbran.c
+$(OBJDIR)/arbran_d85ae116.o: ../../Source/externals/maxlib/arbran.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling arbran.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/arraycopy_23e4f448.o: ../../../pd/externals/maxlib/arraycopy.c
+$(OBJDIR)/arraycopy_bc766070.o: ../../Source/externals/maxlib/arraycopy.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling arraycopy.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/average_5e67ea97.o: ../../../pd/externals/maxlib/average.c
+$(OBJDIR)/average_713640bf.o: ../../Source/externals/maxlib/average.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling average.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/beat_2b70c886.o: ../../../pd/externals/maxlib/beat.c
+$(OBJDIR)/beat_aee6635e.o: ../../Source/externals/maxlib/beat.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling beat.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/beta_2b792440.o: ../../../pd/externals/maxlib/beta.c
+$(OBJDIR)/beta_aeeebf18.o: ../../Source/externals/maxlib/beta.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling beta.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/bilex_4a10eb72.o: ../../../pd/externals/maxlib/bilex.c
+$(OBJDIR)/bilex_354eab9a.o: ../../Source/externals/maxlib/bilex.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling bilex.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/borax_54a0bab6.o: ../../../pd/externals/maxlib/borax.c
+$(OBJDIR)/borax_3fde7ade.o: ../../Source/externals/maxlib/borax.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling borax.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/cauchy_c7f511cd.o: ../../../pd/externals/maxlib/cauchy.c
+$(OBJDIR)/cauchy_446f56a5.o: ../../Source/externals/maxlib/cauchy.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling cauchy.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/chord_7d723256.o: ../../../pd/externals/maxlib/chord.c
+$(OBJDIR)/chord_68aff27e.o: ../../Source/externals/maxlib/chord.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling chord.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/delta_ad107ab2.o: ../../../pd/externals/maxlib/delta.c
+$(OBJDIR)/delta_984e3ada.o: ../../Source/externals/maxlib/delta.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling delta.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/deny_2ee0755c.o: ../../../pd/externals/maxlib/deny.c
+$(OBJDIR)/deny_b2561034.o: ../../Source/externals/maxlib/deny.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling deny.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/dist_2f1b0676.o: ../../../pd/externals/maxlib/dist.c
+$(OBJDIR)/dist_b290a14e.o: ../../Source/externals/maxlib/dist.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling dist.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/divide_d90f61c9.o: ../../../pd/externals/maxlib/divide.c
+$(OBJDIR)/divide_5589a6a1.o: ../../Source/externals/maxlib/divide.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling divide.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/divmod_d94cbc21.o: ../../../pd/externals/maxlib/divmod.c
+$(OBJDIR)/divmod_55c700f9.o: ../../Source/externals/maxlib/divmod.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling divmod.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/edge_3083bccd.o: ../../../pd/externals/maxlib/edge.c
+$(OBJDIR)/edge_b3f957a5.o: ../../Source/externals/maxlib/edge.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling edge.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/expo_31a1cfc2.o: ../../../pd/externals/maxlib/expo.c
+$(OBJDIR)/expo_b5176a9a.o: ../../Source/externals/maxlib/expo.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling expo.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/fifo_327ebc1c.o: ../../../pd/externals/maxlib/fifo.c
+$(OBJDIR)/fifo_b5f456f4.o: ../../Source/externals/maxlib/fifo.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling fifo.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/gauss_456e6cb5.o: ../../../pd/externals/maxlib/gauss.c
+$(OBJDIR)/gauss_30ac2cdd.o: ../../Source/externals/maxlib/gauss.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling gauss.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/gestalt_da11f6c4.o: ../../../pd/externals/maxlib/gestalt.c
+$(OBJDIR)/gestalt_ece04cec.o: ../../Source/externals/maxlib/gestalt.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling gestalt.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/history_ea32f4e.o: ../../../pd/externals/maxlib/history.c
+$(OBJDIR)/history_21718576.o: ../../Source/externals/maxlib/history.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling history.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/ignore_695cf0e2.o: ../../../pd/externals/maxlib/ignore.c
+$(OBJDIR)/ignore_e5d735ba.o: ../../Source/externals/maxlib/ignore.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ignore.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/iso_b77d557f.o: ../../../pd/externals/maxlib/iso.c
+$(OBJDIR)/iso_c3fcffa7.o: ../../Source/externals/maxlib/iso.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling iso.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/lifo_3cbbcfd6.o: ../../../pd/externals/maxlib/lifo.c
+$(OBJDIR)/lifo_c0316aae.o: ../../Source/externals/maxlib/lifo.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling lifo.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/limit_5b1f15f5.o: ../../../pd/externals/maxlib/limit.c
+$(OBJDIR)/limit_465cd61d.o: ../../Source/externals/maxlib/limit.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling limit.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/linear_a387975.o: ../../../pd/externals/maxlib/linear.c
+$(OBJDIR)/linear_86b2be4d.o: ../../Source/externals/maxlib/linear.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling linear.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/listfifo_870658ba.o: ../../../pd/externals/maxlib/listfifo.c
+$(OBJDIR)/listfifo_ce02c792.o: ../../Source/externals/maxlib/listfifo.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling listfifo.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/listfunnel_674faee4.o: ../../../pd/externals/maxlib/listfunnel.c
+$(OBJDIR)/listfunnel_e0ebc7bc.o: ../../Source/externals/maxlib/listfunnel.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling listfunnel.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/match_82be497f.o: ../../../pd/externals/maxlib/match.c
+$(OBJDIR)/match_6dfc09a7.o: ../../Source/externals/maxlib/match.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling match.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/maxlib_dc5e4df1.o: ../../../pd/externals/maxlib/maxlib.c
+$(OBJDIR)/maxlib_58d892c9.o: ../../Source/externals/maxlib/maxlib.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling maxlib.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/minus_9018d96a.o: ../../../pd/externals/maxlib/minus.c
+$(OBJDIR)/minus_7b569992.o: ../../Source/externals/maxlib/minus.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling minus.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/mlife_94e9e7a3.o: ../../../pd/externals/maxlib/mlife.c
+$(OBJDIR)/mlife_8027a7cb.o: ../../Source/externals/maxlib/mlife.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling mlife.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/multi_a47637f3.o: ../../../pd/externals/maxlib/multi.c
+$(OBJDIR)/multi_8fb3f81b.o: ../../Source/externals/maxlib/multi.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling multi.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/nchange_b292b9d8.o: ../../../pd/externals/maxlib/nchange.c
+$(OBJDIR)/nchange_c5611000.o: ../../Source/externals/maxlib/nchange.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling nchange.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/netclient_9e10ac22.o: ../../../pd/externals/maxlib/netclient.c
+$(OBJDIR)/netclient_36a2184a.o: ../../Source/externals/maxlib/netclient.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling netclient.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/netdist_1fd9bbd.o: ../../../pd/externals/maxlib/netdist.c
+$(OBJDIR)/netdist_14cbf1e5.o: ../../Source/externals/maxlib/netdist.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling netdist.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/netrec_1157c4a3.o: ../../../pd/externals/maxlib/netrec.c
+$(OBJDIR)/netrec_8dd2097b.o: ../../Source/externals/maxlib/netrec.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling netrec.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/netserver_ba1ee99a.o: ../../../pd/externals/maxlib/netserver.c
+$(OBJDIR)/netserver_52b055c2.o: ../../Source/externals/maxlib/netserver.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling netserver.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/nroute_b8b1ab6b.o: ../../../pd/externals/maxlib/nroute.c
+$(OBJDIR)/nroute_352bf043.o: ../../Source/externals/maxlib/nroute.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling nroute.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/pitch_2f17c03a.o: ../../../pd/externals/maxlib/pitch.c
+$(OBJDIR)/pitch_1a558062.o: ../../Source/externals/maxlib/pitch.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling pitch.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/plus_43c0596a.o: ../../../pd/externals/maxlib/plus.c
+$(OBJDIR)/plus_c735f442.o: ../../Source/externals/maxlib/plus.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling plus.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/poisson_d916303.o: ../../../pd/externals/maxlib/poisson.c
+$(OBJDIR)/poisson_205fb92b.o: ../../Source/externals/maxlib/poisson.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling poisson.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/pong_43e74448.o: ../../../pd/externals/maxlib/pong.c
+$(OBJDIR)/pong_c75cdf20.o: ../../Source/externals/maxlib/pong.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling pong.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/pulse_43286653.o: ../../../pd/externals/maxlib/pulse.c
+$(OBJDIR)/pulse_2e66267b.o: ../../Source/externals/maxlib/pulse.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling pulse.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/remote_a4c71e56.o: ../../../pd/externals/maxlib/remote.c
+$(OBJDIR)/remote_2141632e.o: ../../Source/externals/maxlib/remote.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling remote.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/rewrap_b5f9614d.o: ../../../pd/externals/maxlib/rewrap.c
+$(OBJDIR)/rewrap_3273a625.o: ../../Source/externals/maxlib/rewrap.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling rewrap.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/rhythm_583516a6.o: ../../../pd/externals/maxlib/rhythm.c
+$(OBJDIR)/rhythm_d4af5b7e.o: ../../Source/externals/maxlib/rhythm.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling rhythm.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/scale_c285abc4.o: ../../../pd/externals/maxlib/scale.c
+$(OBJDIR)/scale_adc36bec.o: ../../Source/externals/maxlib/scale.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling scale.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/score_c34daf0c.o: ../../../pd/externals/maxlib/score.c
+$(OBJDIR)/score_ae8b6f34.o: ../../Source/externals/maxlib/score.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling score.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/speedlim_77db7779.o: ../../../pd/externals/maxlib/speedlim.c
+$(OBJDIR)/speedlim_bed7e651.o: ../../Source/externals/maxlib/speedlim.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling speedlim.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/split_d94e8994.o: ../../../pd/externals/maxlib/split.c
+$(OBJDIR)/split_c48c49bc.o: ../../Source/externals/maxlib/split.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling split.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/step_49484e1c.o: ../../../pd/externals/maxlib/step.c
+$(OBJDIR)/step_ccbde8f4.o: ../../Source/externals/maxlib/step.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling step.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/subst_e14e655b.o: ../../../pd/externals/maxlib/subst.c
+$(OBJDIR)/subst_cc8c2583.o: ../../Source/externals/maxlib/subst.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling subst.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/sync_4992aa2b.o: ../../../pd/externals/maxlib/sync.c
+$(OBJDIR)/sync_cd084503.o: ../../Source/externals/maxlib/sync.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling sync.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/temperature_18feedae.o: ../../../pd/externals/maxlib/temperature.c
+$(OBJDIR)/temperature_d2e5efd6.o: ../../Source/externals/maxlib/temperature.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling temperature.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/tilt_4a6561cd.o: ../../../pd/externals/maxlib/tilt.c
+$(OBJDIR)/tilt_cddafca5.o: ../../Source/externals/maxlib/tilt.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling tilt.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/timebang_994cc215.o: ../../../pd/externals/maxlib/timebang.c
+$(OBJDIR)/timebang_e04930ed.o: ../../Source/externals/maxlib/timebang.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling timebang.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/triang_1c9f1c1f.o: ../../../pd/externals/maxlib/triang.c
+$(OBJDIR)/triang_991960f7.o: ../../Source/externals/maxlib/triang.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling triang.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/unroute_6069670a.o: ../../../pd/externals/maxlib/unroute.c
+$(OBJDIR)/unroute_7337bd32.o: ../../Source/externals/maxlib/unroute.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling unroute.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/urn_b825f76b.o: ../../../pd/externals/maxlib/urn.c
+$(OBJDIR)/urn_c4a5a193.o: ../../Source/externals/maxlib/urn.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling urn.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/velocity_dc139e6d.o: ../../../pd/externals/maxlib/velocity.c
+$(OBJDIR)/velocity_23100d45.o: ../../Source/externals/maxlib/velocity.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling velocity.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/weibull_efbd1328.o: ../../../pd/externals/maxlib/weibull.c
+$(OBJDIR)/weibull_28b6950.o: ../../Source/externals/maxlib/weibull.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling weibull.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/wrap_4ffdb01a.o: ../../../pd/externals/maxlib/wrap.c
+$(OBJDIR)/wrap_d3734af2.o: ../../Source/externals/maxlib/wrap.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wrap.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
@@ -2191,6 +2210,11 @@ $(OBJDIR)/zexy_bebd7634.o: ../../Source/externals/zexy/src/zexy.c
 $(OBJDIR)/PdGUICanvas_9f886dc0.o: ../../Source/PdGUICanvas.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling PdGUICanvas.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/PulpConfigUI_9dc37c8.o: ../../Source/PulpConfigUI.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling PulpConfigUI.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp

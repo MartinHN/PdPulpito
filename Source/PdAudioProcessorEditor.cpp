@@ -25,12 +25,12 @@ PdAudioProcessorEditor::~PdAudioProcessorEditor()
 
 
 void PdAudioProcessorEditor::buildCanvas(){
-    PdCanvas.clear();
+    pdCanvas.clear();
     int num = (dynamic_cast<PdParamGetter*>(&processor))->getNumGUI();
     for(int i = 0; i < num;i++){
-        PdCanvas.add(new PdGUICanvas(getPdProcessor(),i));
+        pdCanvas.add(new PdGUICanvas(getPdProcessor(),i));
     }
-    for(auto & c:PdCanvas){
+    for(auto & c:pdCanvas){
         addChildComponent(c);
     }
     setCanvasVisible(0);
@@ -38,15 +38,15 @@ void PdAudioProcessorEditor::buildCanvas(){
 
 
 void PdAudioProcessorEditor::setCanvasVisible(int idx){
-    if(idx>=PdCanvas.size())return;
-    for(auto & c:PdCanvas){
+    if(idx>=pdCanvas.size())return;
+    for(auto & c:pdCanvas){
         c->setVisible(false);
     }
-    PdCanvas[idx]->setVisible(true);
+    pdCanvas[idx]->setVisible(true);
     
     showedCanvas = idx;
-    setSize(PdCanvas[idx]->getWidth(),PdCanvas[idx]->getHeight());
-    DBG2(PdCanvas[idx]->getWidth(),PdCanvas[idx]->getHeight());
+    setSize(pdCanvas[idx]->getWidth(),pdCanvas[idx]->getHeight());
+    DBG2(pdCanvas[idx]->getWidth(),pdCanvas[idx]->getHeight());
     getParentComponent()->setBounds(getBounds().getUnion(getParentComponent()->getBounds()));
 }
 
@@ -88,7 +88,7 @@ void PdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source){
 
 
 void PdAudioProcessorEditor::rebuildGUIParams(PdAudioProcessor * p){
-    for(auto &cnv:PdCanvas){
+    for(auto &cnv:pdCanvas){
         cnv->rebuildGUIParams(p);
     }
 }

@@ -40,6 +40,7 @@ public:
     StringArray log;
 private:
 
+    friend PdAudioProcessor;
     void timerCallback();
     
     PulpConfigUI pulpConfigUI;

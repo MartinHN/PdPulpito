@@ -139,8 +139,8 @@ bool MainComponent::keyPressed (const KeyPress& key,
     int c = key.getKeyCode();
     static KeyPress cKey = KeyPress::createFromDescription("CTRL + c"),rKey= KeyPress::createFromDescription("CTRL + r");
 
-    DBG3(c,cKey.getKeyCode(),rKey.getKeyCode())
     if(key.getModifiers().isCommandDown()){
     ToggleConfigVisibility(c==cKey.getKeyCode(),c==rKey.getKeyCode());
     }
+    return true;
 }

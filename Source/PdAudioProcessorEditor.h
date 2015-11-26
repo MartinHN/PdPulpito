@@ -29,11 +29,11 @@ public:
     void changeListenerCallback (ChangeBroadcaster* source) override;
 
     PdAudioProcessor * getPdProcessor(){if(pdProcessor == nullptr){pdProcessor = dynamic_cast<PdAudioProcessor*>(&processor);}return pdProcessor;}
-
+    OwnedArray<PdGUICanvas>pdCanvas;
 private:
 
     ScopedPointer<TabbedButtonBar> tabBar;
-    OwnedArray<PdGUICanvas>PdCanvas;
+
     int showedCanvas;
     PdAudioProcessor * pdProcessor = nullptr;
 

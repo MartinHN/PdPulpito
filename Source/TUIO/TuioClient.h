@@ -32,6 +32,7 @@
 #include "TuioObject.h"
 #include "TuioCursor.h"
 #include "juceHeader.h"
+#include "TUIOConfig.h"
 
 namespace TUIO {
 	
@@ -56,7 +57,7 @@ namespace TUIO {
 		 *
 		 * @param  port  the incoming TUIO UDP port number, defaults to 3333 if no argument is provided
 		 */
-		TuioClient(int port=3333);
+		TuioClient(int port=TUIO_PORT);
 
 		/**
 		 * The destructor is doing nothing in particular. 

@@ -11,7 +11,7 @@
 
 
 
-class PdComponent  : public Component,public Timer
+class PdComponent  : public Component,public Timer,public ChangeBroadcaster,public ChangeListener
 {
 public:
     //==============================================================================
@@ -35,13 +35,16 @@ public:
     float labelSize = 15;
     PdParameter * getPdParameter(){return dynamic_cast<PdParameter*> (processor->getParameters()[paramDesc->processorIdx]);};
     void setValueFromGUI(float v);
-
+    const PulpParameterDesc * getDescription(){return paramDesc;}
+    
+    void setValueFromPd(float v);
 protected:
 
     int index;
     PdAudioProcessor* processor;
     PulpParameterDesc *paramDesc;
-
+    float pdValue;
+    void changeListenerCallback (ChangeBroadcaster* source) ;
     
     //==============================================================================
     ScopedPointer<Component> component;

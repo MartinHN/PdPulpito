@@ -22,7 +22,8 @@ public:
     PdParameter (float defaultParameterValue, PulpParameterDesc * desc):
     defaultValue (defaultParameterValue),
     value (defaultParameterValue),
-    name (desc->name),
+    sendName (desc->sendName),
+    recieveName(desc->recieveName),
     min(desc->min),
     max(desc->max),
     processorIdx(desc->processorIdx)
@@ -32,10 +33,12 @@ public:
     float getValue() const override                         {return value;}
     float getTrueValue()                                    {return value*(max-min) + min;}
     float getDefaultValue() const override                  {return defaultValue;}
-    String getName (int maximumStringLength)const override  {return name;}
+    String getName (int maximumStringLength)const override  {return sendName;}
+    String getRecieveName()                                    {return recieveName;}
+    
     int getIdx()                                            {return processorIdx;}
     float getValueForText(const String& text)const override {return text.getFloatValue();}
-    String getLabel() const                                 {return name;}
+    String getLabel() const                                 {return sendName;}
     
     
     bool hasToObserve(){
@@ -50,6 +53,15 @@ public:
     }
     
     
+    void setFromDesc(PulpParameterDesc * desc){
+        jassert(processorIdx == desc->processorIdx);
+        sendName =desc->sendName;
+        recieveName = desc->recieveName;
+        min = desc->min;
+        max = desc->max;
+
+        
+    }
     
     
     void setValue (float newValue) override
@@ -65,7 +77,7 @@ public:
         changed = oldv!=value;
     }
     void setMinMax(float min,float max)                     {min = min;max = max;}
-    void setName (String n)                                 {name = n;}
+    void setName (String n)                                 {sendName = n;}
     
 
     
@@ -86,7 +98,7 @@ private:
     int processorIdx = -1;
     bool volatile updated ;
     bool volatile changed;
-    String name;
+    String sendName,recieveName;
 
 };
 

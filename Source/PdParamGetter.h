@@ -81,10 +81,11 @@ public:
     PulpParameterDesc(){
         min = 0;
         max = 1;
-        name = "empty";
+        recieveName = "empty";
     }
     
-    String name;
+    String recieveName;
+    String sendName;
     float min;
     float max;
     enum Type{

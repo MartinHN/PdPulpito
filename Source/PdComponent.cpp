@@ -11,7 +11,7 @@ PdComponent::PdComponent (PulpParameterDesc * p,PdAudioProcessor * processor)
 processor(processor)
 
 {
-    
+
     label = new Label ("label",
                        TRANS("Label"));
     
@@ -31,7 +31,7 @@ processor(processor)
     setSize (100, 130);
     index = p->processorIdx;
     if(index!=-1){
-    String labelText(p->name);
+    String labelText(p->sendName);
     setName(labelText);
     }
     label->setJustificationType(juce::Justification::left);
@@ -45,6 +45,9 @@ processor(processor)
     
     
     if(getPdParameter()!=nullptr)startTimer(1000/5);
+    
+    
+        addChangeListener(this);
     
 }
 
@@ -110,6 +113,16 @@ void PdComponent::setValueFromGUI(float v){
     getPdParameter()->setValueNotifyingHost(getPdParameter()->getValue());
 }
 
+
+void PdComponent::setValueFromPd(float v){
+    pdValue = v;
+    sendChangeMessage();
+}
+void PdComponent::changeListenerCallback (ChangeBroadcaster* source) {
+    getPdParameter()->setTrueValue(pdValue);
+    setValue(pdValue,NotificationType::sendNotification);
+    
+}
 
 // from DAW
 void PdComponent::timerCallback(){

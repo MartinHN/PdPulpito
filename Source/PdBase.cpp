@@ -44,6 +44,9 @@ using namespace std;
 
 pd::PdBase::PdContext * pd::PdBase::pdContext_current_instance = NULL;
 int pd::PdBase::PdContext::numPdCtx = 0;
+bool pd::PdBase::PdContext::bLibPdInited = false;
+
+
 namespace pd {
 
 //--------------------------------------------------------------------
@@ -872,22 +875,22 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         
         //TODO : implement queued version
         
-//        libpd_set_queued_printhook(libpd_print_concatenator);
-//        libpd_set_concatenated_printhook(_print);
-//
-//        libpd_set_queued_banghook(_bang);
-//        libpd_set_queued_floathook(_float);
-//        libpd_set_queued_symbolhook(_symbol);
-//        libpd_set_queued_listhook(_list);
-//        libpd_set_queued_messagehook(_message);
-//
-//        libpd_set_queued_noteonhook(_noteon);
-//        libpd_set_queued_controlchangehook(_controlchange);
-//        libpd_set_queued_programchangehook(_programchange);
-//        libpd_set_queued_pitchbendhook(_pitchbend);
-//        libpd_set_queued_aftertouchhook(_aftertouch);
-//        libpd_set_queued_polyaftertouchhook(_polyaftertouch);
-//        libpd_set_queued_midibytehook(_midibyte);
+        libpd_set_queued_printhook(libpd_print_concatenator);
+        libpd_set_concatenated_printhook(_print);
+
+        libpd_set_queued_banghook(_bang);
+        libpd_set_queued_floathook(_float);
+        libpd_set_queued_symbolhook(_symbol);
+        libpd_set_queued_listhook(_list);
+        libpd_set_queued_messagehook(_message);
+
+        libpd_set_queued_noteonhook(_noteon);
+        libpd_set_queued_controlchangehook(_controlchange);
+        libpd_set_queued_programchangehook(_programchange);
+        libpd_set_queued_pitchbendhook(_pitchbend);
+        libpd_set_queued_aftertouchhook(_aftertouch);
+        libpd_set_queued_polyaftertouchhook(_polyaftertouch);
+        libpd_set_queued_midibytehook(_midibyte);
         
         // init libpd, should only be called once!
 
@@ -927,9 +930,9 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         if(!bLibPdInited) {
             libpd_init();
             init_externals();
-            
+            bLibPdInited = true;
         }
-        bLibPdInited = true;
+        
     }
     pd_setinstance(thisPdInstance);
     
@@ -1020,7 +1023,7 @@ void PdBase::PdContext::computeAudio(bool state) {
 
 //----------------------------------------------------------
 PdBase::PdContext::PdContext() {
-    bLibPdInited = false;
+//    bLibPdInited = false;
     bInited = false;
     bQueued = false;
     numBases = false;

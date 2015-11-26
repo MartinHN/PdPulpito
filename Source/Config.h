@@ -17,12 +17,19 @@
 #include "../JuceLibraryCode/AppConfig.h"
 //#include "../JuceLibraryCode/modules/juce_core/system/juce_PlatformDefs.h"
 
-
-
+#define ENABLE_DBG 1
+#if ENABLE_DBG
 #define DBG(x) std::cout << x << std::endl;
 #define DBGN(x) std::cout << x ;
 #define DBG2(x,y) std::cout << x << "," << y << std::endl;
 #define DBG3(x,y,z) std::cout << x << "," << y << "," << z << std::endl;
 #define DBG4(x,y,z,t) std::cout << x << "," << y << "," << z << "," << t <<  std::endl;
+#else
+#define DBG(x)
+#define DBGN(x)
+#define DBG2(x,y)
+#define DBG3(x,y,z)
+#define DBG4(x,y,z,t)
+#endif
 
 #endif

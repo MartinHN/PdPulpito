@@ -7,10 +7,11 @@
 //
 
 #include "TUIOComponent.h"
-
+#include "TUIOConfig.h"
 
 TuioClient * TUIOComponent::TUIOClient = nullptr;
 int TUIOComponent::numJuceListener=0;
+
 #define TUIOTOUCH0 1
 
 
@@ -113,6 +114,7 @@ Point<float> TUIOComponent::getScreenPos(TuioCursor * tcur){
 }
 
 void TUIOComponent::drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd){
+#if TUIO_DRAW
     switch(cmd){
         case ADD:{
             
@@ -143,5 +145,7 @@ void TUIOComponent::drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd){
             
     }
     parentComponent->repaint();
+    
+#endif
     
 }

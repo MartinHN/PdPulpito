@@ -23,7 +23,8 @@ public AudioProcessor,
 public pd::PdReceiver,
 public pd::PdMidiReceiver,
 public PdParamGetter,
-public ChangeBroadcaster
+public ChangeBroadcaster,
+public ChangeListener
 
 {
 public:
@@ -39,6 +40,7 @@ public:
     void processBlock (AudioSampleBuffer&, MidiBuffer&) override;
     
     
+    void doOpenNewPatch(File file = File());
     void openNewPatch(File file = File());
     
     void loadFromGUI();
@@ -62,18 +64,15 @@ public:
     
     
     File patchfile;
-    // TODO : better Hack for loading Patch in audiothread
-    
-
-    int needsToReopenPatch = -1;
-    
-    
-    
+  
     
     void print(const std::string& message) override;
 
     
 private:
+    
+    void changeListenerCallback (ChangeBroadcaster* source);
+    
     ScopedPointer<pd::PdBase> pd;
     pd::Patch patch;
     HeapBlock<float> pdInBuffer, pdOutBuffer;
@@ -130,6 +129,8 @@ void changeProgramName (int index, const String& newName) override{};
 void getStateInformation (MemoryBlock& destData) override;
 void setStateInformation (const void* data, int sizeInBytes) override;
 
+
+virtual void receiveFloat(const std::string& dest, float num) override;
 
 
 //==============================================================================

@@ -530,7 +530,8 @@ namespace pd {
             
         private:
             
-            bool bLibPdInited = false; //< has libpd_init be called?
+            static bool bLibPdInited ;//= false; //< has libpd_init be called?
+//            bool bLibPdInited;
             bool bInited;      //< is this pd context inited?
             bool bQueued; //< is this context using the libpd_queued ringbuffer?
             static int numPdCtx;

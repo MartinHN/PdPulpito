@@ -15,7 +15,7 @@ PdPulpito UserGuide
 ======
 
 Create a Pd Patch with normal Pd GUI Objects (see later : supported GUI objects)
-ensure that they are controlling your patch using sendNames of the GUI Object itself
+ensure that they are controlling your patch using sendNames (and recieveNames for feedback!) of the GUI Object itself
 
 PdConsole is accessible with Meta + r
 Pulpito options with 'c' (reloading, changing PdFile)
@@ -23,8 +23,17 @@ Pulpito options with 'c' (reloading, changing PdFile)
 Multiple instance
 ---------
 * works only within mono threaded hosts (Ableton ->disable MultiCoreSupport)
-* Pd symbols are shared : make sure to $0 out non shared variables (send/recieves/Arrays)
+* Pd symbols are shared : make sure to $0 out non shared variables (send/recieves/arrays)
 
+Multitouch
+------
+TUIO support, giving any TUIO tactile device to control it
+
+
+System Requirements
+-------
+* OSX 10.7+
+Windows/linux , soon
 
 supported objects:
 =========
@@ -56,8 +65,10 @@ Objects:
 
 TODO 
 =====
+
 * support multithreaded host
 * Tabbed GUIs
+* TouchOSC likeexporting GUI to other clients (Android ... ?)
 
 
 Known Issues

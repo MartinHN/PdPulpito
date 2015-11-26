@@ -96,7 +96,7 @@ class TUIOComponent : public TuioListener
     void drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd);
     
     static TuioClient *  TUIOClient;
-    TuioClient * getGlobalTuioClient(){if(TUIOClient ==nullptr){TUIOClient = new TuioClient(3333);TUIOClient->removeAllTuioListeners();}return TUIOClient;}
+    TuioClient * getGlobalTuioClient(){if(TUIOClient ==nullptr){TUIOClient = new TuioClient();TUIOClient->removeAllTuioListeners();}return TUIOClient;}
     Component * parentComponent;
     static int numJuceListener ;
     OwnedArray<DrawablePath> dbgDraw;

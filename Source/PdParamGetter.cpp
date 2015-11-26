@@ -101,7 +101,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         }
                         
                         p->labelName = name;
-                        p->name = name;
+                        p->sendName = name;
                         p->hasLabel = true;
                         p->labelSize = 13;
                         p->setBounds(l[2].getFloatValue(),
@@ -122,11 +122,12 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         
                         p->labelRect.setBounds((l[14].getFloatValue()),
                                                (l[15].getFloatValue()),
-                                               (p->name.length()*l[17].getFloatValue()),
+                                               (p->sendName.length()*l[17].getFloatValue()),
                                                (l[17].getFloatValue()));
                         
                         p->labelSize = l[17].getFloatValue();
-                        p->name=l[11];
+                        p->sendName=l[11];
+                        p->recieveName = l[12];
                         
                         // numBox
                         if(pdType == "nbx" ){
@@ -162,7 +163,8 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         p->type = PulpParameterDesc::TOGGLE;
                         p->hasLabel = l[9]!="empty";
                         p->labelName =  l[9];
-                        p->name = l[7];
+                        p->sendName = l[7];
+                        p->recieveName = l[8];
                         p->labelSize = l[13].getFloatValue();
                         p->setBounds(l[2].getFloatValue(),
                                      l[3].getFloatValue(),
@@ -170,7 +172,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                                      l[5].getFloatValue());
                         p->labelRect.setBounds((l[10].getFloatValue()),
                                                (l[11].getFloatValue()),
-                                               (p->name.length()*p->labelSize),
+                                               (p->sendName.length()*p->labelSize),
                                                (p->labelSize));
                         
                         
@@ -181,7 +183,8 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         p->type = pdType == "vradio"?PulpParameterDesc::VRADIO:PulpParameterDesc::HRADIO;
                         p->hasLabel = l[9]!="empty";
                         p->labelName =  l[9];
-                        p->name = l[9];
+                        p->sendName = l[9];
+                        p->recieveName = l[10];
                         p->labelSize = l[13].getFloatValue();
                         int size = l[8].getIntValue();
                         p->min = 0;
@@ -196,7 +199,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                                      pdType == "vradio"?w*size:w);
                         p->labelRect.setBounds((l[10].getFloatValue()),
                                                (l[11].getFloatValue()),
-                                               (p->name.length()*p->labelSize),
+                                               (p->sendName.length()*p->labelSize),
                                                (p->labelSize));
                         
                         
@@ -205,7 +208,8 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         p->type = PulpParameterDesc::BANG;
                         p->hasLabel = l[11]!="empty";
                         p->labelName =  l[11];
-                        p->name = l[11];
+                        p->sendName = l[11];
+                        p->recieveName = l[12];
                         p->labelSize = l[15].getFloatValue();
                         p->setBounds(l[2].getFloatValue(),
                                      l[3].getFloatValue(),
@@ -213,7 +217,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                                      l[5].getFloatValue());
                         p->labelRect.setBounds((l[12].getFloatValue()),
                                                (l[13].getFloatValue()),
-                                               (p->name.length()*p->labelSize),
+                                               (p->sendName.length()*p->labelSize),
                                                (p->labelSize));
                         
                         
@@ -222,7 +226,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                     }
                     else if(pdType.contains("popup")){
                         
-                        p->name = l[8];
+                        p->sendName = l[8];
                         p->labelName = "";
                         p->type = PulpParameterDesc::POPUP;
                         p->hasLabel =false;
@@ -243,7 +247,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                     else if(pdType == "cnv"){
                         p->type=PulpParameterDesc::CNV;
                         p->labelName = l[10];
-                        p->name = l[10];
+                        p->sendName = l[10];
                         p->hasLabel = true;
                         p->labelSize = l[14].getFloatValue();
                         p->setBounds(l[2].getFloatValue(),
@@ -252,7 +256,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                                      l[7].getFloatValue());
                         p->labelRect.setBounds((l[11].getFloatValue()),
                                                (l[12].getFloatValue()),
-                                               (p->name.length()*p->labelSize),
+                                               (p->sendName.length()*p->labelSize),
                                                (p->labelSize));
                         p->backColour = getPdColour(l[15].getIntValue());
                         
@@ -306,9 +310,10 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                                      (p->labelRect.getY())/patchRect.getHeight(),
                                      p->labelRect.getWidth()/patchRect.getWidth(),
                                      p->labelRect.getHeight()/patchRect.getHeight());
-                        p->name = resolveDollarzero(p->name);
-                        DBG("adding p " << p->name << " at "<< ((Rectangle<float>)*p).toString());
-                        if(p->name==""){
+                        p->sendName = resolveDollarzero(p->sendName);
+                        p->recieveName = resolveDollarzero(p->recieveName);
+                        DBG("adding p " << p->sendName << " at "<< ((Rectangle<float>)*p).toString());
+                        if(p->sendName==""){
                             for(auto ll:l){
                                 DBGN(ll);
                             }

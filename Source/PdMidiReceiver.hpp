@@ -23,7 +23,7 @@ namespace pd {
         
         /// midi
         virtual void receiveNoteOn(const int channel, const int pitch, const int velocity) {
-            if(sampleNumber<300){
+            if(sampleNumber<500){
                 juce::MidiMessage msg;
             
             if(velocity == 0){
@@ -36,8 +36,9 @@ namespace pd {
             buf.addEvent(msg, sampleNumber);
             sampleNumber++;
                 
-                DBG3("this",this,sampleNumber);
+//                DBG3("this",this,sampleNumber);
             }
+            // we had more than 500 Midi Messages for one host sample block ?
             else{
                 DBG("WTF");
             }
@@ -83,7 +84,7 @@ namespace pd {
         }
         
         
-        virtual juce::MidiBuffer getMidiBuffer(){
+        virtual juce::MidiBuffer & getMidiBuffer(){
             return  buf;
             
         }
