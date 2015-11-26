@@ -22,6 +22,7 @@ public:
     PdRadio(PulpParameterDesc * p,PdAudioProcessor * proc,int size,Orientation o):PdComponent(p,proc){
         component = new Component;
         addAndMakeVisible(component);
+        
         static int radioGroupId = 0;
         radioGroupId++;
         for(int i = 0 ; i < size ; i++){
@@ -32,8 +33,13 @@ public:
             tb->setRadioGroupId (radioGroupId, dontSendNotification);
         }
         orientation = o;
+        
+        
     }
-    ~PdRadio(){};
+    ~PdRadio(){
+    
+    
+    };
     
     
     ToggleButton* getToggle(int num){return (ToggleButton*) component->getChildComponent(num);}
@@ -47,6 +53,7 @@ public:
     
     void resizeComponent(){
         int num = component->getNumChildComponents();
+        jassert(num != 0);
         Point<float> step (orientation==VERTICAL?0:getWidth()/num,
                            orientation==HORIZONTAL?0:getHeight()/num);
         

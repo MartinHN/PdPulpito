@@ -45,6 +45,7 @@ private:
     PulpConfigUI pulpConfigUI;
     PdAudioProcessorEditor pdEditor;
     TextEditor pulpConsole;
+    Font consoleFont;
 
 
     ScopedPointer<LookNFeel> lookNFeel;

@@ -39,9 +39,11 @@ public:
     void processBlock (AudioSampleBuffer&, MidiBuffer&) override;
     
     
+    void openNewPatch(File file = File());
+    
     void loadFromGUI();
     void updateProcessorParameters();
-    void reloadPdPatch(double sampleRate);
+    void reloadPdPatch();
     void setPatchFile(File file);
     File getPatchFile();
     
@@ -50,7 +52,7 @@ public:
     
     bool hasNewFilesSince(Time t);
     Time getLastModificationTime();
-    
+    bool isPdPatchLoaded;
     
     
     
@@ -62,6 +64,7 @@ public:
     File patchfile;
     // TODO : better Hack for loading Patch in audiothread
     
+
     int needsToReopenPatch = -1;
     
     

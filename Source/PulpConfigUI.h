@@ -126,8 +126,9 @@ public:
             if (fc.browseForFileToOpen())
             {
                 pathField->setText(fc.getResult().getFileName(), dontSendNotification);
-                pdProcessor->setPatchFile(fc.getResult());
-                pdProcessor->needsToReopenPatch = 0;
+                pdProcessor->openNewPatch(fc.getResult());
+                
+//                pdProcessor->needsToReopenPatch = 0;⁄
                 //            p.reloadPdPatch(NULL);
 //                pdEditor.updatePatch();
             }
@@ -135,8 +136,8 @@ public:
         }
         else if (buttonThatWasClicked == reloadButton)
         {
-            
-            pdProcessor->needsToReopenPatch = 0;
+            pdProcessor->openNewPatch();
+//            pdProcessor->needsToReopenPatch = 0;
             
             
         }

@@ -16,7 +16,7 @@ class PdComponent  : public Component,public Timer
 public:
     //==============================================================================
     PdComponent (PulpParameterDesc * p,PdAudioProcessor * processor);
-    ~PdComponent();
+    virtual ~PdComponent();
     
     
     void paint (Graphics& g);

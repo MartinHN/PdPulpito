@@ -33,6 +33,8 @@ pulpConfigUI(&processor)
     pulpConsole.setMultiLine(true);
     pulpConsole.setScrollToShowCursor(true);
     pulpConsole.setSize(400, 500);
+    consoleFont.setHeight(10);
+    pulpConsole.setFont(consoleFont);
     addAndMakeVisible(pulpConsole);
     //    addAndMakeVisible (resizer = new ResizableCornerComponent (this, &resizeLimits));
     //    resizeLimits.setSizeLimits (150, 150, 1000, 1000);
@@ -86,19 +88,33 @@ void MainComponent::resized()
 
 
 void MainComponent::addPdLog(String message){
+    static int maxLogSize = 300;
+    DBG(message);
     log.addLines(message);
-    
+            if(log.size()>maxLogSize){
+                log.removeRange(0, log.size()-maxLogSize);
+            }
     ChangeBroadcaster::sendChangeMessage();
     
 }
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster *source){
-    if(source == this){
-        
-        if(log.size()>1000){
-            log.removeRange(0, log.size()-1000);
-        }
-        pulpConsole.setText(log.joinIntoString("\n"));
+    static int maxLogSize = 300;
+    
+    if(source == this &&     pulpConsole.isVisible()){
+
+//        if(log.size()>maxLogSize){
+//            log.removeRange(0, log.size()-maxLogSize);
+//        }
+
+//        insertTextAtCaret
         pulpConsole.moveCaretToEnd();
+        
+        pulpConsole.insertTextAtCaret(log.joinIntoString("\n") + "\n");
+
+        log.clear();
+        if(!pulpConsole.isMouseButtonDown()){
+            
+        }
     }
 }
 
@@ -120,8 +136,11 @@ void MainComponent::timerCallback()
 bool MainComponent::keyPressed (const KeyPress& key,
                                 Component* originatingComponent) {
     
-    juce_wchar c = key.getTextCharacter();
-    
-    ToggleConfigVisibility(c=='c',c=='r');
-    
+    int c = key.getKeyCode();
+    static KeyPress cKey = KeyPress::createFromDescription("CTRL + c"),rKey= KeyPress::createFromDescription("CTRL + r");
+
+    DBG3(c,cKey.getKeyCode(),rKey.getKeyCode())
+    if(key.getModifiers().isCommandDown()){
+    ToggleConfigVisibility(c==cKey.getKeyCode(),c==rKey.getKeyCode());
+    }
 }

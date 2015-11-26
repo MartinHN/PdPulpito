@@ -15,12 +15,15 @@ class PdToggle : public PdComponent,public Button::Listener{
 public:
     PdToggle(PulpParameterDesc * p,PdAudioProcessor * proc):PdComponent(p,proc){
         ToggleButton * tb = new ToggleButton();
-        addAndMakeVisible(component = tb);
+        component = tb;
+        addAndMakeVisible(component);
         setSize (100, 130);
         getToggle()->addListener(this);
 
     }
-    ~PdToggle(){};
+    ~PdToggle(){
+        DBG("destroyToggle");
+    };
     
     
     void setValue(float f,NotificationType n) override{

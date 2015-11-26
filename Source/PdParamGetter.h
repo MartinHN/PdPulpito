@@ -42,7 +42,7 @@ class PdParamGetter {
     int getNumObjectsForGUI(int guiNum);
     Rectangle<int> getBoundOfGui(int guiNum);
     String    PdRootName;
-    String getPdRootName() const {if(PdRootName==""){jassertfalse;}return PdRootName;}
+    String getPdRootName() const {if(PdRootName==""){return "emptyPulpito";}return PdRootName;}
     
     
     
@@ -56,7 +56,7 @@ class PdParamGetter {
     
 protected:
     
-    
+    String resolveDollarzero(String & c);
     Array<Array<StringArray > > parsedString;
     int localParamCount = 0,localObjectCount=0;
     Colour getPdColour(int c);
@@ -64,12 +64,12 @@ protected:
     Array<File> guiFiles;
     OwnedArray<PulpParameterDesc> pulpParameterDescs;
     Array<PulpParameterDesc * > audioParameters;
-    static int dollarZero;
+    int dollarZero;
     
     
 private:
     File subPatchExists(String sub);
-    Array<StringArray>  parseText(StringArray destLines,bool isRootGUI);
+    Array<StringArray>  parseText(StringArray destLines,bool isRootGUI,bool ignoresubpatches = true);
     void getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<int> region=Rectangle<int>(0,0),Point < int > offset=Point<int>(0,0));
 };
 
@@ -78,6 +78,12 @@ private:
 // class that holds info from pd file format , later transformed into pdparameter and pdComponents
 class PulpParameterDesc: public juce::Rectangle<float>{
 public:
+    PulpParameterDesc(){
+        min = 0;
+        max = 1;
+        name = "empty";
+    }
+    
     String name;
     float min;
     float max;

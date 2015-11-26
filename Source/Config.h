@@ -10,8 +10,9 @@
 #define Pd_Pulp_Config_h
 
 //#define PATCH_PATH "~/Dev/PdPulpito/testFiles/1/simple1.pd"
-#define PATCH_PATH "/Users/mhermant/Documents/Work/Dev/PD_patches/Markov/DEMO-ISMIR.pd"
-#define PATCH_PATH2 PATCH_PATH// "~/Dev/PdPulpito/testFiles/2/simple2.pd"
+#define PATCH_PATH "/Users/mhermant/Documents/Work/Dev/PD_patches/pdPulpTst/midiout.pd"
+//#define PATCH_PATH "/Users/mhermant/Documents/Work/Dev/PD_patches/Markov/DEMO-ISMIR_all.pd"
+#define PATCH_PATH2  PATCH_PATH //"~/Dev/PdPulpito/testFiles/2/simple2.pd"
 #define PD_CONSOLE
 #include "../JuceLibraryCode/AppConfig.h"
 //#include "../JuceLibraryCode/modules/juce_core/system/juce_PlatformDefs.h"

@@ -17,17 +17,18 @@
 PdAudioProcessor::PdAudioProcessor()
 {
     
+    cachedSampleRate = 44100;
+    isPdPatchLoaded = false;
     static int first = 0;
-    
     if(first<2){
         setPatchFile(File(PATCH_PATH));
     }
     else{
         setPatchFile(File(PATCH_PATH2));
     }
-    
     first ++;
-    loadFromGUI();
+    
+    //        loadFromGUI();
     
 }
 
@@ -41,8 +42,8 @@ PdAudioProcessor::~PdAudioProcessor()
 void PdAudioProcessor::setParameterName(int index, String name)
 {
     if(index>=0){
-    PdParameter* p = pdParameters.getUnchecked(index);
-    p->setName(name);
+        PdParameter* p = pdParameters.getUnchecked(index);
+        p->setName(name);
     }
 }
 
@@ -61,8 +62,8 @@ void PdAudioProcessor::setParametersFromDescs(){
     
     // hack to allow to reload parameters on the go
     // allow to add new or replace param as the host may need to keep same pointers
-//    pdParameters.clear();
-//    maximumParameterCount = 0;
+    //    pdParameters.clear();
+    //    maximumParameterCount = 0;
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
         if(pulpParameterDescs[i]->isAudioParameter()){
             if(i>=maximumParameterCount){
@@ -114,9 +115,11 @@ void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    //    needsToReopenPatch = sampleRate;
-    //    loadFromGUI();
-    reloadPdPatch(sampleRate);
+    cachedSampleRate = sampleRate;
+    openNewPatch();
+    
+    //        loadFromGUI();
+    //    reloadPdPatch(sampleRate);
     
 }
 
@@ -136,6 +139,20 @@ void PdAudioProcessor::releaseResources()
 }
 
 
+void PdAudioProcessor::openNewPatch(juce::File file){
+    if(file.exists()){
+        setPatchFile(file);
+    }
+    isPdPatchLoaded = false;
+    if(patchfile.exists()){
+        reloadPdPatch();
+        PdParamGetter::dollarZero = patch.dollarZero();
+        loadFromGUI();
+        sendChangeMessage();
+        isPdPatchLoaded = true;
+    }
+}
+
 void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     int instance = -1;
@@ -147,97 +164,95 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
         instance = 1;
     }
     
-    if(needsToReopenPatch>=0){
-        loadFromGUI();
-        reloadPdPatch(needsToReopenPatch);
+    if(isPdPatchLoaded){
         
-        sendChangeMessage();
-        needsToReopenPatch = -2;
-    }
-    
-    //    pd->setMainContext();
-    clearMidiBuffer(buffer.getNumSamples());
-    
-    
-    // In case we have more outputs than inputs, this code clears any output channels that didn't contain input data, (because these aren't guaranteed to be empty - they may contain garbage).
-    // I've added this to avoid people getting screaming feedback when they first compile the plugin, but obviously you don't need to this code if your algorithm already fills all the output channels.
-    for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
-    
-    int numChannels = jmin (getNumInputChannels(), getNumOutputChannels());
-    int len = buffer.getNumSamples();
-    
-    
-    for (int i=0; i<pdParameters.size(); i++) {
-        PdParameter* parameter = pdParameters[i];
-        if(parameter->hasToObserve()){
-
-            pd->sendFloat(parameter->getName(300).toStdString(), parameter->getTrueValue());
-        }
-    }
-    
-    MidiMessage message;
-    MidiBuffer::Iterator it (midiMessages);
-    int samplePosition = buffer.getNumSamples();
-    
-    
-    while (it.getNextEvent (message, samplePosition))
-    {
-        DBG("in" << message.getNoteNumber() );//<< " , " << message.getFloatVelocity() << " c " << message.getChannel() <<  "n" << samplePosition);
+        //    pd->setMainContext();
+        clearMidiBuffer(buffer.getNumSamples());
         
-        if (message.isNoteOn (true)) {
-            pd->sendNoteOn (message.getChannel(), message.getNoteNumber(), message.getVelocity());
-        }
-        if (message.isNoteOff (true)) {
-            pd->sendNoteOn (message.getChannel(), message.getNoteNumber(), 0);
-        }
-    }
-    
-    
-    
-    //output recieved
-    
-    
-    int idx = 0;
-    while (len > 0)
-    {
-        int max = jmin (len, pd->blockSize());
         
-        /* interleave audio */
         
-        // TODO : While loop per tick with less copy operations (i.e here + processfloat)
-        {
-            float* dstBuffer = pdInBuffer.getData();
-            for (int i = 0; i < max; ++i)
-            {
-                for (int channelIndex = 0; channelIndex < numChannels; ++channelIndex)
-                    *dstBuffer++ = buffer.getReadPointer(channelIndex) [idx + i];
+        
+        int numChannels = jmin (getNumInputChannels(), getNumOutputChannels());
+        int len = buffer.getNumSamples();
+        
+        
+        for (int i=0; i<pdParameters.size(); i++) {
+            PdParameter* parameter = pdParameters[i];
+            if(parameter->hasToObserve()){
+                
+                pd->sendFloat(parameter->getName(300).toStdString(), parameter->getTrueValue());
             }
         }
         
-        pd->processFloat (1, pdInBuffer.getData(), pdOutBuffer.getData());
+        MidiMessage message;
+        MidiBuffer::Iterator it (midiMessages);
+        int samplePosition = buffer.getNumSamples();
         
-        /* write-back */
+        
+        while (it.getNextEvent (message, samplePosition))
         {
-            const float* srcBuffer = pdOutBuffer.getData();
-            for (int i = 0; i < max; ++i)
-            {
-                for (int channelIndex = 0; channelIndex < numChannels; ++channelIndex)
-                    buffer.getWritePointer (channelIndex) [idx + i] = *srcBuffer++;
+            //        DBG("in" << message.getNoteNumber() );//<< " , " << message.getFloatVelocity() << " c " << message.getChannel() <<  "n" << samplePosition);
+            
+            if (message.isNoteOn (true)) {
+                pd->sendNoteOn (message.getChannel(), message.getNoteNumber(), message.getVelocity());
+            }
+            if (message.isNoteOff (true)) {
+                pd->sendNoteOn (message.getChannel(), message.getNoteNumber(), 0);
             }
         }
         
-        idx += max;
-        len -= max;
+        
+        
+        //output recieved
+        
+        
+        int idx = 0;
+        while (len > 0)
+        {
+            int max = jmin (len, pd->blockSize());
+            
+            /* interleave audio */
+            
+            // TODO : While loop per tick with less copy operations (i.e here + processfloat)
+            {
+                float* dstBuffer = pdInBuffer.getData();
+                for (int i = 0; i < max; ++i)
+                {
+                    for (int channelIndex = 0; channelIndex < numChannels; ++channelIndex)
+                        *dstBuffer++ = buffer.getReadPointer(channelIndex) [idx + i];
+                }
+            }
+            
+            pd->processFloat (1, pdInBuffer.getData(), pdOutBuffer.getData());
+            
+            /* write-back */
+            {
+                const float* srcBuffer = pdOutBuffer.getData();
+                for (int i = 0; i < max; ++i)
+                {
+                    for (int channelIndex = 0; channelIndex < numChannels; ++channelIndex)
+                        buffer.getWritePointer (channelIndex) [idx + i] = *srcBuffer++;
+                }
+            }
+            
+            idx += max;
+            len -= max;
+        }
+        
+        //   send daw info if needed
+        sendDawInfo();
+        
+        
+        midiMessages = getMidiBuffer();
+        
+        
     }
-    
-    //   send daw info if needed
-    sendDawInfo();
-    
-    
-    midiMessages = getMidiBuffer();
-    
-    
+    else{
+        // In case we have more outputs than inputs, this code clears any output channels that didn't contain input data, (because these aren't guaranteed to be empty - they may contain garbage).
+        // I've added this to avoid people getting screaming feedback when they first compile the plugin, but obviously you don't need to this code if your algorithm already fills all the output channels.
+        for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
+            buffer.clear (i, 0, buffer.getNumSamples());
+    }
     
     
 }
@@ -247,15 +262,17 @@ void PdAudioProcessor::sendDawInfo(){
         
         getPlayHead()->getCurrentPosition(currentPositionInfo);
         if(dawInfo.tempo != currentPositionInfo.bpm){
+            String s = String(dollarZero)+"-pulp_tempo";
             dawInfo.tempo = currentPositionInfo.bpm;
-            pd->sendFloat("pulp_tempo",dawInfo.tempo);
+            pd->sendFloat(s.toStdString(),dawInfo.tempo);
             DBG("set bpm : " << dawInfo.tempo);
         }
         int newBeat = (int)(currentPositionInfo.ppqPosition*currentPositionInfo.timeSigNumerator);
         //        DBG("ppq " <<currentPositionInfo.ppqPosition <<","<< currentPositionInfo.timeInSeconds << "," << dawInfo.beat );;
         if(dawInfo.beat != newBeat){
             dawInfo.beat = newBeat;
-            pd->sendFloat("pulp_beat",dawInfo.beat);
+            String s = String(dollarZero)+"-pulp_beat";
+            pd->sendFloat(s.toStdString(),dawInfo.beat);
             
         }
     }
@@ -272,7 +289,8 @@ void PdAudioProcessor::getStateInformation (MemoryBlock& destData)
     
     // STORE / SAVE
     
-    XmlElement xml(getName().replace(" ", "-"));
+    String name = "PdPulpito";//getName().replace(" ", "-");
+    XmlElement xml(name);
     
     
     // parameters
@@ -286,7 +304,8 @@ void PdAudioProcessor::getStateInformation (MemoryBlock& destData)
     }
     xml.addChildElement(parameterListElement);
     XmlElement * meta = new XmlElement("meta");
-    meta->setAttribute("lastModificationTime",getLastModificationTime().getSeconds());
+    meta->setAttribute("patchPath",patchfile.getFullPathName());
+    meta->setAttribute("lastModificationTime",String(getLastModificationTime().toMilliseconds()));
     xml.addChildElement(meta);
     //    MemoryOutputStream stream;
     //    xml.writeToStream(stream, "");
@@ -301,56 +320,74 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
     // whose contents will have been created by the getStateInformation() call.
     
     // RESTORE / LOAD
-
-        ScopedPointer<XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
+    String name = "PdPulpito";//getName().replace(" ", "-");
     
-        if(xml != 0 && xml->hasTagName(getName().replace(" ", "-"))) {
+    ScopedPointer<XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
+    
+    if(xml != 0 && xml->hasTagName(name)) {
+        
+        MemoryOutputStream stream;
+        xml->writeToStream(stream, "<?xml version=\"1.0\"?>");
+        forEachXmlChildElementWithTagName(*xml, child, "meta"){
+            int64 milliseconds = child->getStringAttribute("lastModificationTime").getLargeIntValue();
+            String pathToLoad = child->getStringAttribute("patchPath");
             
-            MemoryOutputStream stream;
-            xml->writeToStream(stream, "<?xml version=\"1.0\"?>");
-            forEachXmlChildElementWithTagName(*xml, child, "meta"){
-                int seconds = child->getIntAttribute("lastModificationTime");
-                if(getLastModificationTime().getSeconds()!=seconds){
-                    canRestore = false;
-                    break;
-                }
+            
+            
+            setPatchFile(pathToLoad);
+            if(getLastModificationTime().toMilliseconds()!=milliseconds){
+                canRestore = false;
+                DBG3("not Restoring State because patch was Modified",getLastModificationTime().toMilliseconds(),milliseconds);
+                needsToReopenPatch = -2;
+                return;
             }
-            forEachXmlChildElement (*xml, child)
-            {
-                DBG(" - load : " << child->getTagName() );;
+            else{
                 
-                if(child->hasTagName("parameterList")) {
+                needsToReopenPatch = 0;
+                
+            }
+            
+        }
+        
+        forEachXmlChildElement (*xml, child)
+        {
+            DBG(" - load : " << child->getTagName() );;
+            
+            if(child->hasTagName("parameterList")) {
+                
+                forEachXmlChildElement (*child, parameterElement) {
                     
-                    forEachXmlChildElement (*child, parameterElement) {
+                    // TODO : change index based retrieval to safer?
+                    
+                    int index = parameterElement->getIntAttribute("index");
+                    if(index<pdParameters.size()){
+                        DBG("loading param " << parameterElement->getStringAttribute("name"));
+                        PdParameter* p = pdParameters.getUnchecked(index);
+                        p->deSerialize(parameterElement);
                         
-                        // TODO : change index based retrieval to safer?
-                        
-                        int index = parameterElement->getIntAttribute("index");
-                        if(index<pdParameters.size()){
-                            DBG("loading param " << parameterElement->getStringAttribute("name"));
-                            PdParameter* p = pdParameters.getUnchecked(index);
-                            p->deSerialize(parameterElement);
-                            
-                            setParameter(p->getParameterIndex(), (float) p->getValue());
-                            
-                        }
-                        else{
-                            
-                            DBG("DAW saved old Parameter" );;
-                            return;
-                        }
-                        
+                        setParameter(p->getParameterIndex(), (float) p->getValue());
                         
                     }
+                    else{
+                        
+                        DBG("DAW saved old Parameter : not supported" );;
+                        return;
+                    }
+                    
+                    
                 }
             }
+        }
         
+    }
+    if(needsToReopenPatch>=0){
+        openNewPatch();
     }
 }
 
 
 bool PdAudioProcessor::hasNewFilesSince(Time t){
-   return t>getLastPdGUIModTime() && t>File(patchfile).getLastModificationTime();
+    return t>getLastPdGUIModTime() && t>File(patchfile).getLastModificationTime();
     
 }
 
@@ -360,15 +397,11 @@ Time PdAudioProcessor::getLastModificationTime(){
     return jmax(t1,t2);
 }
 
-void PdAudioProcessor::reloadPdPatch (double sampleRate)
+void PdAudioProcessor::reloadPdPatch ()
 {
     DBG("reloading Patch" );
     
-    if (sampleRate> 10) {
-        cachedSampleRate = sampleRate;
-    } else {
-        sampleRate = cachedSampleRate;
-    }
+
     
     if (pd) {
         //        pd->computeAudio(false);
@@ -380,7 +413,7 @@ void PdAudioProcessor::reloadPdPatch (double sampleRate)
     }
     pd->setReceiver(this);
     pd->setMidiReceiver(this);
-    pd->init (getNumInputChannels(), getNumOutputChannels(), sampleRate,false);
+    pd->init (getNumInputChannels(), getNumOutputChannels(), cachedSampleRate,false);
     
     
     int numChannels = jmin (getNumInputChannels(), getNumOutputChannels());
@@ -416,14 +449,23 @@ void PdAudioProcessor::reloadPdPatch (double sampleRate)
     dawInfo.clear();
     
     
+    
+    
 }
 
-
+//extern "C"{
+//extern void * error_object;
+//}
+//#include "s_print.c"
 void PdAudioProcessor::print(const std::string& message) {
     if(getActiveEditor()!=nullptr){
         
-            MainComponent * mainEditor =dynamic_cast<MainComponent*>(getActiveEditor()) ;
-        mainEditor->addPdLog(message);
+        MainComponent * mainEditor =dynamic_cast<MainComponent*>(getActiveEditor()) ;
+        String msg(message);
+        //        if(msg.startsWith("error:") && error_object!=NULL){
+        //            msg += "\\n" + String(class_getname( ((t_gobj*) error_object)->g_pd));
+        //        }
+        mainEditor->addPdLog(msg);
     }
 };
 

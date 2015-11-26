@@ -10,13 +10,12 @@
 
 #include "Config.h"
 
-int PdParamGetter::dollarZero = 1002;
+
 
 void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     parsedString.clear();
     guiSizes.clear();
     guiFiles.clear();
-    dollarZero++;
     pulpParameterDescs.clear();
     audioParameters.clear();
     localObjectCount =0;
@@ -27,7 +26,8 @@ void PdParamGetter::getParameterDescsFromPatch(File & patchfile){
     
     juce::StringArray destLines;
 
-    File f = File(patchfile.getParentDirectory().getChildFile("gui.pd"));
+    File f =  patchfile;//File(patchfile.getParentDirectory().getChildFile("gui.pd"));
+    
     guiFiles.add(f);
     if(!guiFiles[0].exists()){
         jassertfalse;
@@ -127,9 +127,6 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                         
                         p->labelSize = l[17].getFloatValue();
                         p->name=l[11];
-                        if(p->name.startsWith("\\$")){
-                            p->name = String(dollarZero) + p->name.substring(3);
-                        }
                         
                         // numBox
                         if(pdType == "nbx" ){
@@ -309,6 +306,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                                      (p->labelRect.getY())/patchRect.getHeight(),
                                      p->labelRect.getWidth()/patchRect.getWidth(),
                                      p->labelRect.getHeight()/patchRect.getHeight());
+                        p->name = resolveDollarzero(p->name);
                         DBG("adding p " << p->name << " at "<< ((Rectangle<float>)*p).toString());
                         if(p->name==""){
                             for(auto ll:l){
@@ -350,11 +348,12 @@ File PdParamGetter::subPatchExists(String sub){
 return guiFiles[0].getParentDirectory().getChildFile(sub+".pd");
 }
 
-Array<StringArray>  PdParamGetter::parseText(StringArray destLines,bool isRootGUI){
+Array<StringArray>  PdParamGetter::parseText(StringArray destLines,bool isRootGUI,bool ignoresubpatches){
     String concatL = "";
     Array<StringArray> curA;
     
     bool firstLine = true;
+    int subPatchDepth = 0;
     for(auto  l : destLines){
         concatL +=l;
         concatL+=" ";
@@ -366,15 +365,18 @@ Array<StringArray>  PdParamGetter::parseText(StringArray destLines,bool isRootGU
                 guiSizes.add(patchRect);
                 
             }
-            if(curS[0]=="#X"){
-                curA.add(curS);
-                
+            if(ignoresubpatches){
+            // get rid of embedded subPatches (UI objects are not in there
+            if(curS[0]=="#N" && curS[1] == "canvas"){subPatchDepth++;}
+            else if (curS[0]=="#X" && curS[1] == "restore"){subPatchDepth--;}
+            else if(subPatchDepth ==1 && curS[0]=="#X"){curA.add(curS);}
             }
             concatL.clear();
         }
         firstLine = false;
     }
     
+
     
     return curA;
 }
@@ -422,7 +424,12 @@ int PdParamGetter::getNumObjectsForGUI(int guiNum){
 }
 
 
-
+String PdParamGetter::resolveDollarzero(String & c){
+    if(dollarZero==0){
+        jassertfalse;
+    }
+    return c.replace("\\$0", String(dollarZero));
+}
 
 int PdParamGetter::getProcessorStartIdxForGUI(int guiNum){
     int guiI=0;

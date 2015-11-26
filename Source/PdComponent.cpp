@@ -116,7 +116,7 @@ void PdComponent::timerCallback(){
     
     //    if(!getSlider()->isMouseButtonDown()){
 
-    if (getPdParameter()->hasChanged())
+    if (getPdParameter()!=nullptr && getPdParameter()->hasChanged())
     {
         setValue(getPdParameter()->getTrueValue() ,NotificationType::dontSendNotification);
         startTimer (1000 / 50);

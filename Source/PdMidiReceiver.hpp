@@ -23,7 +23,9 @@ namespace pd {
         
         /// midi
         virtual void receiveNoteOn(const int channel, const int pitch, const int velocity) {
-            juce::MidiMessage msg;
+            if(sampleNumber<300){
+                juce::MidiMessage msg;
+            
             if(velocity == 0){
                 msg = juce::MidiMessage::noteOff(channel+1, pitch, (float)velocity/127.0f);
             }
@@ -33,6 +35,12 @@ namespace pd {
             msg.setTimeStamp(juce::Time::currentTimeMillis());
             buf.addEvent(msg, sampleNumber);
             sampleNumber++;
+                
+                DBG3("this",this,sampleNumber);
+            }
+            else{
+                DBG("WTF");
+            }
 //            DBG( "noteOn  :" << pitch << " , " << velocity );;
             
         }
@@ -80,7 +88,8 @@ namespace pd {
             
         }
         
-        virtual void clearMidiBuffer(int samplePosition){      sampleNumber = 0;  buf.clear();
+        virtual void clearMidiBuffer(int samplePosition){
+            sampleNumber = 0;  buf.clear();
         }
         
         juce::MidiBuffer buf;
