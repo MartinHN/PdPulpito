@@ -14,6 +14,7 @@
   <MAINGROUP id="bHW1xW" name="PdPulpito">
     <GROUP id="{F7E3C56F-7CAF-CB35-5672-4BC60FA8EA87}" name="Source">
       <GROUP id="{43A75B83-F8BC-0373-9643-94AEFBC61E84}" name="TUIO">
+        <FILE id="sRxxsW" name="TUIOConfig.h" compile="0" resource="0" file="Source/TUIO/TUIOConfig.h"/>
         <FILE id="YBhwMZ" name="TUIOComponent.cpp" compile="1" resource="0"
               file="Source/TUIO/TUIOComponent.cpp"/>
         <FILE id="dZ5lhL" name="TUIOComponent.h" compile="0" resource="0" file="Source/TUIO/TUIOComponent.h"/>
@@ -35,8 +36,6 @@
         <FILE id="Sm2C3e" name="PdReceiver.hpp" compile="0" resource="0" file="Source/PdReceiver.hpp"/>
         <FILE id="XO8meE" name="PdTypes.cpp" compile="1" resource="0" file="Source/PdTypes.cpp"/>
         <FILE id="YYE3EO" name="PdTypes.hpp" compile="0" resource="0" file="Source/PdTypes.hpp"/>
-        <FILE id="TwM1No" name="ringbuffer.c" compile="1" resource="0" file="Source/ringbuffer.c"/>
-        <FILE id="k8g4Eq" name="ringbuffer.h" compile="0" resource="0" file="Source/ringbuffer.h"/>
       </GROUP>
       <GROUP id="{8BC5C010-84D7-6F6E-7C46-7F08C7550B8F}" name="UI">
         <FILE id="VTMgCD" name="PdComponent.cpp" compile="1" resource="0" file="Source/PdComponent.cpp"/>
@@ -56,11 +55,9 @@
           <FILE id="pP5K7n" name="allow.c" compile="1" resource="0" file="Source/externals/maxlib/allow.c"/>
           <FILE id="og30BL" name="arbran.c" compile="1" resource="0" file="Source/externals/maxlib/arbran.c"/>
           <FILE id="dcn7X5" name="arraycopy.c" compile="1" resource="0" file="Source/externals/maxlib/arraycopy.c"/>
-          <FILE id="qSYfsh" name="average.c" compile="1" resource="0" file="Source/externals/maxlib/average.c"/>
           <FILE id="bVHPPQ" name="beat.c" compile="1" resource="0" file="Source/externals/maxlib/beat.c"/>
           <FILE id="kUCUKI" name="beta.c" compile="1" resource="0" file="Source/externals/maxlib/beta.c"/>
           <FILE id="fwqJ92" name="bilex.c" compile="1" resource="0" file="Source/externals/maxlib/bilex.c"/>
-          <FILE id="fN3BwF" name="borax.c" compile="1" resource="0" file="Source/externals/maxlib/borax.c"/>
           <FILE id="HCfuW7" name="cauchy.c" compile="1" resource="0" file="Source/externals/maxlib/cauchy.c"/>
           <FILE id="mE5u5C" name="chord.c" compile="1" resource="0" file="Source/externals/maxlib/chord.c"/>
           <FILE id="IVLZiz" name="delta.c" compile="1" resource="0" file="Source/externals/maxlib/delta.c"/>
@@ -81,7 +78,6 @@
           <FILE id="ZPSssx" name="linear.c" compile="1" resource="0" file="Source/externals/maxlib/linear.c"/>
           <FILE id="BHoVZh" name="listfifo.c" compile="1" resource="0" file="Source/externals/maxlib/listfifo.c"/>
           <FILE id="GVAbfg" name="listfunnel.c" compile="1" resource="0" file="Source/externals/maxlib/listfunnel.c"/>
-          <FILE id="WqJjrt" name="match.c" compile="1" resource="0" file="Source/externals/maxlib/match.c"/>
           <FILE id="lPhrWi" name="maxlib.c" compile="1" resource="0" file="Source/externals/maxlib/maxlib.c"/>
           <FILE id="n081jL" name="minus.c" compile="1" resource="0" file="Source/externals/maxlib/minus.c"/>
           <FILE id="gOnTtd" name="mlife.c" compile="1" resource="0" file="Source/externals/maxlib/mlife.c"/>
@@ -102,8 +98,6 @@
           <FILE id="Yo7qcH" name="rhythm.c" compile="1" resource="0" file="Source/externals/maxlib/rhythm.c"/>
           <FILE id="YCvkwM" name="scale.c" compile="1" resource="0" file="Source/externals/maxlib/scale.c"/>
           <FILE id="LeWA68" name="score.c" compile="1" resource="0" file="Source/externals/maxlib/score.c"/>
-          <FILE id="usYPRW" name="speedlim.c" compile="1" resource="0" file="Source/externals/maxlib/speedlim.c"/>
-          <FILE id="WE27XN" name="split.c" compile="1" resource="0" file="Source/externals/maxlib/split.c"/>
           <FILE id="NjoUDP" name="step.c" compile="1" resource="0" file="Source/externals/maxlib/step.c"/>
           <FILE id="VdZRaf" name="subst.c" compile="1" resource="0" file="Source/externals/maxlib/subst.c"/>
           <FILE id="hTTOso" name="sync.c" compile="1" resource="0" file="Source/externals/maxlib/sync.c"/>
@@ -112,34 +106,25 @@
           <FILE id="WwmSJM" name="timebang.c" compile="1" resource="0" file="Source/externals/maxlib/timebang.c"/>
           <FILE id="wf1Btg" name="triang.c" compile="1" resource="0" file="Source/externals/maxlib/triang.c"/>
           <FILE id="W18hnL" name="unroute.c" compile="1" resource="0" file="Source/externals/maxlib/unroute.c"/>
-          <FILE id="yyzqFY" name="urn.c" compile="1" resource="0" file="Source/externals/maxlib/urn.c"/>
           <FILE id="l6zaFo" name="velocity.c" compile="1" resource="0" file="Source/externals/maxlib/velocity.c"/>
           <FILE id="vQkcPw" name="weibull.c" compile="1" resource="0" file="Source/externals/maxlib/weibull.c"/>
-          <FILE id="wCunFo" name="wrap.c" compile="1" resource="0" file="Source/externals/maxlib/wrap.c"/>
         </GROUP>
         <GROUP id="{E61AD9F8-CD17-9637-1001-825361651097}" name="cyclone">
           <FILE id="kwOp3z" name="build_counter" compile="0" resource="1" file="Source/externals/cyclone/build_counter"/>
           <GROUP id="{E1BB1704-E3E8-5615-5ACD-426B6AEAAEC5}" name="hammer">
             <FILE id="CmoacW" name="accum.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/accum.c"/>
-            <FILE id="girCtF" name="acos.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/acos.c"/>
             <FILE id="HWjdP0" name="active.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/active.c"/>
             <FILE id="k3vlzJ" name="allhammers.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/allhammers.c"/>
             <FILE id="Zehk9g" name="anal.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/anal.c"/>
             <FILE id="yR5CyS" name="Append.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Append.c"/>
-            <FILE id="KJPF9Q" name="asin.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/asin.c"/>
             <FILE id="vxyMY2" name="bangbang.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/bangbang.c"/>
             <FILE id="kvd03i" name="bondo.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/bondo.c"/>
             <FILE id="fpCau7" name="Borax.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Borax.c"/>
             <FILE id="K1v8bI" name="Bucket.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Bucket.c"/>
             <FILE id="lhwPrm" name="buddy.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/buddy.c"/>
-            <FILE id="qHxUr2" name="capture.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/capture.c"/>
-            <FILE id="hTOe9R" name="cartopol.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/cartopol.c"/>
-            <FILE id="Qsn6Ag" name="Clip.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Clip.c"/>
             <FILE id="jFPCKu" name="coll.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/coll.c"/>
             <FILE id="W2W0B0" name="comment.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/comment.c"/>
-            <FILE id="P3dT4c" name="cosh.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/cosh.c"/>
             <FILE id="ykd9Cq" name="counter.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/counter.c"/>
-            <FILE id="Eltht6" name="cycle.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/cycle.c"/>
             <FILE id="w6qC5m" name="decide.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/decide.c"/>
             <FILE id="EEDjSF" name="Decode.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Decode.c"/>
             <FILE id="EW7fLK" name="drunk.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/drunk.c"/>
@@ -154,12 +139,10 @@
             <FILE id="ZSbjF8" name="Histo.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Histo.c"/>
             <FILE id="gM3Lna" name="iter.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/iter.c"/>
             <FILE id="xw8VvO" name="match.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/match.c"/>
-            <FILE id="hrRE29" name="maximum.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/maximum.c"/>
             <FILE id="CbRIgj" name="mean.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/mean.c"/>
             <FILE id="ZHD1aK" name="midiflush.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/midiflush.c"/>
             <FILE id="SaV5qE" name="midiformat.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/midiformat.c"/>
             <FILE id="lhe09Q" name="midiparse.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/midiparse.c"/>
-            <FILE id="gDCxE3" name="minimum.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/minimum.c"/>
             <FILE id="wHERSu" name="mousefilter.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/mousefilter.c"/>
             <FILE id="wj28yN" name="MouseState.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/MouseState.c"/>
             <FILE id="udtvdu" name="mtr.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/mtr.c"/>
@@ -170,12 +153,10 @@
             <FILE id="lllqha" name="pd-lib-notes.txt" compile="0" resource="1"
                   file="Source/externals/cyclone/hammer/pd-lib-notes.txt"/>
             <FILE id="Sd2W16" name="Peak.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Peak.c"/>
-            <FILE id="OhwCnk" name="poltocar.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/poltocar.c"/>
             <FILE id="pGg8OI" name="prepend.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/prepend.c"/>
             <FILE id="l0CF8T" name="prob.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/prob.c"/>
             <FILE id="PzhYbx" name="pv.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/pv.c"/>
             <FILE id="wCyQkf" name="seq.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/seq.c"/>
-            <FILE id="ujfojM" name="sinh.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/sinh.c"/>
             <FILE id="tJPTzD" name="speedlim.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/speedlim.c"/>
             <FILE id="T503Sw" name="spell.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/spell.c"/>
             <FILE id="Ro12QU" name="split.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/split.c"/>
@@ -185,14 +166,12 @@
             <FILE id="lkGInA" name="sustain.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/sustain.c"/>
             <FILE id="l5UORa" name="switch.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/switch.c"/>
             <FILE id="f11Q3G" name="Table.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Table.c"/>
-            <FILE id="evcZhV" name="tanh.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/tanh.c"/>
             <FILE id="RoJQfc" name="testmess.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/testmess.c"/>
             <FILE id="Izfm0F" name="thresh.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/thresh.c"/>
             <FILE id="W0m0Zv" name="TogEdge.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/TogEdge.c"/>
             <FILE id="M11bbU" name="tosymbol.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/tosymbol.c"/>
             <FILE id="NWggel" name="Trough.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Trough.c"/>
             <FILE id="PW3Zdm" name="universal.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/universal.c"/>
-            <FILE id="wGmOYl" name="urn.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/urn.c"/>
             <FILE id="v139xL" name="Uzi.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/Uzi.c"/>
             <FILE id="N6gQzK" name="xbendin.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/xbendin.c"/>
             <FILE id="qESi4l" name="xbendin2.c" compile="1" resource="0" file="Source/externals/cyclone/hammer/xbendin2.c"/>
@@ -315,12 +294,9 @@
             <FILE id="eVOop6" name="curve.gp" compile="0" resource="1" file="Source/externals/cyclone/sickle/curve.gp"/>
             <FILE id="tnMLAf" name="cycle.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/cycle.c"/>
             <FILE id="jhJVgF" name="delay.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/delay.c"/>
-            <FILE id="TBFw1Y" name="delta.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/delta.c"/>
             <FILE id="RNHMaU" name="deltaclip.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/deltaclip.c"/>
-            <FILE id="tqwCwh" name="edge.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/edge.c"/>
             <FILE id="iONBf0" name="frameaccum.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/frameaccum.c"/>
             <FILE id="iWD3fU" name="framedelta.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/framedelta.c"/>
-            <FILE id="ZBJB8y" name="index.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/index.c"/>
             <FILE id="sF5bQ5" name="kink.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/kink.c"/>
             <FILE id="f6ynCN" name="Line.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/Line.c"/>
             <FILE id="DsWYWf" name="linedrive.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/linedrive.c"/>
@@ -330,7 +306,6 @@
             <FILE id="qOhiIZ" name="matrix.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/matrix.c"/>
             <FILE id="LIF3n4" name="maximum.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/maximum.c"/>
             <FILE id="EXFw0Y" name="minimum.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/minimum.c"/>
-            <FILE id="SGzmB1" name="minmax.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/minmax.c"/>
             <FILE id="ZcRnAI" name="mstosamps.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/mstosamps.c"/>
             <FILE id="d2gCLz" name="onepole.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/onepole.c"/>
             <FILE id="mE2L9M" name="overdrive.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/overdrive.c"/>
@@ -341,10 +316,8 @@
             <FILE id="GkR1Ln" name="play.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/play.c"/>
             <FILE id="fMlpdM" name="poke.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/poke.c"/>
             <FILE id="BmaROz" name="poltocar.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/poltocar.c"/>
-            <FILE id="iSggip" name="pong.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/pong.c"/>
             <FILE id="ljhjup" name="pow.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/pow.c"/>
             <FILE id="sPJUVX" name="rampsmooth.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/rampsmooth.c"/>
-            <FILE id="MaAylV" name="rand.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/rand.c"/>
             <FILE id="XjGf7X" name="record.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/record.c"/>
             <FILE id="MEXhct" name="reson.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/reson.c"/>
             <FILE id="DZe9Kd" name="sah.c" compile="1" resource="0" file="Source/externals/cyclone/sickle/sah.c"/>
@@ -505,9 +478,9 @@
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="64BitUniversal"
                        isDebug="1" optimisation="1" targetName="PdPulpito" headerPath="../../../libpd/pure-data/src&#10;../../../libpd/libpd_wrapper&#10;../../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared&#10;/usr/include"
                        libraryPath="$(LIBPD)" customXcodeFlags="LIBPD=/Users/mhermant/Documents/Work/Dev/libpd/libs, ONLY_ACTIVE_ARCH=true"/>
-        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="32BitUniversal"
-                       isDebug="0" optimisation="3" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
-                       libraryPath="../../libpd/"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="64BitUniversal"
+                       isDebug="0" optimisation="3" targetName="PdPulpito" headerPath="../../../libpd/pure-data/src&#10;../../../libpd/libpd_wrapper&#10;../../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared&#10;/usr/include"
+                       libraryPath="$(LIBPD)" customXcodeFlags="LIBPD=/Users/mhermant/Documents/Work/Dev/libpd/libs"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
@@ -549,14 +522,16 @@
         <MODULEPATH id="juce_osc" path="../JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
-    <VS2015 targetFolder="Builds/VisualStudio2015" vstFolder="" externalLibraries="pd-win">
+    <VS2015 targetFolder="Builds/VisualStudio2015" vstFolder="" externalLibraries="libpd.lib&#10;pthreadVC2.lib"
+            extraDefs="NT&#10;MSW&#10;__WIN32__&#10;HAVE_STRUCT_TIMESPEC"
+            extraCompilerFlags="" extraLinkerFlags="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
-                       libraryPath="/usr/X11R6/lib/&#10;../../libpd/"/>
+                       isDebug="1" optimisation="1" targetName="PdPulpito" headerPath="../../../libpd/pure-data/src&#10;../../../libpd/libpd_wrapper&#10;../../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
+                       libraryPath="/usr/X11R6/lib/&#10;../../../libpd/libs"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="0" optimisation="3" targetName="PdPulpito" headerPath="../../libpd/pure-data/src&#10;../../libpd/libpd_wrapper&#10;../../libpd/libpd_wrapper/util&#10;../../Source/externals/cyclone&#10;../../Source/externals/cyclone/shared"
-                       libraryPath="/usr/X11R6/lib/&#10;../../libpd/"/>
+                       libraryPath="/usr/X11R6/lib/&#10;../../libpd/libs"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>

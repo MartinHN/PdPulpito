@@ -19,7 +19,7 @@ pulpConfigUI(&processor)
     addAndMakeVisible(pulpConfigUI);
     
     
-    startTimer(25);
+//    logTimer.startTimer(300);
     
     
     
@@ -100,7 +100,7 @@ void MainComponent::addPdLog(String message){
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster *source){
     static int maxLogSize = 300;
     
-    if(source == this &&     pulpConsole.isVisible()){
+    if(source == this ){
 
 //        if(log.size()>maxLogSize){
 //            log.removeRange(0, log.size()-maxLogSize);
@@ -127,20 +127,22 @@ void MainComponent::ToggleConfigVisibility(bool config,bool console){
     
 }
 
-void MainComponent::timerCallback()
-{
-    //    PdAudioProcessor& p = (PdAudioProcessor&) pdEditor.processor;
-    //    statusField->setText(p.status, dontSendNotification);
-}
+
 
 bool MainComponent::keyPressed (const KeyPress& key,
                                 Component* originatingComponent) {
     
     int c = key.getKeyCode();
-    static KeyPress cKey = KeyPress::createFromDescription("CTRL + c"),rKey= KeyPress::createFromDescription("CTRL + r");
+    static KeyPress cKey = KeyPress::createFromDescription("CMD + c"),
+                    rKey= KeyPress::createFromDescription("CMD + r"),
+                    lKey= KeyPress::createFromDescription("CMD + SHIFT + l");
+    
 
-    if(key.getModifiers().isCommandDown()){
-    ToggleConfigVisibility(c==cKey.getKeyCode(),c==rKey.getKeyCode());
+    ToggleConfigVisibility(key==cKey,key==rKey);
+    
+    if(key == lKey){
+        pulpConsole.clear();
+    
     }
     return true;
 }

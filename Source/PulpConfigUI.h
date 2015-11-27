@@ -12,7 +12,7 @@
 #include <iostream>
 #include "JuceHeader.h"
 #include "PdAudioProcessor.h"
-class PulpConfigUI : public Component,public ButtonListener{
+class PulpConfigUI : public Component,public ButtonListener,public Timer{
     
 public:
     PulpConfigUI(PdAudioProcessor * pdProcessor):pdProcessor(pdProcessor){
@@ -81,12 +81,12 @@ public:
 //        pathField->setText(p.getPatchFile().getFileName(), dontSendNotification);
         
         
-
+        startTimer(300);
     };
     
     
     ~PulpConfigUI(){
-        
+        stopTimer();
         findButton = nullptr;
         pathField = nullptr;
         reloadButton = nullptr;
@@ -107,7 +107,11 @@ public:
         label2->setBounds (168, 24, 304, 16);
     }
     
-    
+    void timerCallback()
+    {
+
+        statusField->setText(pdProcessor->status, dontSendNotification);
+    }
     
     void buttonClicked (Button* buttonThatWasClicked)
     {
@@ -143,7 +147,7 @@ public:
         }
         else if (buttonThatWasClicked == editButton)
         {
-            
+            pdProcessor->patchfile.startAsProcess();
             //        p.guiFile[0].startAsProcess();
             
         }

@@ -119,9 +119,13 @@ void PdComponent::setValueFromPd(float v){
     sendChangeMessage();
 }
 void PdComponent::changeListenerCallback (ChangeBroadcaster* source) {
+    if(getPdParameter()){
     getPdParameter()->setTrueValue(pdValue);
     setValue(pdValue,NotificationType::sendNotification);
-    
+    }
+    else{
+        DBG("WTF");
+    }
 }
 
 // from DAW

@@ -54,7 +54,6 @@ OBJECTS := \
   $(OBJDIR)/TuioTime_7ee25e1d.o \
   $(OBJDIR)/PdBase_917893ee.o \
   $(OBJDIR)/PdTypes_2c8748c6.o \
-  $(OBJDIR)/ringbuffer_42114019.o \
   $(OBJDIR)/PdComponent_3d4a5f4a.o \
   $(OBJDIR)/LookNfeel_4af74696.o \
   $(OBJDIR)/import_3779d35.o \
@@ -63,11 +62,9 @@ OBJECTS := \
   $(OBJDIR)/allow_58b822b.o \
   $(OBJDIR)/arbran_d85ae116.o \
   $(OBJDIR)/arraycopy_bc766070.o \
-  $(OBJDIR)/average_713640bf.o \
   $(OBJDIR)/beat_aee6635e.o \
   $(OBJDIR)/beta_aeeebf18.o \
   $(OBJDIR)/bilex_354eab9a.o \
-  $(OBJDIR)/borax_3fde7ade.o \
   $(OBJDIR)/cauchy_446f56a5.o \
   $(OBJDIR)/chord_68aff27e.o \
   $(OBJDIR)/delta_984e3ada.o \
@@ -88,7 +85,6 @@ OBJECTS := \
   $(OBJDIR)/linear_86b2be4d.o \
   $(OBJDIR)/listfifo_ce02c792.o \
   $(OBJDIR)/listfunnel_e0ebc7bc.o \
-  $(OBJDIR)/match_6dfc09a7.o \
   $(OBJDIR)/maxlib_58d892c9.o \
   $(OBJDIR)/minus_7b569992.o \
   $(OBJDIR)/mlife_8027a7cb.o \
@@ -109,8 +105,6 @@ OBJECTS := \
   $(OBJDIR)/rhythm_d4af5b7e.o \
   $(OBJDIR)/scale_adc36bec.o \
   $(OBJDIR)/score_ae8b6f34.o \
-  $(OBJDIR)/speedlim_bed7e651.o \
-  $(OBJDIR)/split_c48c49bc.o \
   $(OBJDIR)/step_ccbde8f4.o \
   $(OBJDIR)/subst_cc8c2583.o \
   $(OBJDIR)/sync_cd084503.o \
@@ -119,30 +113,21 @@ OBJECTS := \
   $(OBJDIR)/timebang_e04930ed.o \
   $(OBJDIR)/triang_991960f7.o \
   $(OBJDIR)/unroute_7337bd32.o \
-  $(OBJDIR)/urn_c4a5a193.o \
   $(OBJDIR)/velocity_23100d45.o \
   $(OBJDIR)/weibull_28b6950.o \
-  $(OBJDIR)/wrap_d3734af2.o \
   $(OBJDIR)/accum_9b178248.o \
-  $(OBJDIR)/acos_bab39301.o \
   $(OBJDIR)/active_e436ef01.o \
   $(OBJDIR)/allhammers_943c0927.o \
   $(OBJDIR)/anal_bb481e13.o \
   $(OBJDIR)/Append_90b2ee35.o \
-  $(OBJDIR)/asin_bb923e12.o \
   $(OBJDIR)/bangbang_82a8246b.o \
   $(OBJDIR)/bondo_e50b34bb.o \
   $(OBJDIR)/Borax_487aef4b.o \
   $(OBJDIR)/Bucket_eb34f505.o \
   $(OBJDIR)/buddy_eebb82f5.o \
-  $(OBJDIR)/capture_3a9270f5.o \
-  $(OBJDIR)/cartopol_dd2a3319.o \
-  $(OBJDIR)/Clip_87fe3e6b.o \
   $(OBJDIR)/coll_bec4e6e7.o \
   $(OBJDIR)/comment_3d5b35ce.o \
-  $(OBJDIR)/cosh_bec8067c.o \
   $(OBJDIR)/counter_e7112a2b.o \
-  $(OBJDIR)/cycle_2a6a6115.o \
   $(OBJDIR)/decide_689c5ae3.o \
   $(OBJDIR)/Decode_6ccb4c09.o \
   $(OBJDIR)/drunk_545d5653.o \
@@ -157,12 +142,10 @@ OBJECTS := \
   $(OBJDIR)/Histo_7bb9d7dc.o \
   $(OBJDIR)/iter_c9455813.o \
   $(OBJDIR)/match_135fe634.o \
-  $(OBJDIR)/maximum_993c114f.o \
   $(OBJDIR)/mean_cf437980.o \
   $(OBJDIR)/midiflush_c658cc72.o \
   $(OBJDIR)/midiformat_9dfe2ed3.o \
   $(OBJDIR)/midiparse_c4677c61.o \
-  $(OBJDIR)/minimum_c74727bd.o \
   $(OBJDIR)/mousefilter_a609cb4c.o \
   $(OBJDIR)/MouseState_fa6be687.o \
   $(OBJDIR)/mtr_7211791a.o \
@@ -171,12 +154,10 @@ OBJECTS := \
   $(OBJDIR)/onebang_e7f854d.o \
   $(OBJDIR)/past_d431ea8d.o \
   $(OBJDIR)/Peak_9dc6e43a.o \
-  $(OBJDIR)/poltocar_f09e7e47.o \
   $(OBJDIR)/prepend_5a64d33d.o \
   $(OBJDIR)/prob_d51f6510.o \
   $(OBJDIR)/pv_90127101.o \
   $(OBJDIR)/seq_725f30ce.o \
-  $(OBJDIR)/sinh_d9bebd8b.o \
   $(OBJDIR)/speedlim_5ed6a2a4.o \
   $(OBJDIR)/spell_698ec0d7.o \
   $(OBJDIR)/split_69f02649.o \
@@ -186,14 +167,12 @@ OBJECTS := \
   $(OBJDIR)/sustain_3a05c892.o \
   $(OBJDIR)/switch_41d5d3af.o \
   $(OBJDIR)/Table_e7ea81dd.o \
-  $(OBJDIR)/tanh_db02da22.o \
   $(OBJDIR)/testmess_cafad705.o \
   $(OBJDIR)/thresh_9ec90ab7.o \
   $(OBJDIR)/TogEdge_b9ff9f8.o \
   $(OBJDIR)/tosymbol_9dfa230e.o \
   $(OBJDIR)/Trough_af5f3920.o \
   $(OBJDIR)/universal_33e5943a.o \
-  $(OBJDIR)/urn_72813d60.o \
   $(OBJDIR)/Uzi_70c1dd73.o \
   $(OBJDIR)/xbendin_7afb9445.o \
   $(OBJDIR)/xbendin2_e476fd57.o \
@@ -264,12 +243,9 @@ OBJECTS := \
   $(OBJDIR)/curve_fcdd624f.o \
   $(OBJDIR)/cycle_2d8d886.o \
   $(OBJDIR)/delay_161845e3.o \
-  $(OBJDIR)/delta_16208ed8.o \
   $(OBJDIR)/deltaclip_3e2e74a8.o \
-  $(OBJDIR)/edge_4cad8be7.o \
   $(OBJDIR)/frameaccum_bfa4d836.o \
   $(OBJDIR)/framedelta_623f6d55.o \
-  $(OBJDIR)/index_2d841d72.o \
   $(OBJDIR)/kink_57345a45.o \
   $(OBJDIR)/Line_224e087e.o \
   $(OBJDIR)/linedrive_80f7e836.o \
@@ -279,7 +255,6 @@ OBJECTS := \
   $(OBJDIR)/matrix_8ed23bab.o \
   $(OBJDIR)/maximum_fea7080.o \
   $(OBJDIR)/minimum_3df586ee.o \
-  $(OBJDIR)/minmax_2b7ce97c.o \
   $(OBJDIR)/mstosamps_25d24f81.o \
   $(OBJDIR)/onepole_9dd615fe.o \
   $(OBJDIR)/overdrive_b7681f56.o \
@@ -290,10 +265,8 @@ OBJECTS := \
   $(OBJDIR)/play_5fe1279e.o \
   $(OBJDIR)/poke_600faec3.o \
   $(OBJDIR)/poltocar_4fbc0536.o \
-  $(OBJDIR)/pong_60111362.o \
   $(OBJDIR)/pow_e2112c38.o \
   $(OBJDIR)/rampsmooth_a74549ea.o \
-  $(OBJDIR)/rand_62b5704f.o \
   $(OBJDIR)/record_4ca82c3b.o \
   $(OBJDIR)/reson_fb185bdf.o \
   $(OBJDIR)/sah_e234dd3a.o \
@@ -467,11 +440,6 @@ $(OBJDIR)/PdTypes_2c8748c6.o: ../../Source/PdTypes.cpp
 	@echo "Compiling PdTypes.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/ringbuffer_42114019.o: ../../Source/ringbuffer.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling ringbuffer.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/PdComponent_3d4a5f4a.o: ../../Source/PdComponent.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling PdComponent.cpp"
@@ -512,11 +480,6 @@ $(OBJDIR)/arraycopy_bc766070.o: ../../Source/externals/maxlib/arraycopy.c
 	@echo "Compiling arraycopy.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/average_713640bf.o: ../../Source/externals/maxlib/average.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling average.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/beat_aee6635e.o: ../../Source/externals/maxlib/beat.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling beat.c"
@@ -530,11 +493,6 @@ $(OBJDIR)/beta_aeeebf18.o: ../../Source/externals/maxlib/beta.c
 $(OBJDIR)/bilex_354eab9a.o: ../../Source/externals/maxlib/bilex.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling bilex.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/borax_3fde7ade.o: ../../Source/externals/maxlib/borax.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling borax.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/cauchy_446f56a5.o: ../../Source/externals/maxlib/cauchy.c
@@ -637,11 +595,6 @@ $(OBJDIR)/listfunnel_e0ebc7bc.o: ../../Source/externals/maxlib/listfunnel.c
 	@echo "Compiling listfunnel.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/match_6dfc09a7.o: ../../Source/externals/maxlib/match.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling match.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/maxlib_58d892c9.o: ../../Source/externals/maxlib/maxlib.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling maxlib.c"
@@ -742,16 +695,6 @@ $(OBJDIR)/score_ae8b6f34.o: ../../Source/externals/maxlib/score.c
 	@echo "Compiling score.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/speedlim_bed7e651.o: ../../Source/externals/maxlib/speedlim.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling speedlim.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/split_c48c49bc.o: ../../Source/externals/maxlib/split.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling split.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/step_ccbde8f4.o: ../../Source/externals/maxlib/step.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling step.c"
@@ -792,11 +735,6 @@ $(OBJDIR)/unroute_7337bd32.o: ../../Source/externals/maxlib/unroute.c
 	@echo "Compiling unroute.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/urn_c4a5a193.o: ../../Source/externals/maxlib/urn.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling urn.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/velocity_23100d45.o: ../../Source/externals/maxlib/velocity.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling velocity.c"
@@ -807,19 +745,9 @@ $(OBJDIR)/weibull_28b6950.o: ../../Source/externals/maxlib/weibull.c
 	@echo "Compiling weibull.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/wrap_d3734af2.o: ../../Source/externals/maxlib/wrap.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling wrap.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/accum_9b178248.o: ../../Source/externals/cyclone/hammer/accum.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling accum.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/acos_bab39301.o: ../../Source/externals/cyclone/hammer/acos.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling acos.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/active_e436ef01.o: ../../Source/externals/cyclone/hammer/active.c
@@ -840,11 +768,6 @@ $(OBJDIR)/anal_bb481e13.o: ../../Source/externals/cyclone/hammer/anal.c
 $(OBJDIR)/Append_90b2ee35.o: ../../Source/externals/cyclone/hammer/Append.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Append.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/asin_bb923e12.o: ../../Source/externals/cyclone/hammer/asin.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling asin.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/bangbang_82a8246b.o: ../../Source/externals/cyclone/hammer/bangbang.c
@@ -872,21 +795,6 @@ $(OBJDIR)/buddy_eebb82f5.o: ../../Source/externals/cyclone/hammer/buddy.c
 	@echo "Compiling buddy.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/capture_3a9270f5.o: ../../Source/externals/cyclone/hammer/capture.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling capture.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/cartopol_dd2a3319.o: ../../Source/externals/cyclone/hammer/cartopol.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling cartopol.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/Clip_87fe3e6b.o: ../../Source/externals/cyclone/hammer/Clip.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling Clip.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/coll_bec4e6e7.o: ../../Source/externals/cyclone/hammer/coll.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling coll.c"
@@ -897,19 +805,9 @@ $(OBJDIR)/comment_3d5b35ce.o: ../../Source/externals/cyclone/hammer/comment.c
 	@echo "Compiling comment.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/cosh_bec8067c.o: ../../Source/externals/cyclone/hammer/cosh.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling cosh.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/counter_e7112a2b.o: ../../Source/externals/cyclone/hammer/counter.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling counter.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/cycle_2a6a6115.o: ../../Source/externals/cyclone/hammer/cycle.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling cycle.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/decide_689c5ae3.o: ../../Source/externals/cyclone/hammer/decide.c
@@ -982,11 +880,6 @@ $(OBJDIR)/match_135fe634.o: ../../Source/externals/cyclone/hammer/match.c
 	@echo "Compiling match.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/maximum_993c114f.o: ../../Source/externals/cyclone/hammer/maximum.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling maximum.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/mean_cf437980.o: ../../Source/externals/cyclone/hammer/mean.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling mean.c"
@@ -1005,11 +898,6 @@ $(OBJDIR)/midiformat_9dfe2ed3.o: ../../Source/externals/cyclone/hammer/midiforma
 $(OBJDIR)/midiparse_c4677c61.o: ../../Source/externals/cyclone/hammer/midiparse.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling midiparse.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/minimum_c74727bd.o: ../../Source/externals/cyclone/hammer/minimum.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling minimum.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/mousefilter_a609cb4c.o: ../../Source/externals/cyclone/hammer/mousefilter.c
@@ -1052,11 +940,6 @@ $(OBJDIR)/Peak_9dc6e43a.o: ../../Source/externals/cyclone/hammer/Peak.c
 	@echo "Compiling Peak.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/poltocar_f09e7e47.o: ../../Source/externals/cyclone/hammer/poltocar.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling poltocar.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/prepend_5a64d33d.o: ../../Source/externals/cyclone/hammer/prepend.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling prepend.c"
@@ -1075,11 +958,6 @@ $(OBJDIR)/pv_90127101.o: ../../Source/externals/cyclone/hammer/pv.c
 $(OBJDIR)/seq_725f30ce.o: ../../Source/externals/cyclone/hammer/seq.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling seq.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/sinh_d9bebd8b.o: ../../Source/externals/cyclone/hammer/sinh.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling sinh.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/speedlim_5ed6a2a4.o: ../../Source/externals/cyclone/hammer/speedlim.c
@@ -1127,11 +1005,6 @@ $(OBJDIR)/Table_e7ea81dd.o: ../../Source/externals/cyclone/hammer/Table.c
 	@echo "Compiling Table.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/tanh_db02da22.o: ../../Source/externals/cyclone/hammer/tanh.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling tanh.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/testmess_cafad705.o: ../../Source/externals/cyclone/hammer/testmess.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling testmess.c"
@@ -1160,11 +1033,6 @@ $(OBJDIR)/Trough_af5f3920.o: ../../Source/externals/cyclone/hammer/Trough.c
 $(OBJDIR)/universal_33e5943a.o: ../../Source/externals/cyclone/hammer/universal.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling universal.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/urn_72813d60.o: ../../Source/externals/cyclone/hammer/urn.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling urn.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/Uzi_70c1dd73.o: ../../Source/externals/cyclone/hammer/Uzi.c
@@ -1517,19 +1385,9 @@ $(OBJDIR)/delay_161845e3.o: ../../Source/externals/cyclone/sickle/delay.c
 	@echo "Compiling delay.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/delta_16208ed8.o: ../../Source/externals/cyclone/sickle/delta.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling delta.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/deltaclip_3e2e74a8.o: ../../Source/externals/cyclone/sickle/deltaclip.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling deltaclip.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/edge_4cad8be7.o: ../../Source/externals/cyclone/sickle/edge.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling edge.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/frameaccum_bfa4d836.o: ../../Source/externals/cyclone/sickle/frameaccum.c
@@ -1540,11 +1398,6 @@ $(OBJDIR)/frameaccum_bfa4d836.o: ../../Source/externals/cyclone/sickle/frameaccu
 $(OBJDIR)/framedelta_623f6d55.o: ../../Source/externals/cyclone/sickle/framedelta.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling framedelta.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/index_2d841d72.o: ../../Source/externals/cyclone/sickle/index.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling index.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/kink_57345a45.o: ../../Source/externals/cyclone/sickle/kink.c
@@ -1590,11 +1443,6 @@ $(OBJDIR)/maximum_fea7080.o: ../../Source/externals/cyclone/sickle/maximum.c
 $(OBJDIR)/minimum_3df586ee.o: ../../Source/externals/cyclone/sickle/minimum.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling minimum.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/minmax_2b7ce97c.o: ../../Source/externals/cyclone/sickle/minmax.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling minmax.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/mstosamps_25d24f81.o: ../../Source/externals/cyclone/sickle/mstosamps.c
@@ -1647,11 +1495,6 @@ $(OBJDIR)/poltocar_4fbc0536.o: ../../Source/externals/cyclone/sickle/poltocar.c
 	@echo "Compiling poltocar.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/pong_60111362.o: ../../Source/externals/cyclone/sickle/pong.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling pong.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/pow_e2112c38.o: ../../Source/externals/cyclone/sickle/pow.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling pow.c"
@@ -1660,11 +1503,6 @@ $(OBJDIR)/pow_e2112c38.o: ../../Source/externals/cyclone/sickle/pow.c
 $(OBJDIR)/rampsmooth_a74549ea.o: ../../Source/externals/cyclone/sickle/rampsmooth.c
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling rampsmooth.c"
-	@$(CC) $(CFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/rand_62b5704f.o: ../../Source/externals/cyclone/sickle/rand.c
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling rand.c"
 	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/record_4ca82c3b.o: ../../Source/externals/cyclone/sickle/record.c

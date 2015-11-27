@@ -99,7 +99,7 @@ Point<float> TUIOComponent::getScreenPos(TuioCursor * tcur){
             int xOffset=0;
             Point<float> tstPoint  =  peer->localToGlobal(Point<float>(0,0));
             Desktop::Displays::Display dis = Desktop::getInstance().getDisplays().getDisplayContaining(Point<int>(tstPoint.getX(),tstPoint.getY()));
-            Rectangle<int> TUIOArea = dis.totalArea;
+            juce::Rectangle<int> TUIOArea = dis.totalArea;
             if(dis.isMain==false){
                 xOffset = Desktop::getInstance().getDisplays().getMainDisplay().totalArea.getWidth();
             }

@@ -8,15 +8,15 @@
 #include "PdAudioProcessor.h"
 #include "PdAudioProcessorEditor.h"
 #include "LookNfeel.h"
-#include "TuioClient.h"
-#include "TuioListener.h"
-#include "TUIOComponent.h"
+#include "TUIO/TuioClient.h"
+#include "TUIO/TuioListener.h"
+#include "TUIO/TUIOComponent.h"
 #include "PulpConfigUI.h"
 
 using namespace TUIO;
 
 class MainComponent  : public AudioProcessorEditor,
-                       public Timer,
+
                     public TUIOComponent,
                     public KeyListener,
                     public ChangeListener,
@@ -38,10 +38,15 @@ public:
     void changeListenerCallback (ChangeBroadcaster* source);
     void    addPdLog(String message);
     StringArray log;
+    
+//    class LogTimer : public Timer{
+//        void timerCallback();
+//    };
+//    LogTimer logTimer;
 private:
 
     friend PdAudioProcessor;
-    void timerCallback();
+    
     
     PulpConfigUI pulpConfigUI;
     PdAudioProcessorEditor pdEditor;

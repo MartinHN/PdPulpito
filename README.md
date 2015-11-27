@@ -22,7 +22,8 @@ Pulpito options with 'c' (reloading, changing PdFile)
 
 Multiple instance
 ---------
-* works only within mono threaded hosts (Ableton ->disable MultiCoreSupport)
+* !!! works only within mono threaded hosts !!! (Ableton ->disable MultiCoreSupport)
+* should work in multi threaded host if no timed objects are used (metros, makenote... )
 * Pd symbols are shared : make sure to $0 out non shared variables (send/recieves/arrays)
 
 Multitouch
@@ -69,10 +70,25 @@ TODO
 * support multithreaded host
 * Tabbed GUIs
 * TouchOSC likeexporting GUI to other clients (Android ... ?)
-
+* other than float synchronization
 
 Known Issues
 =====
 * getting back Ableton-set from history (after a crash) may crash again
-
+* JUCE don't allow deleting plugins parameter, so you may have to reload patch after modifying a lot GUI stuff
+* (not tested) MIDI output controled by another PdPupito instance
 And Plenty to come
+
+
+Compile Notes
+=======
+libpd and pd should be from my github
+they should be in the same directory path than PdPulpito main folder
+
+on OSX 
+---------
+change LIBPD Xcode preprocessor definition
+
+Windows 
+------
+add pthreadVC2 to your Visual studio path (include/bin/lib) see http://web.cs.du.edu/~sturtevant/pthread.html

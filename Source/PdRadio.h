@@ -68,7 +68,7 @@ public:
     
     
     void setValue(float v, NotificationType notif) override{
-    if(v < getNumChildComponents()){
+    if(v < component->getNumChildComponents()){
         getToggle((int)v )->setToggleState(true, notif);
     }
 }

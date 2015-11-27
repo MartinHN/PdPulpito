@@ -82,6 +82,7 @@ void PdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source){
         buildCanvas();
         updatePatch();
         p->updateProcessorParameters();
+        getParentComponent()->resized();
         repaint();
     }
 }

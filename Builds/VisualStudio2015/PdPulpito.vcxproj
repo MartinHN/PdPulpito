@@ -40,10 +40,10 @@
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PdPulpito</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);/usr/X11R6/lib/;../../libpd/</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);/usr/X11R6/lib/;../../../libpd/libs</LibraryPath>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PdPulpito</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibraryPath);/usr/X11R6/lib/;../../libpd/</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibraryPath);/usr/X11R6/lib/;../../libpd/libs</LibraryPath>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -57,8 +57,8 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\JUCE\modules;c:\SDKs\VST3 SDK;../../libpd/pure-data/src;../../libpd/libpd_wrapper;../../libpd/libpd_wrapper/util;../../Source/externals/cyclone;../../Source/externals/cyclone/shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;ZEXY_LIBRARY;MAXLIB;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\JUCE\modules;c:\SDKs\VST3 SDK;../../../libpd/pure-data/src;../../../libpd/libpd_wrapper;../../../libpd/libpd_wrapper/util;../../Source/externals/cyclone;../../Source/externals/cyclone/shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;ZEXY_LIBRARY;MAXLIB;NT;MSW;__WIN32__;HAVE_STRUCT_TIMESPEC;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -81,9 +81,9 @@
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>/usr/X11R6/lib/;../../libpd/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>/usr/X11R6/lib/;../../../libpd/libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalDependencies>pd-win;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libpd.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/FORCE:multiple %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
@@ -102,7 +102,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\JUCE\modules;c:\SDKs\VST3 SDK;../../libpd/pure-data/src;../../libpd/libpd_wrapper;../../libpd/libpd_wrapper/util;../../Source/externals/cyclone;../../Source/externals/cyclone/shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;ZEXY_LIBRARY;MAXLIB;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;ZEXY_LIBRARY;MAXLIB;NT;MSW;__WIN32__;HAVE_STRUCT_TIMESPEC;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -126,9 +126,9 @@
       <TargetMachine>MachineX86</TargetMachine>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>/usr/X11R6/lib/;../../libpd/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>/usr/X11R6/lib/;../../libpd/libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalDependencies>pd-win;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libpd.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/FORCE:multiple %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
@@ -142,7 +142,6 @@
     <ClCompile Include="..\..\Source\TUIO\TuioTime.cpp"/>
     <ClCompile Include="..\..\Source\PdBase.cpp"/>
     <ClCompile Include="..\..\Source\PdTypes.cpp"/>
-    <ClCompile Include="..\..\Source\ringbuffer.c"/>
     <ClCompile Include="..\..\Source\PdComponent.cpp"/>
     <ClCompile Include="..\..\Source\LookNfeel.cpp"/>
     <ClCompile Include="..\..\Source\externals\import.c"/>
@@ -151,11 +150,9 @@
     <ClCompile Include="..\..\Source\externals\maxlib\allow.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\arbran.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\arraycopy.c"/>
-    <ClCompile Include="..\..\Source\externals\maxlib\average.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\beat.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\beta.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\bilex.c"/>
-    <ClCompile Include="..\..\Source\externals\maxlib\borax.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\cauchy.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\chord.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\delta.c"/>
@@ -176,7 +173,6 @@
     <ClCompile Include="..\..\Source\externals\maxlib\linear.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\listfifo.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\listfunnel.c"/>
-    <ClCompile Include="..\..\Source\externals\maxlib\match.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\maxlib.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\minus.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\mlife.c"/>
@@ -197,8 +193,6 @@
     <ClCompile Include="..\..\Source\externals\maxlib\rhythm.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\scale.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\score.c"/>
-    <ClCompile Include="..\..\Source\externals\maxlib\speedlim.c"/>
-    <ClCompile Include="..\..\Source\externals\maxlib\split.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\step.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\subst.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\sync.c"/>
@@ -207,30 +201,21 @@
     <ClCompile Include="..\..\Source\externals\maxlib\timebang.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\triang.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\unroute.c"/>
-    <ClCompile Include="..\..\Source\externals\maxlib\urn.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\velocity.c"/>
     <ClCompile Include="..\..\Source\externals\maxlib\weibull.c"/>
-    <ClCompile Include="..\..\Source\externals\maxlib\wrap.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\accum.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\acos.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\active.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\allhammers.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\anal.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Append.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\asin.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\bangbang.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\bondo.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Borax.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Bucket.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\buddy.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\capture.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\cartopol.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\Clip.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\coll.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\comment.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\cosh.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\counter.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\cycle.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\decide.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Decode.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\drunk.c"/>
@@ -245,12 +230,10 @@
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Histo.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\iter.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\match.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\maximum.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\mean.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\midiflush.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\midiformat.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\midiparse.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\minimum.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\mousefilter.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\MouseState.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\mtr.c"/>
@@ -259,12 +242,10 @@
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\onebang.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\past.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Peak.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\poltocar.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\prepend.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\prob.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\pv.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\seq.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\sinh.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\speedlim.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\spell.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\split.c"/>
@@ -274,14 +255,12 @@
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\sustain.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\switch.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Table.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\tanh.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\testmess.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\thresh.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\TogEdge.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\tosymbol.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Trough.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\universal.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\hammer\urn.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\Uzi.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\xbendin.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\hammer\xbendin2.c"/>
@@ -355,12 +334,9 @@
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\curve.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\cycle.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\delay.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\sickle\delta.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\deltaclip.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\sickle\edge.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\frameaccum.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\framedelta.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\sickle\index.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\kink.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\Line.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\linedrive.c"/>
@@ -370,7 +346,6 @@
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\matrix.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\maximum.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\minimum.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\sickle\minmax.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\mstosamps.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\onepole.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\overdrive.c"/>
@@ -381,10 +356,8 @@
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\play.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\poke.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\poltocar.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\sickle\pong.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\pow.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\rampsmooth.c"/>
-    <ClCompile Include="..\..\Source\externals\cyclone\sickle\rand.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\record.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\reson.c"/>
     <ClCompile Include="..\..\Source\externals\cyclone\sickle\sah.c"/>
@@ -1631,6 +1604,7 @@
     <ClCompile Include="..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\TUIO\TUIOConfig.h"/>
     <ClInclude Include="..\..\Source\TUIO\TUIOComponent.h"/>
     <ClInclude Include="..\..\Source\TUIO\TuioClient.h"/>
     <ClInclude Include="..\..\Source\TUIO\TuioContainer.h"/>
@@ -1643,7 +1617,6 @@
     <ClInclude Include="..\..\Source\PdMidiReceiver.hpp"/>
     <ClInclude Include="..\..\Source\PdReceiver.hpp"/>
     <ClInclude Include="..\..\Source\PdTypes.hpp"/>
-    <ClInclude Include="..\..\Source\ringbuffer.h"/>
     <ClInclude Include="..\..\Source\PdComponent.h"/>
     <ClInclude Include="..\..\Source\PdRadio.h"/>
     <ClInclude Include="..\..\Source\PdSlider.h"/>

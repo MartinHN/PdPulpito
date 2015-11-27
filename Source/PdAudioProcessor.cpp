@@ -21,12 +21,12 @@ PdAudioProcessor::PdAudioProcessor()
     isPdPatchLoaded = false;
     addChangeListener(this);
     static int first = 0;
-    if(first<2){
-        setPatchFile(File(PATCH_PATH));
-    }
-    else{
-        setPatchFile(File(PATCH_PATH2));
-    }
+//    if(first<2){
+//        setPatchFile(File(PATCH_PATH));
+//    }
+//    else{
+//        setPatchFile(File(PATCH_PATH2));
+//    }
     first ++;
     
     //        loadFromGUI();
@@ -119,7 +119,7 @@ void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     cachedSampleRate = sampleRate;
-    openNewPatch();
+//    openNewPatch();
     
     //        loadFromGUI();
     //    reloadPdPatch(sampleRate);
@@ -346,7 +346,8 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
             setPatchFile(pathToLoad);
             if(getLastModificationTime().toMilliseconds()!=milliseconds){
                 canRestore = false;
-                DBG3("not Restoring State because patch was Modified",getLastModificationTime().toMilliseconds(),milliseconds);
+                status = "patch was Modified since last Time";
+                DBG3(status,getLastModificationTime().toMilliseconds(),milliseconds);
                 needsToReopenPatch = false;
                 return;
             }
