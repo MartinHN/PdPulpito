@@ -6,12 +6,13 @@
 
 
 //==============================================================================
-PdComponent::PdComponent (PulpParameterDesc * p,PdAudioProcessor * processor)
-:paramDesc(p),
+PdComponent::PdComponent (PdParameter * pdParam)
+:pdParam(pdParam),
+
 processor(processor)
 
 {
-
+    
     label = new Label ("label",
                        TRANS("Label"));
     
@@ -29,10 +30,10 @@ processor(processor)
     
     
     setSize (100, 130);
-    index = p->processorIdx;
+    index = pdParam->getProcessorIdx();
     if(index!=-1){
-    String labelText(p->sendName);
-    setName(labelText);
+        String labelText(pdParam->getName(70));
+        setName(labelText);
     }
     label->setJustificationType(juce::Justification::left);
     
@@ -47,7 +48,7 @@ processor(processor)
     if(getPdParameter()!=nullptr)startTimer(1000/5);
     
     
-        addChangeListener(this);
+    addChangeListener(this);
     
 }
 
@@ -76,8 +77,8 @@ void PdComponent::paint (Graphics& g)
     g.setColour(*backColour);
     g.fillPath(back);
     g.setColour(Colours::white);
-//    g.drawRect(label->getBounds());
-//        g.fillAll(juce::Colours::red);
+    //    g.drawRect(label->getBounds());
+    //        g.fillAll(juce::Colours::red);
     
 }
 
@@ -109,19 +110,30 @@ void PdComponent::setLabelVisible(bool v){
 
 
 void PdComponent::setValueFromGUI(float v){
-    getPdParameter()->setTrueValue(v);
+    
+    
+    // notify pd
+    getPdParameter()->setTrueValue(v,true);
+    
+    // notify host if needed
+    if(isAudioParameter()){
     getPdParameter()->setValueNotifyingHost(getPdParameter()->getValue());
+    }
 }
 
-
+// triger change message from audio thread to new GUI Value
 void PdComponent::setValueFromPd(float v){
     pdValue = v;
     sendChangeMessage();
 }
 void PdComponent::changeListenerCallback (ChangeBroadcaster* source) {
     if(getPdParameter()){
-    getPdParameter()->setTrueValue(pdValue);
-    setValue(pdValue,NotificationType::sendNotification);
+        // we dont need to notify Pd
+        getPdParameter()->setTrueValue(pdValue,false);
+        
+        // set component Value and notify host
+        setValue(pdValue,NotificationType::sendNotification);
+        
     }
     else{
         DBG("WTF");
@@ -132,17 +144,18 @@ void PdComponent::changeListenerCallback (ChangeBroadcaster* source) {
 void PdComponent::timerCallback(){
     
     //    if(!getSlider()->isMouseButtonDown()){
-
-    if (getPdParameter()!=nullptr && getPdParameter()->hasChanged())
-    {
-        setValue(getPdParameter()->getTrueValue() ,NotificationType::dontSendNotification);
-        startTimer (1000 / 50);
-        repaint();
-    }
-    else
-    {
-        startTimer (jmin (1000 / 3, getTimerInterval() + 10));
-    }
+    
+//    if (getPdParameter()!=nullptr && getPdParameter()->hasChanged())
+//    {
+//        // don't notify host as it comes from himself
+//        setValue(getPdParameter()->getTrueValue() ,NotificationType::dontSendNotification);
+//        startTimer (1000 / 10);
+//        repaint();
+//    }
+//    else
+//    {
+//        startTimer (jmin (1000 / 3, getTimerInterval() + 10));
+//    }
     
     
     //    }

@@ -89,6 +89,7 @@ public:
         min = 0;
         max = 1;
         recieveName = "empty";
+        isAudioParameter = false;
     }
     
     String recieveName;
@@ -115,8 +116,8 @@ public:
     bool hasLabel;
     int labelSize;
     String labelName;
+    bool isAudioParameter;
     
-    bool isAudioParameter(){return (type!= CNV);}
     
     // container for variable Size objects
     StringArray elements;

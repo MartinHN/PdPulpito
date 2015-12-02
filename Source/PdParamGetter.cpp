@@ -250,7 +250,7 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
 //                    DBG2(x->gl_isgraph, x->gl_havewindow);
 //                }
                 if(found ){
-                    
+                    p->isAudioParameter = p->sendName.startsWith("param");
                     p->setBounds((p->getX() )/patchRect.getWidth(),
                                  (p->getY() )/patchRect.getHeight(),
                                  p->getWidth()/patchRect.getWidth(),
@@ -264,7 +264,7 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                     DBGN(y2->g_pd->c_name->s_name << " : ")
                     DBG("adding p " << p->sendName << "/" << p->recieveName <<  " at "<< ((Rectangle<float>)*p).toString());
                     
-                    if(p->isAudioParameter()){
+                    if(p->isAudioParameter){
                         p->processorIdx = localParamCount;
                         localParamCount++;
                         audioParameters.add(p);
@@ -592,7 +592,7 @@ void PdParamGetter::getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<
                             }
                             DBG("");
                         }
-                        if(p->isAudioParameter()){
+                        if(p->isAudioParameter){
                             p->processorIdx = localParamCount;
                             localParamCount++;
                             audioParameters.add(p);

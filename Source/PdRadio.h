@@ -19,7 +19,7 @@ public:
         HORIZONTAL
     };
     
-    PdRadio(PulpParameterDesc * p,PdAudioProcessor * proc,int size,Orientation o):PdComponent(p,proc){
+    PdRadio(PdParameter * p,int size,Orientation o):PdComponent(p){
         component = new Component;
         addAndMakeVisible(component);
         

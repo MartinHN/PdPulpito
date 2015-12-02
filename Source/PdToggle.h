@@ -13,7 +13,7 @@
 
 class PdToggle : public PdComponent,public Button::Listener{
 public:
-    PdToggle(PulpParameterDesc * p,PdAudioProcessor * proc):PdComponent(p,proc){
+    PdToggle(PdParameter * p):PdComponent(p){
         ToggleButton * tb = new ToggleButton();
         component = tb;
         addAndMakeVisible(component);

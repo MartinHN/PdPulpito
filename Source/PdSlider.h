@@ -21,8 +21,7 @@ public:
     };
     //==============================================================================
 
-    PdSlider (PulpParameterDesc * p,PdAudioProcessor * proc,type t)
-    :PdComponent(p,proc)
+    PdSlider (PdParameter * p,type t):PdComponent(p)
     
     {
         
@@ -62,7 +61,7 @@ public:
         getSlider()->setColour (Slider::textBoxHighlightColourId, Colour (0x40a6a6a6));
         getSlider()->setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::transparentWhite);
         getSlider()->setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::transparentWhite);
-        getSlider()->setColour(juce::Slider::textBoxTextColourId, Colours::black);
+        getSlider()->setColour(juce::Slider::textBoxTextColourId, Colours::white);
         
         
         getSlider()->addListener (this);

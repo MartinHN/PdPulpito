@@ -40,69 +40,71 @@ public:
         PdAudioProcessor* p = dynamic_cast<PdAudioProcessor*>(pin);
 
         
-        int startidx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
-        int endIdx = startidx + paramGetter()->getNumObjectsForGUI(guiNum);
-        for(int i= startidx ; i < endIdx ; i++){
-            PulpParameterDesc * param = paramGetter()->getObjectForIdx(i);
+//        int startidx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
+//        int endIdx = startidx + paramGetter()->getNumObjectsForGUI(guiNum);
+//        for(int i= startidx ; i < endIdx ; i++){
+        for(int i = 0 ; i < p->pdParameters.size() ; i++){
+//            PulpParameterDesc * param = paramGetter()->getObjectForIdx(i);
             PdComponent *c=nullptr;
+            PdParameter * param = p->pdParameters[i];
             
             
-            if(param->type == PulpParameterDesc::KNOB ){
-                c =new PdSlider(param,p,PdSlider::ROTARY);
+            if(param->getType() == PulpParameterDesc::KNOB ){
+                c =new PdSlider(param,PdSlider::ROTARY);
                 ((PdSlider*)c)->setRange(param->min, param->max);
                 addAndMakeVisible(c);
-                ((PdSlider*)c)->getSlider()->setColour(Slider::rotarySliderFillColourId,param->mainColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::rotarySliderFillColourId,param->getDesc()->mainColour);
 //                ((PdSlider*)c)->getSlider()->setColour(Slider::rotarySliderOutlineColourId,param->backColour);
                 ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if ( param->type == PulpParameterDesc::VSL ){
-                c =new PdSlider(param,p,PdSlider::VSL);
+            else if ( param->getType() == PulpParameterDesc::VSL ){
+                c =new PdSlider(param,PdSlider::VSL);
                 ((PdSlider*)c)->setRange(param->min, param->max);
-                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
-                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->getDesc()->backColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->getDesc()->mainColour);
                 addAndMakeVisible(c);
                 ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if(  param->type == PulpParameterDesc::HSL ){
-                c =new PdSlider(param,p,PdSlider::HSL);
+            else if(  param->getType() == PulpParameterDesc::HSL ){
+                c =new PdSlider(param,PdSlider::HSL);
                 ((PdSlider*)c)->setRange(param->min, param->max);
-                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
-                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->getDesc()->backColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->getDesc()->mainColour);
                 addAndMakeVisible(c);
                 ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if( param->type == PulpParameterDesc::NUMBOX ){
-                c =new PdSlider(param,p,PdSlider::ROTARY);
+            else if( param->getType() == PulpParameterDesc::NUMBOX ){
+                c =new PdSlider(param,PdSlider::ROTARY);
                 ((PdSlider*)c)->setRange(param->min, param->max);
-                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->backColour);
-                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->mainColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::trackColourId, param->getDesc()->backColour);
+                ((PdSlider*)c)->getSlider()->setColour(Slider::thumbColourId, param->getDesc()->mainColour);
                 addAndMakeVisible(c);
                 ((PdSlider*)c)->lookAndFeelChanged();
             }
-            else if(param->type == PulpParameterDesc::TOGGLE || param->type ==PulpParameterDesc::BANG){
-                c =new PdToggle(param,p);
-                addAndMakeVisible(c);
-                ((PdSlider*)c)->lookAndFeelChanged();
-                
-            }
-            else if( param->type == PulpParameterDesc::VRADIO ){
-                c =new PdRadio(param,p,param->elements.size(),PdRadio::VERTICAL);
+            else if(param->getType() == PulpParameterDesc::TOGGLE || param->getType() ==PulpParameterDesc::BANG){
+                c =new PdToggle(param);
                 addAndMakeVisible(c);
                 ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if( param->type == PulpParameterDesc::HRADIO ){
-                c =new PdRadio(param,p,param->elements.size(),PdRadio::HORIZONTAL);
+            else if( param->getType() == PulpParameterDesc::VRADIO ){
+                c =new PdRadio(param,param->getDesc()->elements.size(),PdRadio::VERTICAL);
                 addAndMakeVisible(c);
                 ((PdSlider*)c)->lookAndFeelChanged();
                 
             }
-            else if(param->type == PulpParameterDesc::CNV){
-                c =new PdComponent(param,p);
-                c->setBackColour(param->backColour);
+            else if( param->getType() == PulpParameterDesc::HRADIO ){
+                c =new PdRadio(param,param->getDesc()->elements.size(),PdRadio::HORIZONTAL);
+                addAndMakeVisible(c);
+                ((PdSlider*)c)->lookAndFeelChanged();
+                
+            }
+            else if(param->getType() == PulpParameterDesc::CNV){
+                c =new PdComponent(param);
+                c->setBackColour(param->getDesc()->backColour);
 
                 addAndMakeVisible(c);
                 ((PdComponent*)c)->lookAndFeelChanged();
@@ -110,18 +112,18 @@ public:
             }
             if(c!=nullptr){
                 
-                c->labelSize = param->labelSize;
+                c->labelSize = param->getDesc()->labelSize;
                 
-                c->setName(param->labelName);
-                c->setLabelVisible(param->hasLabel);
-                p->setParameterName(param->processorIdx, param->sendName);
+                c->setName(param->getDesc()->labelName);
+                c->setLabelVisible(param->getDesc()->hasLabel);
+                p->setParameterName(i, param->getDesc()->sendName);
                 pdComponents.add(c);
                 
                 c->setBounds (
-                              getWidth() * param->getX(),
-                              getHeight()* param->getY(),
-                              getWidth() * param->getWidth() ,
-                              getHeight()* param->getHeight()
+                              getWidth() * param->getDesc()->getX(),
+                              getHeight()* param->getDesc()->getY(),
+                              getWidth() * param->getDesc()->getWidth() ,
+                              getHeight()* param->getDesc()->getHeight()
                               );
                 
                
@@ -129,7 +131,7 @@ public:
             else{
                 delete c;
 
-                DBG( "no viable parameters for "<<param->sendName);
+                DBG( "no viable parameters for "<<param->getDesc()->sendName);
                 // for now, only accept drawed component
                 jassertfalse;
                 

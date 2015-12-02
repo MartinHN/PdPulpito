@@ -72,7 +72,7 @@ void PdAudioProcessor::setParametersFromDescs(){
     //    pdParameters.clear();
     //    maximumParameterCount = 0;
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
-        if(pulpParameterDescs[i]->isAudioParameter()){
+        
             if(i>=maximumParameterCount){
                 PdParameter* p = new PdParameter (pulpParameterDescs[i]);
                 pdParameters.add(p);
@@ -87,27 +87,33 @@ void PdAudioProcessor::setParametersFromDescs(){
             }
         }
         
-    }
+    
     
 }
 
 
 void PdAudioProcessor::updateProcessorParameters(){
-    
-    int idx = 0;
+
     
     
     for(auto & p:pdParameters){
-        
+        if(p->isAudioParameter()){
+        int idx = p->getProcessorIdx();
+            jassert(idx>=0);
         if(idx>=getNumParameters()){
             addParameter(p);
+            DBG3("adding processor p : " , idx , p->getName());
         }
         else{
             setParameter(idx, p->getValue());
+            DBG3("setting processor p : " , idx , p->getName());
         }
-        idx++;
+        
+        }
         
     }
+    
+    
 }
 
 
@@ -193,11 +199,15 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
         for (int i=0; i<pdParameters.size(); i++) {
             PdParameter* parameter = pdParameters[i];
             if(parameter->hasToObserve()){
+                String pname = parameter->getName(70);
+                if(pname!="empty" && pname!="nos"){
                 if(parameter->getType() == PulpParameterDesc::Type::BANG){
-                    pd->sendBang(parameter->getName(70).toStdString());
+                    pd->sendBang(pname.toStdString());
                 }
                 else{
-                pd->sendFloat(parameter->getName(70).toStdString(), parameter->getTrueValue());
+//                    DBG3("sending",pname.toStdString(), parameter->getTrueValue());
+                    pd->sendFloat(pname.toStdString(), parameter->getTrueValue());
+                }
                 }
             }
         }
@@ -480,7 +490,7 @@ void PdAudioProcessor::receiveFloat(const std::string& dest, float num)
         if(mainEditor->pdEditor.isLoaded){
         for(auto & c:mainEditor->pdEditor.pdCanvas){
             for(auto & cc:c->PdGUICanvas::pdComponents){
-                if(cc->getDescription() && cc->getDescription()->recieveName == dest){
+                if(cc->getRecieveName()== dest){
                     cc->setValueFromPd(num);
                 }
             }

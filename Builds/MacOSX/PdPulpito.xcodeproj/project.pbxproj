@@ -172,6 +172,7 @@
 		6F211ED9281C102144FE216B /* juce_RTAS_DigiCode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBA469F0305A2D7BD2F00FC4 /* juce_RTAS_DigiCode1.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6F22E564F1DB31BEBB30F78F /* flush.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D4EF0C942E761684ECB90BD /* flush.c */; };
 		6F41FEDCA40E33511A35A945 /* frameaccum.c in Sources */ = {isa = PBXBuildFile; fileRef = 68F7E374E0CBF1535E8FEDD3 /* frameaccum.c */; };
+		6FAD29E91C0EFC3F00EC18CF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B35E0C500866A937DBCD391B /* Info.plist */; };
 		70B6A489136F8571C92C3DD5 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F6BD9D1310D7795418A0A00 /* IOKit.framework */; };
 		70BB9FEDAA09E9D40A939C2D /* matchbox.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B658A6768B93E9979F1257E /* matchbox.c */; };
 		71DD40D5FA9CF56B0EE913A2 /* gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 8E58FA68DAA8C5FEC73BE894 /* gui.c */; };
@@ -4043,6 +4044,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FAD29E91C0EFC3F00EC18CF /* Info.plist in Resources */,
 				EF8E6C3C666FB15A0FFA35CB /* RecentFilesMenuTemplate.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4494,7 +4496,7 @@
 				);
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = true;
 				OTHER_LDFLAGS = (
 					"-bundle",
 					"-lpd",

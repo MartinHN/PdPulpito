@@ -126,7 +126,7 @@ LookNFeel::LookNFeel()
         Slider::trackColourId,                      0x7fffffff,
         Slider::rotarySliderFillColourId,           0x7f0000ff,
         Slider::rotarySliderOutlineColourId,        0x7f000000,
-        Slider::textBoxTextColourId,                0xff000000,
+        Slider::textBoxTextColourId,                0xffffffff,
         Slider::textBoxBackgroundColourId,          0xffffffff,
         Slider::textBoxHighlightColourId,           textHighlightColour,
         Slider::textBoxOutlineColourId,             standardOutlineColour,

@@ -34,12 +34,15 @@ public:
     float getValue() const override                         {return value;}
     float getTrueValue()                                    {return value*(max-min) + min;}
     float getDefaultValue() const override                  {return defaultValue;}
-    String getName (int maximumStringLength)const override  {return sendName;}
+    String getName (int maximumStringLength = 70)const override  {return sendName;}
     String getRecieveName()                                    {return recieveName;}
     
     int getIdx()                                            {return processorIdx;}
     float getValueForText(const String& text)const override {return text.getFloatValue();}
     String getLabel() const                                 {return sendName;}
+    
+    bool isAudioParameter(){return desc->isAudioParameter;}
+    int getProcessorIdx() { return desc->processorIdx;}
     
     
     bool hasToObserve(){
@@ -75,14 +78,14 @@ public:
         }
         changed = oldv!=value;
     }
-    void setTrueValue(float v){
-        updated = true;
+    void setTrueValue(float v,bool notifyPd){
+        updated = notifyPd ;
         float oldv = value;
         if(getType()==PulpParameterDesc::Type::BANG){
             value = 0;
         }
         value = (v-min)/(max-min);
-        changed = oldv!=value;
+        changed = notifyPd && (oldv!=value);
     }
     void setMinMax(float min,float max)                     {min = min;max = max;}
     void setName (String n)                                 {sendName = n;}
@@ -100,10 +103,11 @@ public:
     
     PulpParameterDesc::Type getType(){return desc->type;}
 
-    
+    float min,max;
+    PulpParameterDesc * getDesc(){return desc;};
 private:
     float defaultValue, value;
-    float min,max;
+    
     int processorIdx = -1;
     bool volatile updated ;
     bool volatile changed;

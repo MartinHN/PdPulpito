@@ -15,7 +15,7 @@ class PdComponent  : public Component,public Timer,public ChangeBroadcaster,publ
 {
 public:
     //==============================================================================
-    PdComponent (PulpParameterDesc * p,PdAudioProcessor * processor);
+    PdComponent (PdParameter * pdParam);
     virtual ~PdComponent();
     
     
@@ -33,16 +33,17 @@ public:
     ScopedPointer<Colour> backColour;
     Point<float> labelRelPos;
     float labelSize = 15;
-    PdParameter * getPdParameter(){return dynamic_cast<PdParameter*> (processor->getParameters()[paramDesc->processorIdx]);};
+    bool isAudioParameter(){return pdParam->isAudioParameter();}
+    PdParameter * getPdParameter(){return pdParam;};
     void setValueFromGUI(float v);
-    const PulpParameterDesc * getDescription(){return paramDesc;}
+    const String getRecieveName(){return pdParam->getRecieveName();}
     
     void setValueFromPd(float v);
 protected:
 
     int index;
     PdAudioProcessor* processor;
-    PulpParameterDesc *paramDesc;
+    PdParameter *pdParam;
     float pdValue;
     void changeListenerCallback (ChangeBroadcaster* source) ;
     
