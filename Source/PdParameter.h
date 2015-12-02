@@ -19,9 +19,10 @@ class PdParameter : public AudioProcessorParameter
 {
 public:
     
-    PdParameter (float defaultParameterValue, PulpParameterDesc * desc):
-    defaultValue (defaultParameterValue),
-    value (defaultParameterValue),
+    PdParameter ( PulpParameterDesc * desc):
+    defaultValue (desc->defaultV),
+    value (desc->defaultV),
+    desc(desc),
     sendName (desc->sendName),
     recieveName(desc->recieveName),
     min(desc->min),
@@ -54,12 +55,13 @@ public:
     
     
     void setFromDesc(PulpParameterDesc * desc){
-        jassert(processorIdx == desc->processorIdx);
+//        jassert(processorIdx == desc->processorIdx);
         sendName =desc->sendName;
         recieveName = desc->recieveName;
         min = desc->min;
         max = desc->max;
-
+        defaultValue = desc->defaultV;
+        desc = desc;
         
     }
     
@@ -68,11 +70,17 @@ public:
     {   updated = true;
         float oldv = value;
         value = newValue;
+        if(getType()==PulpParameterDesc::Type::BANG){
+            value = 0;
+        }
         changed = oldv!=value;
     }
     void setTrueValue(float v){
         updated = true;
         float oldv = value;
+        if(getType()==PulpParameterDesc::Type::BANG){
+            value = 0;
+        }
         value = (v-min)/(max-min);
         changed = oldv!=value;
     }
@@ -90,6 +98,7 @@ public:
     
     void deSerialize(XmlElement * parameterElement)         {setName( parameterElement->getStringAttribute("name"));}
     
+    PulpParameterDesc::Type getType(){return desc->type;}
 
     
 private:
@@ -99,6 +108,7 @@ private:
     bool volatile updated ;
     bool volatile changed;
     String sendName,recieveName;
+    PulpParameterDesc * desc;
 
 };
 

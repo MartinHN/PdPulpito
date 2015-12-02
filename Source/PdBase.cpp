@@ -172,7 +172,7 @@ void PdBase::computeAudio(bool state) {
 void PdBase::subscribe(const std::string& source) {
 
     if(exists(source)) {
-        cerr << "Pd: unsubscribe: ignoring duplicate source" << endl;
+        cerr << "Pd: unsubscribe: ignoring duplicate source : " << source << endl;
         return;
     }
 

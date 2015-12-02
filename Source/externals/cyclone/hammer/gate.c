@@ -129,7 +129,7 @@ static void *gate_new(t_floatarg f1, t_floatarg f2)
 
 void gate_setup(void)
 {
-    gate_class = class_new(gensym("gate"),
+    gate_class = class_new(gensym("cyclone/gate"),
 			   (t_newmethod)gate_new,
 			   (t_method)gate_free,
 			   sizeof(t_gate), 0,

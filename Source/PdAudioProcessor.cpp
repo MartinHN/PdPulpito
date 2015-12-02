@@ -50,14 +50,17 @@ void PdAudioProcessor::setParameterName(int index, String name)
 
 
 void PdAudioProcessor::loadFromGUI(){
-    
+    PdParamGetter::getParamFromPd(pd);
     PdParamGetter::getParameterDescsFromPatch(patchfile);
     setParametersFromDescs();
     updateProcessorParameters();
     for(auto s:pulpParameterDescs){
-    pd->subscribe(s->recieveName.toStdString());
+        if(s->recieveName!="empty"){
+            pd->subscribe(s->recieveName.toStdString());
+   
+        }
     }
-    
+
 }
 
 
@@ -71,7 +74,7 @@ void PdAudioProcessor::setParametersFromDescs(){
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
         if(pulpParameterDescs[i]->isAudioParameter()){
             if(i>=maximumParameterCount){
-                PdParameter* p = new PdParameter (0, pulpParameterDescs[i]);
+                PdParameter* p = new PdParameter (pulpParameterDescs[i]);
                 pdParameters.add(p);
                 maximumParameterCount ++;
             }
@@ -119,10 +122,9 @@ void PdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     cachedSampleRate = sampleRate;
-//    openNewPatch();
+    openNewPatch(File(PATCH_PATH));
     
-    //        loadFromGUI();
-    //    reloadPdPatch(sampleRate);
+    
     
 }
 
@@ -150,6 +152,9 @@ void PdAudioProcessor::doOpenNewPatch(juce::File file){
         loadFromGUI();
         isPdPatchLoaded = true;
         sendChangeMessage();
+//        t_canvas * t = canvas_getcurrent();
+//        t_gobj * git = t->gl_list;
+//        for(;git!=NULL ; git = git->next; )
         
     }
 }
@@ -188,8 +193,12 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
         for (int i=0; i<pdParameters.size(); i++) {
             PdParameter* parameter = pdParameters[i];
             if(parameter->hasToObserve()){
-                
+                if(parameter->getType() == PulpParameterDesc::Type::BANG){
+                    pd->sendBang(parameter->getName(70).toStdString());
+                }
+                else{
                 pd->sendFloat(parameter->getName(70).toStdString(), parameter->getTrueValue());
+                }
             }
         }
         
@@ -416,6 +425,7 @@ void PdAudioProcessor::reloadPdPatch ()
     if (pd) {
         //        pd->computeAudio(false);
         pd->closePatch(patch);
+        pd->unsubscribeAll();
     }
     else{
         
@@ -465,14 +475,16 @@ void PdAudioProcessor::reloadPdPatch ()
 
 void PdAudioProcessor::receiveFloat(const std::string& dest, float num)
 {
-    if(getActiveEditor()!=nullptr){
+    if(getActiveEditor()!=nullptr && dest!="empty"){
         MainComponent * mainEditor =dynamic_cast<MainComponent*>(getActiveEditor()) ;
+        if(mainEditor->pdEditor.isLoaded){
         for(auto & c:mainEditor->pdEditor.pdCanvas){
             for(auto & cc:c->PdGUICanvas::pdComponents){
-                if(cc->getDescription()->recieveName == dest){
+                if(cc->getDescription() && cc->getDescription()->recieveName == dest){
                     cc->setValueFromPd(num);
                 }
             }
+        }
         }
     }
 };

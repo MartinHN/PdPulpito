@@ -132,13 +132,11 @@ void MainComponent::ToggleConfigVisibility(bool config,bool console){
 bool MainComponent::keyPressed (const KeyPress& key,
                                 Component* originatingComponent) {
     
-    int c = key.getKeyCode();
-    static KeyPress cKey = KeyPress::createFromDescription("CMD + c"),
-                    rKey= KeyPress::createFromDescription("CMD + r"),
+    static KeyPress rKey= KeyPress::createFromDescription("CMD + r"),
                     lKey= KeyPress::createFromDescription("CMD + SHIFT + l");
     
 
-    ToggleConfigVisibility(key==cKey,key==rKey);
+    ToggleConfigVisibility(key==rKey,key==rKey);
     
     if(key == lKey){
         pulpConsole.clear();

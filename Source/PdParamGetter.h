@@ -11,9 +11,16 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-
+#include "PdBase.hpp"
 
 class PulpParameterDesc; // see at end of file
+
+
+#include "m_pd.h"
+#include "m_imp.h"
+#include "g_canvas.h"
+#include "s_stuff.h"
+#include "g_all_guis.h"
 
 class PdParamGetter {
     public :
@@ -23,11 +30,11 @@ class PdParamGetter {
 //    Array<int> connectedToOutlet(int objNum,int outNum);
     
     
-    
+    void getParamFromPd(pd::PdBase * pd);
 
     
-    
-    
+    void getFromPdCanvas(t_canvas * y2,int guiIdx);
+    bool fillIemObj(_iemgui * o,t_gobj * gobj,PulpParameterDesc * p);
     PulpParameterDesc * getObjectForIdx(int idx);
     int getTotalObjectCount();
     
@@ -88,6 +95,7 @@ public:
     String sendName;
     float min;
     float max;
+    float defaultV = 0;
     enum Type{
         KNOB= 0,
         HSL,

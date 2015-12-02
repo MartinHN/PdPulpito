@@ -79,11 +79,13 @@ void PdAudioProcessorEditor::updatePatch (){
 void PdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source){
     PdAudioProcessor* p=dynamic_cast<PdAudioProcessor*>(source);
     if( p){
+        isLoaded = false;
         buildCanvas();
         updatePatch();
         p->updateProcessorParameters();
         getParentComponent()->resized();
         repaint();
+        isLoaded = true;
     }
 }
 
