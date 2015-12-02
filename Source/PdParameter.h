@@ -57,14 +57,16 @@ public:
     }
     
     
-    void setFromDesc(PulpParameterDesc * desc){
+    void setFromDesc(PulpParameterDesc * _desc){
 //        jassert(processorIdx == desc->processorIdx);
-        sendName =desc->sendName;
-        recieveName = desc->recieveName;
-        min = desc->min;
-        max = desc->max;
-        defaultValue = desc->defaultV;
-        desc = desc;
+        sendName =_desc->sendName;
+        recieveName = _desc->recieveName;
+        min = _desc->min;
+        max = _desc->max;
+        defaultValue = _desc->defaultV;
+        processorIdx = _desc->processorIdx;
+        desc = _desc;
+        value = defaultValue;
         
     }
     

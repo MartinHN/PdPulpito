@@ -51,7 +51,6 @@ void PdAudioProcessor::setParameterName(int index, String name)
 
 void PdAudioProcessor::loadFromGUI(){
     PdParamGetter::getParamFromPd(pd);
-    PdParamGetter::getParameterDescsFromPatch(patchfile);
     setParametersFromDescs();
     updateProcessorParameters();
     for(auto s:pulpParameterDescs){
@@ -86,7 +85,8 @@ void PdAudioProcessor::setParametersFromDescs(){
                 DBG("parameter not found " << pulpParameterDescs[i]->sendName << " count : " << maximumParameterCount);
             }
         }
-        
+    
+   // pdParameters.resize(pulpParameterDescs.size());
     
     
 }
@@ -156,8 +156,13 @@ void PdAudioProcessor::doOpenNewPatch(juce::File file){
         reloadPdPatch();
         PdParamGetter::dollarZero = patch.dollarZero();
         loadFromGUI();
-        isPdPatchLoaded = true;
+        waitForUIToLoad =true;
         sendChangeMessage();
+        if(getActiveEditor()==nullptr){
+            isPdPatchLoaded = true;
+            waitForUIToLoad = false;
+        }
+
 //        t_canvas * t = canvas_getcurrent();
 //        t_gobj * git = t->gl_list;
 //        for(;git!=NULL ; git = git->next; )
@@ -175,14 +180,14 @@ void PdAudioProcessor::openNewPatch(juce::File file){
 
 void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    int instance = -1;
+//    int instance = -1;
     
-    if(patchfile.getFullPathName() == PATCH_PATH){
-        instance = 0;
-    }
-    else{
-        instance = 1;
-    }
+//    if(patchfile.getFullPathName() == PATCH_PATH){
+//        instance = 0;
+//    }
+//    else{
+//        instance = 1;
+//    }
     
     if(isPdPatchLoaded){
         
@@ -201,7 +206,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
             if(parameter->hasToObserve()){
                 String pname = parameter->getName(70);
                 if(pname!="empty" && pname!="nos"){
-                if(parameter->getType() == PulpParameterDesc::Type::BANG){
+                if(parameter->getType() == PulpParameterDesc::Type::BANG && parameter->getValue()>0){
                     pd->sendBang(pname.toStdString());
                 }
                 else{

@@ -25,7 +25,6 @@ class PulpParameterDesc; // see at end of file
 class PdParamGetter {
     public :
 
-    void getParameterDescsFromPatch(File & patchfile);
 
 //    Array<int> connectedToOutlet(int objNum,int outNum);
     

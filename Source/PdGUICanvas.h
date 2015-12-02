@@ -85,7 +85,7 @@ public:
                 ((PdSlider*)c)->lookAndFeelChanged();
             }
             else if(param->getType() == PulpParameterDesc::TOGGLE || param->getType() ==PulpParameterDesc::BANG){
-                c =new PdToggle(param);
+                c =new PdToggle(param,param->getType() ==PulpParameterDesc::BANG);
                 addAndMakeVisible(c);
                 ((PdSlider*)c)->lookAndFeelChanged();
                 

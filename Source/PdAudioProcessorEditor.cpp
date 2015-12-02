@@ -68,7 +68,6 @@ void PdAudioProcessorEditor::updatePatch (){
     PdAudioProcessor* p =  (PdAudioProcessor*)&processor;
     
     if(p!=NULL && p->patchfile.exists()){
-        p->updateProcessorParameters();
         rebuildGUIParams(p);
         PdAudioProcessorEditor::resized();
         repaint();
@@ -82,11 +81,15 @@ void PdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source){
         isLoaded = false;
         buildCanvas();
         updatePatch();
-        p->updateProcessorParameters();
         getParentComponent()->resized();
         repaint();
         isLoaded = true;
+        if(p->waitForUIToLoad){
+            p->isPdPatchLoaded = true;
+            p->waitForUIToLoad = false;
+        }
     }
+
 }
 
 

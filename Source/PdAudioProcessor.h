@@ -54,7 +54,7 @@ public:
     
     bool hasNewFilesSince(Time t);
     Time getLastModificationTime();
-    bool isPdPatchLoaded;
+    bool isPdPatchLoaded,waitForUIToLoad;
     
     
     

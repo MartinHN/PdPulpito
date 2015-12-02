@@ -35,7 +35,7 @@ public:
     float labelSize = 15;
     bool isAudioParameter(){return pdParam->isAudioParameter();}
     PdParameter * getPdParameter(){return pdParam;};
-    void setValueFromGUI(float v);
+    virtual void setValueFromGUI(float v);
     const String getRecieveName(){return pdParam->getRecieveName();}
     
     void setValueFromPd(float v);
