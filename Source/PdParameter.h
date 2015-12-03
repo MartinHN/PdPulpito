@@ -95,13 +95,13 @@ public:
 
     
     void serialize(XmlElement * xml){
-        xml->setAttribute("index", (int) getParameterIndex());
+        xml->setAttribute("index", (int) getDesc()->pdObjectIdx);
         xml->setAttribute("name", getName(256));
         xml->setAttribute("value", (double) getValue());
 
     }
     
-    void deSerialize(XmlElement * parameterElement)         {setName( parameterElement->getStringAttribute("name"));}
+    void deSerialize(XmlElement * parameterElement)         {setName( parameterElement->getStringAttribute("name"));setValue(parameterElement->getDoubleAttribute("value"));}
     
     PulpParameterDesc::Type getType(){return desc->type;}
 

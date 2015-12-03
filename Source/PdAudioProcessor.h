@@ -48,13 +48,13 @@ public:
     void reloadPdPatch();
     void setPatchFile(File file);
     File getPatchFile();
-    
+    void sendChangedParameters();
     void setParametersFromDescs();
     
     
     bool hasNewFilesSince(Time t);
     Time getLastModificationTime();
-    bool isPdPatchLoaded,waitForUIToLoad;
+    bool isPdPatchLoaded,waitForUIToLoad = false;
     
     
     
@@ -68,6 +68,27 @@ public:
     
     void print(const std::string& message) override;
 
+    
+    class PdTimer : public Timer{
+    public:
+        PdTimer(PdAudioProcessor * p):processor(p){}
+        
+        void timerCallback()override {
+            if(processor->isPdPatchLoaded){
+            
+            processor->sendChangedParameters();
+                
+            processor->pd->setMainContext();
+            libpd_update_clocks(getTimerInterval(),&processor->pd->pdContext.pdAudioCtx);
+            processor->pd->freeContext();
+            }
+        }
+        PdAudioProcessor * processor;
+        
+        
+    };
+    
+    ScopedPointer<PdTimer> pdTimer;
     
 private:
     

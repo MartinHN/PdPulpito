@@ -47,6 +47,9 @@
         <FILE id="lhlU4G" name="LookNfeel.h" compile="0" resource="0" file="Source/LookNfeel.h"/>
       </GROUP>
       <GROUP id="{5D7D6ED1-0423-E120-9857-5660E502F63B}" name="externals">
+        <FILE id="m6RDiy" name="entry.c" compile="1" resource="0" file="../../../../Downloads/pd-extended/externals/flatgui/entry.c"/>
+        <FILE id="C9dJMi" name="knob.c" compile="1" resource="0" file="../../../../Downloads/pd-extended/externals/flatgui/knob.c"/>
+        <FILE id="lKdghx" name="popup.c" compile="1" resource="0" file="../../../../Downloads/pd-extended/externals/flatgui/popup.c"/>
         <FILE id="rLpp4n" name="import.c" compile="1" resource="0" file="Source/externals/import.c"/>
         <FILE id="zAm02A" name="path.c" compile="1" resource="0" file="Source/externals/path.c"/>
         <FILE id="z2IXPG" name="tof.h" compile="0" resource="0" file="Source/externals/tof.h"/>

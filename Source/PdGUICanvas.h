@@ -16,6 +16,7 @@
 #include "PdToggle.h"
 #include "PdSlider.h"
 #include "PdRadio.h"
+#include "PdPopup.h"
 #include "PdAudioProcessor.h"
 
 class PdGUICanvas : public AudioProcessorEditor{
@@ -40,11 +41,9 @@ public:
         PdAudioProcessor* p = dynamic_cast<PdAudioProcessor*>(pin);
 
         
-//        int startidx = paramGetter()->getProcessorStartIdxForGUI(guiNum);
-//        int endIdx = startidx + paramGetter()->getNumObjectsForGUI(guiNum);
-//        for(int i= startidx ; i < endIdx ; i++){
+
         for(int i = 0 ; i < p->pdParameters.size() ; i++){
-//            PulpParameterDesc * param = paramGetter()->getObjectForIdx(i);
+
             PdComponent *c=nullptr;
             PdParameter * param = p->pdParameters[i];
             
@@ -110,8 +109,18 @@ public:
                 ((PdComponent*)c)->lookAndFeelChanged();
                 
             }
-            if(c!=nullptr){
+            else if(param->getType() == PulpParameterDesc::POPUP){
+                c =new PdPopup(param);
+                c->setBackColour(param->getDesc()->backColour);
+                addAndMakeVisible(c);
+                ((PdComponent*)c)->lookAndFeelChanged();
                 
+            }
+            
+            
+            
+            if(c!=nullptr){
+                c->setValue(param->getValue(), dontSendNotification);
                 c->labelSize = param->getDesc()->labelSize;
                 
                 c->setName(param->getDesc()->labelName);
@@ -132,7 +141,7 @@ public:
                 delete c;
 
                 DBG( "no viable parameters for "<<param->getDesc()->sendName);
-                // for now, only accept drawed component
+                // only accept drawable component
                 jassertfalse;
                 
             }

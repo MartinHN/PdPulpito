@@ -36,8 +36,8 @@ public:
                      Component* originatingComponent) ;
     void ToggleConfigVisibility(bool config,bool console);
     void changeListenerCallback (ChangeBroadcaster* source);
-    void    addPdLog(String message);
-    StringArray log;
+    void    addPdLog(std::string  message);
+    std::string log;
     
 //    class LogTimer : public Timer{
 //        void timerCallback();

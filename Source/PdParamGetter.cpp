@@ -11,6 +11,54 @@
 #include "Config.h"
 
 
+// bad hack for popup
+
+typedef struct _popup
+{
+    t_object x_obj;
+    
+    t_glist * x_glist;
+    t_outlet* out2;
+    int x_rect_width;
+    int x_rect_height;
+    t_symbol*  x_sym;
+	
+    int x_height;
+    int x_width;
+    
+    int current_selection;
+    int x_num_options;
+    t_symbol* x_colour;
+    t_symbol* x_name;
+	
+    t_symbol** x_options;
+    int        x_maxoptions;
+    
+    /* IDs for Tk widgets */
+    char *canvas_id;
+    
+    int initialized; /* 1 when we are allowed to draw, 0 otherwise */
+    int x_disabled; /* when disabled, graphical chosing is prohibited */
+} t_popup;
+
+typedef struct _knob			/* taken from Frank's modyfied g_all_guis.h */
+{
+    t_iemgui x_gui;
+    int      x_prev_h;
+    int      x_pos;
+    int      x_val;
+    int      x_prev_val;
+    int      x_lin0_log1;
+    int      x_steady;
+    double   x_min;
+    double   x_max;
+    double   x_k;
+} t_knob;
+
+
+//////
+
+
 
 struct _canvasenvironment
 {
@@ -38,9 +86,15 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
             p->guiNum = guiIdx;
             p->elements.clear();
             
-            
+            String objName = y2->g_pd->c_name->s_name;
+            DBG(objName);
+            int split = objName.indexOfWholeWord("/");
+            if(split>0){
+                objName = objName.substring(split, objName.length() - split);
+                DBG(objName);
+            }
             bool found = true;
-            if(strcmp(y2->g_pd->c_name->s_name,"canvas")==0 ){
+            if(objName=="canvas" ){
                 _glist * gl;
                 if((gl = pd_checkglist(&y2->g_pd))){
                     if(gl->gl_isgraph){
@@ -52,7 +106,7 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                 found = false;
             }
             else if(y2->g_pd->c_gobj){
-                if(strcmp(y2->g_pd->c_name->s_name, "hsl")==0){
+                if(objName== "hsl"){
                     p->type = PulpParameterDesc::HSL;
                     t_hslider *hsl = (t_hslider *)y2;
                     found = fillIemObj(&hsl->x_gui,y2, p);
@@ -62,7 +116,7 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                     p->defaultV = (hsl->x_val/100)*hsl->x_k + p->min;
                     }
                 }
-                else if(strcmp(y2->g_pd->c_name->s_name, "vsl")==0){
+                else if(objName=="vsl"){
                     p->type = PulpParameterDesc::VSL;
                     t_vslider *vsl = (t_vslider *)y2;
                     found = fillIemObj(&vsl->x_gui,y2, p);
@@ -72,28 +126,22 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                     p->defaultV = (vsl->x_val/100)*vsl->x_k + p->min;
                     }
                 }
-//                else if(strcmp(y2->g_pd->c_name->s_name, "knob")==0){
-//                    p->type = PulpParameterDesc::KNOB;
-//                    t_vslider *vsl = (t_vslider *)y2;
-//                    fillIemObj(&vsl->x_gui,y2, p);
-//                    p->min = vsl->x_min;
-//                    p->max = vsl->x_max;
-//                }
-                else if(strcmp(y2->g_pd->c_name->s_name, "tgl")==0){
+
+                else if(objName== "tgl"){
                     p->type = PulpParameterDesc::TOGGLE;
                     t_toggle *tgl = (t_toggle *)y2;
                     found = fillIemObj(&tgl->x_gui,y2, p);
                     p->min = 0;
                     p->max = 1;
                 }
-                else if(strcmp(y2->g_pd->c_name->s_name, "bng")==0){
+                else if(objName== "bng"){
                     p->type = PulpParameterDesc::BANG;
                     t_bng *tgl = (t_bng *)y2;
                     found = fillIemObj(&tgl->x_gui,y2, p);
                     p->min = 0;
                     p->max = 1;
                 }
-                else if(strcmp(y2->g_pd->c_name->s_name, "vradio")==0){
+                else if(objName== "vradio"){
                     p->type = PulpParameterDesc::VRADIO;
                     t_vradio *tgl = (t_vradio *)y2;
                     found = fillIemObj(&tgl->x_gui,y2, p);
@@ -103,7 +151,7 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                         p->elements.add(String(i));
                     }
                 }
-                else if(strcmp(y2->g_pd->c_name->s_name, "hradio")==0){
+                else if(objName== "hradio"){
                     p->type = PulpParameterDesc::HRADIO;
                     t_hradio *tgl = (t_hradio *)y2;
                     found = fillIemObj(&tgl->x_gui,y2, p);
@@ -113,15 +161,42 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                         p->elements.add(String(i));
                     }
                 }
-                else if(strcmp(y2->g_pd->c_name->s_name, "cnv")==0){
+                else if(objName== "cnv"){
                     p->type = PulpParameterDesc::CNV;
                     t_my_canvas * cnv = (t_my_canvas*) y2;
                     found = fillIemObj(&cnv->x_gui,y2, p);
                     p->setSize(cnv->x_vis_w, cnv->x_vis_h);
                     
                 }
+                else if(objName== "popup"){
+                    p->type = PulpParameterDesc::POPUP;
+                    t_popup * popup = (t_popup *) y2;
+                    int x01,y01,x02,y02;
+                    gobj_getrect(&popup->x_obj.te_g, x,&x01,&y01,&x02,&y02);
+                    p->sendName = popup->x_name->s_name;
+                    p->setBounds(  x01,y01,x02-x01,y02-y01);
+                    DBG4(x01,y01,x02 ,y02);
+                    found = true;
+//                    found = fillIemObj(;,y2, p);
+                    p->setSize(popup->x_width, popup->x_height);
+                    
+                    for(int i =0 ; i < popup->x_num_options ; i++){
+                        p->elements.add(popup->x_options[i]->s_name);
+                    }
+                    p->min = 0;
+                    p->max =p->elements.size()-1;
+                    
+                }
+                else if(strcmp(y2->g_pd->c_name->s_name, "knob")==0){
+                    p->type = PulpParameterDesc::KNOB;
+                    t_knob *knob = (t_knob *)y2;
+                    found = fillIemObj(&knob->x_gui,y2, p);
+                    p->min = knob->x_min;
+                    p->max = knob->x_max;
+                }
                 
                 else{
+                    DBG("not found " <<objName);
                     found = false;
                 }
                 if(found ){
@@ -216,11 +291,12 @@ void PdParamGetter::getParamFromPd(pd::PdBase * pd){
         GUINumObjects.add(localObjectCount - tmpObjCount);
         GUINumParams.add(localParamCount-tmpCount);
     }
+    pd->freeContext();
 }
 
 
 bool PdParamGetter::fillIemObj(_iemgui * o,t_gobj * gobj,PulpParameterDesc * p){
-    int x01,y01,x02,y02;
+    
     
     if(o->x_glist->gl_isgraph){
         if(
@@ -238,7 +314,9 @@ bool PdParamGetter::fillIemObj(_iemgui * o,t_gobj * gobj,PulpParameterDesc * p){
             return false;
         }
     }
+    int x01,y01,x02,y02;
     gobj_getrect(gobj, o->x_glist,&x01,&y01,&x02,&y02);
+    p->setBounds(  x01,y01,x02-x01,y02-y01);
     DBG4(x01,y01,x02 ,y02);
     
     p->sendName = o->x_snd->s_name;
@@ -252,9 +330,9 @@ bool PdParamGetter::fillIemObj(_iemgui * o,t_gobj * gobj,PulpParameterDesc * p){
                                (p->sendName.length()*p->labelSize),
                                (p->labelSize));
     }
-    Point<int> offset(o->x_obj.te_xpix,o->x_obj.te_ypix);
+//    Point<int> offset(o->x_obj.te_xpix,o->x_obj.te_ypix);
     
-    p->setBounds(  x01,y01,x02-x01,y02-y01);
+    
     
     p->backColour = getPdColour(o->x_bcol);
     p->mainColour =getPdColour(o->x_fcol);

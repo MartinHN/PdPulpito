@@ -87,13 +87,10 @@ void MainComponent::resized()
 }
 
 
-void MainComponent::addPdLog(String message){
-    static int maxLogSize = 300;
+void MainComponent::addPdLog(std::string message){
+
     DBG(message);
-    log.addLines(message);
-            if(log.size()>maxLogSize){
-                log.removeRange(0, log.size()-maxLogSize);
-            }
+    log+=message + "\n";
     ChangeBroadcaster::sendChangeMessage();
     
 }
@@ -109,7 +106,7 @@ void MainComponent::changeListenerCallback(juce::ChangeBroadcaster *source){
 //        insertTextAtCaret
         pulpConsole.moveCaretToEnd();
         
-        pulpConsole.insertTextAtCaret(log.joinIntoString("\n") + "\n");
+        pulpConsole.insertTextAtCaret(log + "\n");
 
         log.clear();
         if(!pulpConsole.isMouseButtonDown()){

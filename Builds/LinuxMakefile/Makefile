@@ -56,6 +56,9 @@ OBJECTS := \
   $(OBJDIR)/PdTypes_2c8748c6.o \
   $(OBJDIR)/PdComponent_3d4a5f4a.o \
   $(OBJDIR)/LookNfeel_4af74696.o \
+  $(OBJDIR)/entry_e0467bf2.o \
+  $(OBJDIR)/knob_327edf80.o \
+  $(OBJDIR)/popup_27a8bdac.o \
   $(OBJDIR)/import_3779d35.o \
   $(OBJDIR)/path_fa3ee875.o \
   $(OBJDIR)/midifile_532cc0ed.o \
@@ -449,6 +452,21 @@ $(OBJDIR)/LookNfeel_4af74696.o: ../../Source/LookNfeel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling LookNfeel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/entry_e0467bf2.o: ../../../../../../Downloads/pd-extended/externals/flatgui/entry.c
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling entry.c"
+	@$(CC) $(CFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/knob_327edf80.o: ../../../../../../Downloads/pd-extended/externals/flatgui/knob.c
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling knob.c"
+	@$(CC) $(CFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/popup_27a8bdac.o: ../../../../../../Downloads/pd-extended/externals/flatgui/popup.c
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling popup.c"
+	@$(CC) $(CFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/import_3779d35.o: ../../Source/externals/import.c
 	-@mkdir -p $(OBJDIR)

@@ -54,6 +54,12 @@ extern "C"{
     extern void midifile_setup();
     extern void path_setup();
     extern void import_setup();
+    extern void knob_setup();
+    extern void popup_setup();
+    extern void entry_setup();
+    extern void sys_findprogdir(char *progname);
+    extern void sys_setextrapath(const char *p);
+    extern t_symbol *sys_libdir;
     static void init_externals(){
         hammer_setup();
         sickle_setup();
@@ -62,6 +68,9 @@ extern "C"{
         midifile_setup();
         path_setup();
         import_setup();
+        knob_setup();
+        popup_setup();
+        entry_setup();
         
     }
 }
@@ -98,6 +107,10 @@ namespace pd {
         void setMainContext(){
             pdContext_current_instance = &pdContext;
             pd_setinstance(pdContext.thisPdInstance);
+        }
+        
+        void freeContext(){
+            pdinstance_free(pdContext.thisPdInstance);
         }
         
         /// \section Initializing Pd
@@ -458,7 +471,7 @@ namespace pd {
         
 #ifdef LIBPD_USE_STD_MUTEX
         /// locks libpd C function calls, enable by defining LIBPD_USE_STD_MUTEX
-        std::mutex mutex;
+        static std::mutex mutex;
 #endif
         
     private:
@@ -588,6 +601,7 @@ namespace pd {
             
         };
         static PdContext *  pdContext_current_instance;
+    public:
         PdContext pdContext;
         int instanceNum;
     };

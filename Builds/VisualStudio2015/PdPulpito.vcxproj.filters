@@ -376,6 +376,15 @@
     <ClCompile Include="..\..\Source\LookNfeel.cpp">
       <Filter>PdPulpito\Source\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Downloads\pd-extended\externals\flatgui\entry.c">
+      <Filter>PdPulpito\Source\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Downloads\pd-extended\externals\flatgui\knob.c">
+      <Filter>PdPulpito\Source\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Downloads\pd-extended\externals\flatgui\popup.c">
+      <Filter>PdPulpito\Source\externals</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\externals\import.c">
       <Filter>PdPulpito\Source\externals</Filter>
     </ClCompile>

@@ -30,6 +30,8 @@ PdAudioProcessor::PdAudioProcessor()
     first ++;
     
     //        loadFromGUI();
+    pdTimer = new PdTimer(this);
+    
     
 }
 
@@ -153,6 +155,7 @@ void PdAudioProcessor::releaseResources()
 void PdAudioProcessor::doOpenNewPatch(juce::File file){
    
     if(!isPdPatchLoaded && patchfile.exists()){
+        
         reloadPdPatch();
         PdParamGetter::dollarZero = patch.dollarZero();
         loadFromGUI();
@@ -173,11 +176,35 @@ void PdAudioProcessor::openNewPatch(juce::File file){
     if(file.exists()){
         setPatchFile(file);
     }
+    pdTimer->stopTimer();
     isPdPatchLoaded = false;
     sendChangeMessage();
    
 }
 
+
+void PdAudioProcessor::sendChangedParameters(){
+    for (int i=0; i<pdParameters.size(); i++) {
+        PdParameter* parameter = pdParameters[i];
+        if(parameter->hasToObserve()){
+            String pname = parameter->getName(70);
+            if(pname!="empty" && pname!="nos"){
+                if(parameter->getType() == PulpParameterDesc::Type::POPUP){
+                    std::string val = parameter->getDesc()->elements.getReference(parameter->getTrueValue()).toStdString();
+                    pd->sendSymbol(pname.toStdString(), val);
+                }
+                else if(parameter->getType() == PulpParameterDesc::Type::BANG && parameter->getValue()>0){
+                    pd->sendBang(pname.toStdString());
+                }
+                else{
+                    //                    DBG3("sending",pname.toStdString(), parameter->getTrueValue());
+                    pd->sendFloat(pname.toStdString(), parameter->getTrueValue());
+                }
+            }
+        }
+    }
+
+}
 void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
 //    int instance = -1;
@@ -190,7 +217,9 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
 //    }
     
     if(isPdPatchLoaded){
-        
+        if(!pdTimer->isTimerRunning()){
+            pdTimer->startTimer(50);
+        }
         //    pd->setMainContext();
         clearMidiBuffer(buffer.getNumSamples());
         
@@ -201,22 +230,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
         int len = buffer.getNumSamples();
         
         
-        for (int i=0; i<pdParameters.size(); i++) {
-            PdParameter* parameter = pdParameters[i];
-            if(parameter->hasToObserve()){
-                String pname = parameter->getName(70);
-                if(pname!="empty" && pname!="nos"){
-                if(parameter->getType() == PulpParameterDesc::Type::BANG && parameter->getValue()>0){
-                    pd->sendBang(pname.toStdString());
-                }
-                else{
-//                    DBG3("sending",pname.toStdString(), parameter->getTrueValue());
-                    pd->sendFloat(pname.toStdString(), parameter->getTrueValue());
-                }
-                }
-            }
-        }
-        
+//        sendChangedParameters();
         MidiMessage message;
         MidiBuffer::Iterator it (midiMessages);
         int samplePosition = buffer.getNumSamples();
@@ -383,6 +397,9 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
             
         }
         
+        if(needsToReopenPatch){
+            openNewPatch();
+        }
         forEachXmlChildElement (*xml, child)
         {
             DBG(" - load : " << child->getTagName() );;
@@ -393,13 +410,15 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
                     
                     // TODO : change index based retrieval to safer?
                     
-                    int index = parameterElement->getIntAttribute("index");
-                    if(index<pdParameters.size()){
+                    int objIndex = parameterElement->getIntAttribute("index");
+                    if( objIndex<pdParameters.size()){
                         DBG("loading param " << parameterElement->getStringAttribute("name"));
-                        PdParameter* p = pdParameters.getUnchecked(index);
+                        PdParameter* p = pdParameters.getUnchecked(objIndex);
                         p->deSerialize(parameterElement);
-                        
+                        if(p->isAudioParameter()){
                         setParameter(p->getParameterIndex(), (float) p->getValue());
+                        }
+                        
                         
                     }
                     else{
@@ -414,9 +433,7 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
         }
         
     }
-    if(needsToReopenPatch){
-        openNewPatch();
-    }
+
 }
 
 
@@ -446,25 +463,20 @@ void PdAudioProcessor::reloadPdPatch ()
         
         pd = new pd::PdBase;
     }
+    pd->init (getNumInputChannels(), getNumOutputChannels(), cachedSampleRate,false);
     pd->setReceiver(this);
     pd->setMidiReceiver(this);
-    pd->init (getNumInputChannels(), getNumOutputChannels(), cachedSampleRate,false);
+    
     
     
     int numChannels = jmin (getNumInputChannels(), getNumOutputChannels());
     pdInBuffer.calloc (pd->blockSize() * numChannels);
     pdOutBuffer.calloc (pd->blockSize() * numChannels);
     
-    
     if (!patchfile.exists()) {
-        
-        if (patchfile.getFullPathName().toStdString() != "") {
-            status = "File does not exist";
-        }
-        
+        if (patchfile.getFullPathName().toStdString() != "") {status = "File does not exist";}
         return;
     }
-    
     if (patchfile.isDirectory()) {
         status = "You selected a directory";
         return;
@@ -474,7 +486,6 @@ void PdAudioProcessor::reloadPdPatch ()
     
     if (patch.isValid()) {
         pd->computeAudio (true);
-        
         status = "Patch loaded successfully";
     } else {
         status = "Selected patch is not valid, sorry";
@@ -482,9 +493,7 @@ void PdAudioProcessor::reloadPdPatch ()
     
     // clear info to send it again on next process block
     dawInfo.clear();
-    
-    
-    
+
     
 }
 
@@ -509,11 +518,7 @@ void PdAudioProcessor::print(const std::string& message) {
     if(getActiveEditor()!=nullptr){
         
         MainComponent * mainEditor =dynamic_cast<MainComponent*>(getActiveEditor()) ;
-        String msg(message);
-        //        if(msg.startsWith("error:") && error_object!=NULL){
-        //            msg += "\\n" + String(class_getname( ((t_gobj*) error_object)->g_pd));
-        //        }
-        mainEditor->addPdLog(msg);
+        mainEditor->addPdLog(message);
     }
 };
 

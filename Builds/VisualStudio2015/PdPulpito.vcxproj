@@ -144,6 +144,9 @@
     <ClCompile Include="..\..\Source\PdTypes.cpp"/>
     <ClCompile Include="..\..\Source\PdComponent.cpp"/>
     <ClCompile Include="..\..\Source\LookNfeel.cpp"/>
+    <ClCompile Include="..\..\..\..\..\..\Downloads\pd-extended\externals\flatgui\entry.c"/>
+    <ClCompile Include="..\..\..\..\..\..\Downloads\pd-extended\externals\flatgui\knob.c"/>
+    <ClCompile Include="..\..\..\..\..\..\Downloads\pd-extended\externals\flatgui\popup.c"/>
     <ClCompile Include="..\..\Source\externals\import.c"/>
     <ClCompile Include="..\..\Source\externals\path.c"/>
     <ClCompile Include="..\..\Source\externals\midifile.c"/>

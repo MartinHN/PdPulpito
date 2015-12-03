@@ -24,14 +24,14 @@ extern t_pdinstance * pd_this;
 #ifdef LIBPD_USE_STD_MUTEX
     #if __cplusplus >= 201103L // C++ 11 check
         #define _LOCK() mutex.lock();setMainContext(); //DBG("locking : " << pdContext.thisPdInstance);
-        #define _UNLOCK() mutex.unlock();pd_setinstance(NULL); //DBG("unlocking : " << pdContext.thisPdInstance);
-
+        #define _UNLOCK() mutex.unlock();freeContext(); //DBG("unlocking : " << pdContext.thisPdInstance);
+        std::mutex pd::PdBase::mutex;
 
     #endif
 #else
     // no ops
     #define _LOCK() setMainContext();  //DBG("locking : " << pdContext.thisPdInstance);
-    #define _UNLOCK() pd_setinstance(NULL); //DBG("unlocking : " << pdContext.thisPdInstance);
+    #define _UNLOCK() freeContext(); //DBG("unlocking : " << pdContext.thisPdInstance);
 #endif
 
 // needed for libpd audio passing
@@ -66,16 +66,16 @@ PdBase::~PdBase() {
 //--------------------------------------------------------------------
 bool PdBase::init(const int numInChannels, const int numOutChannels, const int sampleRate, bool queued) {
     clear();
-    _LOCK();
+//    _LOCK();
     bool ret = pdContext.init(numInChannels, numOutChannels, sampleRate, queued);
-    _UNLOCK();
+//    _UNLOCK();
     return ret;
 }
 
 void PdBase::clear() {
-    _LOCK();
+//    _LOCK();
     pdContext.clear();
-    _UNLOCK();
+//    _UNLOCK();
     unsubscribeAll();
 }
 
@@ -213,11 +213,11 @@ bool PdBase::exists(const std::string& source) {
 void PdBase::unsubscribeAll(){
     map<string,void*>& sources = pdContext.sources;
     map<string,void*>::iterator iter;
-    _LOCK();
+//    _LOCK();
     for(iter = sources.begin(); iter != sources.end(); ++iter) {
         libpd_unbind(iter->second);
     }
-    _UNLOCK();
+//    _UNLOCK();
     sources.clear();
 }
 
@@ -925,7 +925,6 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         // init libpd, should only be called once!
 
             thisPdInstance = pdinstance_new();
-        
             pd_setinstance(thisPdInstance);
         if(!bLibPdInited) {
             libpd_init();
@@ -934,7 +933,7 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
         }
         
     }
-    pd_setinstance(thisPdInstance);
+//    pd_setinstance(thisPdInstance);
     
     // init audio
     if(libpd_init_audio(numInChannels, numOutChannels, sampleRate) != 0) {
@@ -946,7 +945,7 @@ bool PdBase::PdContext::init(const int numInChannels, const int numOutChannels, 
     cout << (float*)pdAudioCtx.in << endl;
     cout << (void*)pdAudioCtx.out << endl;
     bInited = true;
-
+    pdinstance_free(thisPdInstance);
     return bInited;
 }
 
