@@ -94,7 +94,7 @@ class TUIOComponent : public TuioListener
         REMOVE
     }drawCmd;
     void drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd);
-    
+    int64 lastUpdateTime ;
     static TuioClient *  TUIOClient;
     TuioClient * getGlobalTuioClient(){if(TUIOClient ==nullptr){TUIOClient = new TuioClient();TUIOClient->removeAllTuioListeners();}return TUIOClient;}
     Component * parentComponent;

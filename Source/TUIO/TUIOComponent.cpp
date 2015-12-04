@@ -63,6 +63,7 @@ void TUIOComponent::updateTuioCursor(TuioCursor *tcur){
             
             
         drawCursor(tcur, local, drawCmd::UPDATE);
+
         }
     
     
@@ -133,7 +134,10 @@ void TUIOComponent::drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd){
             
         case UPDATE:
             if(tcur->getCursorID() < dbgDraw.size()){
+                uint32 delta = Time::currentTimeMillis()-lastUpdateTime ;
+//                DBG("time : " << delta /1000.0);
                 dbgDraw[tcur->getCursorID()]->setTopLeftPosition(pos.getX(),pos.getY());
+                lastUpdateTime = Time::currentTimeMillis();
             }
             break;
         case REMOVE:
@@ -144,7 +148,7 @@ void TUIOComponent::drawCursor(TuioCursor * tcur,Point<float>& pos,drawCmd cmd){
             break;
             
     }
-    parentComponent->repaint();
+//    parentComponent->repaint();
     
 #endif
     
