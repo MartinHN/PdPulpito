@@ -31,9 +31,10 @@ public:
     {
     }
     
+
     float getValue() const override                         {return value;}
     float getTrueValue()                                    {return value*(max-min) + min;}
-    float getDefaultValue() const override                  {return defaultValue;}
+    float getDefaultValue() const override                  {return value;}
     String getName (int maximumStringLength = 70)const override  {return sendName;}
     String getRecieveName()                                    {return recieveName;}
     
@@ -66,7 +67,7 @@ public:
         defaultValue = _desc->defaultV;
         processorIdx = _desc->processorIdx;
         desc = _desc;
-        value = defaultValue;
+        
         
     }
     
@@ -92,16 +93,16 @@ public:
     void setMinMax(float min,float max)                     {min = min;max = max;}
     void setName (String n)                                 {sendName = n;}
     
-
+    void setChanged(bool v){changed = v;};
     
     void serialize(XmlElement * xml){
         xml->setAttribute("index", (int) getDesc()->pdObjectIdx);
         xml->setAttribute("name", getName(256));
-        xml->setAttribute("value", (double) getValue());
+        xml->setAttribute("value", (double) getTrueValue());
 
     }
     
-    void deSerialize(XmlElement * parameterElement)         {setName( parameterElement->getStringAttribute("name"));setValue(parameterElement->getDoubleAttribute("value"));}
+    void deSerialize(XmlElement * parameterElement)         {setName( parameterElement->getStringAttribute("name"));setTrueValue(parameterElement->getDoubleAttribute("value"),true);setChanged(true);}
     
     PulpParameterDesc::Type getType(){return desc->type;}
 

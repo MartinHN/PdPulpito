@@ -120,14 +120,14 @@ public:
             
             
             if(c!=nullptr){
-                c->setValue(param->getValue(), dontSendNotification);
+                c->setValue(param->getTrueValue(), dontSendNotification);
                 c->labelSize = param->getDesc()->labelSize;
                 
                 c->setName(param->getDesc()->labelName);
                 c->setLabelVisible(param->getDesc()->hasLabel);
                 p->setParameterName(i, param->getDesc()->sendName);
                 pdComponents.add(c);
-                
+
                 c->setBounds (
                               getWidth() * param->getDesc()->getX(),
                               getHeight()* param->getDesc()->getY(),

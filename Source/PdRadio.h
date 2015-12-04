@@ -21,7 +21,7 @@ public:
     
     PdRadio(PdParameter * p,int size,Orientation o):PdComponent(p){
         component = new Component;
-        addAndMakeVisible(component);
+        
         
         static int radioGroupId = 0;
         radioGroupId++;
@@ -34,7 +34,7 @@ public:
         }
         orientation = o;
         
-        
+        addAndMakeVisible(component);
     }
     ~PdRadio(){
     

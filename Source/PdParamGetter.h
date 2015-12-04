@@ -36,10 +36,7 @@ class PdParamGetter {
     bool fillIemObj(_iemgui * o,t_gobj * gobj,PulpParameterDesc * p);
     PulpParameterDesc * getObjectForIdx(int idx);
     int getTotalObjectCount();
-    
-    PulpParameterDesc * getParamForIdx(int idx);
-    int getTotalParameterCount();
-    
+
     
     Array<int> GUINumParams;
     Array<int> GUINumObjects;
@@ -63,20 +60,19 @@ class PdParamGetter {
 protected:
     
     String resolveDollarzero(String & c);
-    Array<Array<StringArray > > parsedString;
+
     int localParamCount = 0,localObjectCount=0;
     Colour getPdColour(int c);
     Array<Rectangle<int> > guiSizes;
     Array<File> guiFiles;
     OwnedArray<PulpParameterDesc> pulpParameterDescs;
-    Array<PulpParameterDesc * > audioParameters;
+
     int dollarZero;
     
     
 private:
     File subPatchExists(String sub);
-    Array<StringArray>  parseText(StringArray destLines,bool isRootGUI,bool ignoresubpatches = true);
-    void getParamsFromText(Array<StringArray> g,int guiIdx,Rectangle<int> region=Rectangle<int>(0,0),Point < int > offset=Point<int>(0,0));
+
 };
 
 
@@ -90,6 +86,8 @@ public:
         recieveName = "empty";
         isAudioParameter = false;
     }
+    
+    
     
     String recieveName;
     String sendName;

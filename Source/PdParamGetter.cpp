@@ -74,8 +74,8 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
     {
         
         Rectangle<int> patchRect = guiSizes[guiIdx];
-//        Rectangle<int> region( x->gl_xmargin,x->gl_ymargin,x->gl_xmargin+ x->gl_pixwidth, x->gl_ymargin + x->gl_pixheight);//guiSizes[guiIdx];
-
+        //        Rectangle<int> region( x->gl_xmargin,x->gl_ymargin,x->gl_xmargin+ x->gl_pixwidth, x->gl_ymargin + x->gl_pixheight);//guiSizes[guiIdx];
+        
         
         
         t_gobj * y = x->gl_list;
@@ -98,8 +98,8 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                 _glist * gl;
                 if((gl = pd_checkglist(&y2->g_pd))){
                     if(gl->gl_isgraph){
-//                        DBGN(gl->gl_env->ce_dir->s_name)
-//                        DBG2("/",gl->gl_list);
+                        //                        DBGN(gl->gl_env->ce_dir->s_name)
+                        //                        DBG2("/",gl->gl_list);
                         getFromPdCanvas(gl, guiIdx);
                     }
                 }
@@ -113,7 +113,7 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                     p->min = hsl->x_min;
                     p->max = hsl->x_max;
                     if(hsl->x_gui.x_isa.x_loadinit){
-                    p->defaultV = (hsl->x_val/100)*hsl->x_k + p->min;
+                        p->defaultV = (hsl->x_val/100)*hsl->x_k + p->min;
                     }
                 }
                 else if(objName=="vsl"){
@@ -123,10 +123,10 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                     p->min = vsl->x_min;
                     p->max = vsl->x_max;
                     if(vsl->x_gui.x_isa.x_loadinit){
-                    p->defaultV = (vsl->x_val/100)*vsl->x_k + p->min;
+                        p->defaultV = (vsl->x_val/100)*vsl->x_k + p->min;
                     }
                 }
-
+                
                 else if(objName== "tgl"){
                     p->type = PulpParameterDesc::TOGGLE;
                     t_toggle *tgl = (t_toggle *)y2;
@@ -177,7 +177,7 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                     p->setBounds(  x01,y01,x02-x01,y02-y01);
                     DBG4(x01,y01,x02 ,y02);
                     found = true;
-//                    found = fillIemObj(;,y2, p);
+                    //                    found = fillIemObj(;,y2, p);
                     p->setSize(popup->x_width, popup->x_height);
                     
                     for(int i =0 ; i < popup->x_num_options ; i++){
@@ -199,40 +199,42 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                     DBG("not found " <<objName);
                     found = false;
                 }
-                if(found ){
-                    p->isAudioParameter = p->sendName.startsWith("param");
-                    p->setBounds((p->getX() )/patchRect.getWidth(),
-                                 (p->getY() )/patchRect.getHeight(),
-                                 p->getWidth()/patchRect.getWidth(),
-                                 p->getHeight()/patchRect.getHeight());
-                    p->labelRect.setBounds((p->labelRect.getX())/patchRect.getWidth(),
-                                           (p->labelRect.getY())/patchRect.getHeight(),
-                                           p->labelRect.getWidth()/patchRect.getWidth(),
-                                           p->labelRect.getHeight()/patchRect.getHeight());
-                    p->sendName = resolveDollarzero(p->sendName);
-                    p->recieveName = resolveDollarzero(p->recieveName);
-                    DBGN(y2->g_pd->c_name->s_name << " : ")
-                    DBG("adding p " << p->sendName << "/" << p->recieveName <<  " at "<< ((Rectangle<float>)*p).toString());
-                    
-                    if(p->isAudioParameter){
-                        p->processorIdx = localParamCount;
-                        localParamCount++;
-                        audioParameters.add(p);
-                    }
-                    else{
-                        p->processorIdx = -1;
-                    }
-                    p->pdObjectIdx = localObjectCount;
-                    localObjectCount++;
-                    pulpParameterDescs.add(p);
-                    
+            }
+            if(found ){
+                p->isAudioParameter = p->sendName.startsWith("param");
+                p->setBounds((p->getX() )/patchRect.getWidth(),
+                             (p->getY() )/patchRect.getHeight(),
+                             p->getWidth()/patchRect.getWidth(),
+                             p->getHeight()/patchRect.getHeight());
+                p->labelRect.setBounds((p->labelRect.getX())/patchRect.getWidth(),
+                                       (p->labelRect.getY())/patchRect.getHeight(),
+                                       p->labelRect.getWidth()/patchRect.getWidth(),
+                                       p->labelRect.getHeight()/patchRect.getHeight());
+                p->sendName = resolveDollarzero(p->sendName);
+                p->recieveName = resolveDollarzero(p->recieveName);
+                DBGN(y2->g_pd->c_name->s_name << " : ")
+                DBG("adding p " << p->sendName << "/" << p->recieveName <<  " at "<< ((Rectangle<float>)*p).toString());
+                
+                if(p->isAudioParameter){
+                    p->processorIdx = localParamCount;
+                    localParamCount++;
                 }
                 else{
-                    delete p;
-                    
+                    p->processorIdx = -1;
                 }
+                p->pdObjectIdx = localObjectCount;
+                localObjectCount++;
+                pulpParameterDescs.add(p);
                 
             }
+            
+            else{
+                
+                delete p;
+                
+            }
+            
+            
             
         }
     }
@@ -243,7 +245,6 @@ void PdParamGetter::getParamFromPd(pd::PdBase * pd){
     guiSizes.clear();
     guiFiles.clear();
     pulpParameterDescs.clear();
-    audioParameters.clear();
     localObjectCount =0;
     localParamCount = 0;
     GUINumParams.clear();
@@ -276,18 +277,18 @@ void PdParamGetter::getParamFromPd(pd::PdBase * pd){
         getFromPdCanvas(x,guiIdx);
         
         guiIdx++;
-//        if(pulpParameterDescs.size()>0){
-//            float minX = std::min(std::min(minX, pulpParameterDescs[0]->getX()),pulpParameterDescs[0]->labelRect.getX()) ;
-//            float minY = std::min(std::min(minY, pulpParameterDescs[0]->getY()),pulpParameterDescs[0]->labelRect.getY()) ;
-//            
-//            for(auto & p:pulpParameterDescs){
-//                minX = std::min(std::min(minX, p->getX()),p->labelRect.getX()) ;
-//                minY = std::min(std::min(minY, p->getY()),p->labelRect.getY()) ;
-//            }
-//            for(auto & p:pulpParameterDescs){
-//                p->setPosition( p->getX()-minX,p->getY()-minY);
-//            }
-//        }
+        //        if(pulpParameterDescs.size()>0){
+        //            float minX = std::min(std::min(minX, pulpParameterDescs[0]->getX()),pulpParameterDescs[0]->labelRect.getX()) ;
+        //            float minY = std::min(std::min(minY, pulpParameterDescs[0]->getY()),pulpParameterDescs[0]->labelRect.getY()) ;
+        //
+        //            for(auto & p:pulpParameterDescs){
+        //                minX = std::min(std::min(minX, p->getX()),p->labelRect.getX()) ;
+        //                minY = std::min(std::min(minY, p->getY()),p->labelRect.getY()) ;
+        //            }
+        //            for(auto & p:pulpParameterDescs){
+        //                p->setPosition( p->getX()-minX,p->getY()-minY);
+        //            }
+        //        }
         GUINumObjects.add(localObjectCount - tmpObjCount);
         GUINumParams.add(localParamCount-tmpCount);
     }
@@ -330,7 +331,7 @@ bool PdParamGetter::fillIemObj(_iemgui * o,t_gobj * gobj,PulpParameterDesc * p){
                                (p->sendName.length()*p->labelSize),
                                (p->labelSize));
     }
-//    Point<int> offset(o->x_obj.te_xpix,o->x_obj.te_ypix);
+    //    Point<int> offset(o->x_obj.te_xpix,o->x_obj.te_ypix);
     
     
     
@@ -374,15 +375,6 @@ int PdParamGetter::getTotalObjectCount(){
     
 }
 
-PulpParameterDesc * PdParamGetter::getParamForIdx(int idx){
-    if( idx >= audioParameters.size())jassertfalse;
-    return audioParameters[idx];
-}
-int PdParamGetter::getTotalParameterCount(){
-    return audioParameters.size();
-    
-}
-
 
 
 int PdParamGetter::getNumObjectsForGUI(int guiNum){
@@ -416,15 +408,15 @@ int PdParamGetter::getProcessorStartIdxForGUI(int guiNum){
 
 
 Colour PdParamGetter::getPdColour(int c){
-
+    
     if(c >= 0xfcfcfc){
-     return Colours::black.withAlpha(0.0f);
+        return Colours::black.withAlpha(0.0f);
     }
     int r = (c>>16) & 0xff;
     int g = (c>>8) & 0xff;
     int b = (c) & 0xff;
     
-
+    
     return Colour(r,g,b);
 }
 

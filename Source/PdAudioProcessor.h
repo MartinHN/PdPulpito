@@ -41,7 +41,7 @@ public:
     
     
     void doOpenNewPatch(File file = File());
-    void openNewPatch(File file = File());
+    void openNewPatch(File file = File(),bool immediate = false);
     
     void loadFromGUI();
     void updateProcessorParameters();

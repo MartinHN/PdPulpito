@@ -37,6 +37,13 @@ PdAudioProcessor::PdAudioProcessor()
 
 PdAudioProcessor::~PdAudioProcessor()
 {
+    
+    // audioparameters are handled by host so delete only pd internals
+    for(int i = 0 ; i < pdParameters.size() ; i++){
+        if(!pdParameters[i]->isAudioParameter()){
+            delete  pdParameters[i];
+        }
+    }
     pd = nullptr;
     
 }
@@ -81,7 +88,8 @@ void PdAudioProcessor::setParametersFromDescs(){
             }
             else if(i<pdParameters.size()){
                 pdParameters[i]->setFromDesc(pulpParameterDescs[i]);
-                pdParameters[i]->setValue(0);
+                
+//                pdParameters[i]->setValue(0);
             }
             else{
                 DBG("parameter not found " << pulpParameterDescs[i]->sendName << " count : " << maximumParameterCount);
@@ -172,13 +180,18 @@ void PdAudioProcessor::doOpenNewPatch(juce::File file){
         
     }
 }
-void PdAudioProcessor::openNewPatch(juce::File file){
+void PdAudioProcessor::openNewPatch(juce::File file , bool immediate){
     if(file.exists()){
         setPatchFile(file);
     }
     pdTimer->stopTimer();
     isPdPatchLoaded = false;
+    if(immediate){
+        sendSynchronousChangeMessage();
+    }
+    else{
     sendChangeMessage();
+    }
    
 }
 
@@ -218,7 +231,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
     
     if(isPdPatchLoaded){
         if(!pdTimer->isTimerRunning()){
-            pdTimer->startTimer(50);
+            pdTimer->startTimer(10);
         }
         //    pd->setMainContext();
         clearMidiBuffer(buffer.getNumSamples());
@@ -398,7 +411,7 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
         }
         
         if(needsToReopenPatch){
-            openNewPatch();
+            openNewPatch(File(),true);
         }
         forEachXmlChildElement (*xml, child)
         {
@@ -412,7 +425,7 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
                     
                     int objIndex = parameterElement->getIntAttribute("index");
                     if( objIndex<pdParameters.size()){
-                        DBG("loading param " << parameterElement->getStringAttribute("name"));
+                        DBG3("loading param " , parameterElement->getStringAttribute("name"), parameterElement->getDoubleAttribute("value") );
                         PdParameter* p = pdParameters.getUnchecked(objIndex);
                         p->deSerialize(parameterElement);
                         if(p->isAudioParameter()){

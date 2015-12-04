@@ -7,7 +7,6 @@ PdAudioProcessorEditor::PdAudioProcessorEditor (PdAudioProcessor& p)
 : AudioProcessorEditor (p)
 
 {
-
     setVisible(true);
     p.addChangeListener(this);
     showedCanvas = -1;

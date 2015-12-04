@@ -145,7 +145,7 @@ void PdComponent::timerCallback(){
     
     //    if(!getSlider()->isMouseButtonDown()){
     
-//    if (getPdParameter()!=nullptr && getPdParameter()->hasChanged())
+//    if (isAudioParameter() && getPdParameter()!=nullptr && getPdParameter()->hasChanged())
 //    {
 //        // don't notify host as it comes from himself
 //        setValue(getPdParameter()->getTrueValue() ,NotificationType::dontSendNotification);
