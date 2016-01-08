@@ -9,7 +9,7 @@
 #ifndef PdPulpito_TUIOConfig_h
 #define PdPulpito_TUIOConfig_h
 
-#define TUIO_DRAW 1
-#define TUIO_PORT 3333
+#define TUIO_DRAW 0
+#define TUIO_PORT 3334
 
 #endif
