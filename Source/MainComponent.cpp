@@ -51,7 +51,7 @@ pulpConfigUI(&processor)
 
 MainComponent::~MainComponent()
 {
-    
+    removeChangeListener(this);
     
     
     
@@ -141,3 +141,4 @@ bool MainComponent::keyPressed (const KeyPress& key,
     }
     return true;
 }
+

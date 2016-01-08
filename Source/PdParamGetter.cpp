@@ -87,11 +87,11 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
             p->elements.clear();
             
             String objName = y2->g_pd->c_name->s_name;
-            DBG(objName);
+//            DBG(objName);
             int split = objName.indexOfWholeWord("/");
             if(split>0){
                 objName = objName.substring(split, objName.length() - split);
-                DBG(objName);
+//                DBG(objName);
             }
             bool found = true;
             if(objName=="canvas" ){
@@ -196,7 +196,7 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                 }
                 
                 else{
-                    DBG("not found " <<objName);
+//                    DBG("not found " <<objName);
                     found = false;
                 }
             }
@@ -212,8 +212,8 @@ void PdParamGetter::getFromPdCanvas(t_canvas * x,int guiIdx){
                                        p->labelRect.getHeight()/patchRect.getHeight());
                 p->sendName = resolveDollarzero(p->sendName);
                 p->recieveName = resolveDollarzero(p->recieveName);
-                DBGN(y2->g_pd->c_name->s_name << " : ")
-                DBG("adding p " << p->sendName << "/" << p->recieveName <<  " at "<< ((Rectangle<float>)*p).toString());
+//                DBGN(y2->g_pd->c_name->s_name << " : ")
+//                DBG("adding p " << p->sendName << "/" << p->recieveName <<  " at "<< ((Rectangle<float>)*p).toString());
                 
                 if(p->isAudioParameter){
                     p->processorIdx = localParamCount;
@@ -311,25 +311,31 @@ bool PdParamGetter::fillIemObj(_iemgui * o,t_gobj * gobj,PulpParameterDesc * p){
         {
             //        DBG2(o->x_obj.te_xpix ,o->x_obj.te_ypix)
             //        DBG4(o->x_glist->gl_xmargin, o->x_glist->gl_ymargin, o->x_glist->gl_xmargin + o->x_glist->gl_pixwidth,o->x_glist->gl_ymargin + o->x_glist->gl_pixheight);
-            DBG("dropping out comp" << o->x_snd->s_name);
+//            DBG("dropping out component out of canvas viewport " << o->x_snd->s_name);
             return false;
         }
     }
     int x01,y01,x02,y02;
     gobj_getrect(gobj, o->x_glist,&x01,&y01,&x02,&y02);
     p->setBounds(  x01,y01,x02-x01,y02-y01);
-    DBG4(x01,y01,x02 ,y02);
+   
     
-    p->sendName = o->x_snd->s_name;
-    p->recieveName = o->x_rcv->s_name;
+    p->sendName = String(o->x_snd->s_name,MAX_STRING_LENGTH_FROM_PD);
+    p->recieveName = String(o->x_rcv->s_name,MAX_STRING_LENGTH_FROM_PD);
+    p->labelName = String();
+//     DBG3(p->sendName,p->recieveName,p->labelName);
     if( strcmp(o->x_lab->s_name, "empty")!=0){
-        p->labelName = o->x_lab->s_name;
+        p->labelName = String(o->x_lab->s_name,MAX_STRING_LENGTH_FROM_PD);
         p->hasLabel = true;
         p->labelSize = o->x_fontsize;
         p->labelRect.setBounds(o->x_ldx,
                                o->x_ldy - p->labelSize/3,
                                (p->sendName.length()*p->labelSize),
                                (p->labelSize));
+    }
+    else{
+        
+        p->hasLabel = false;
     }
     //    Point<int> offset(o->x_obj.te_xpix,o->x_obj.te_ypix);
     

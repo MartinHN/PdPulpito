@@ -19,31 +19,35 @@ PdAudioProcessor::PdAudioProcessor()
     
     cachedSampleRate = 44100;
     isPdPatchLoaded = false;
-    addChangeListener(this);
+    
     static int first = 0;
-//    if(first<2){
-//        setPatchFile(File(PATCH_PATH));
-//    }
-//    else{
-//        setPatchFile(File(PATCH_PATH2));
-//    }
+    //    if(first<2){
+    //        setPatchFile(File(PATCH_PATH));
+    //    }
+    //    else{
+    //        setPatchFile(File(PATCH_PATH2));
+    //    }
     first ++;
     
     //        loadFromGUI();
     pdTimer = new PdTimer(this);
+    patchOpener = new PatchOpener(this);
+    addChangeListener(patchOpener);
     
     
 }
 
 PdAudioProcessor::~PdAudioProcessor()
 {
-    
+    pdTimer->stopTimer();
+     removeChangeListener(patchOpener);
     // audioparameters are handled by host so delete only pd internals
     for(int i = 0 ; i < pdParameters.size() ; i++){
         if(!pdParameters[i]->isAudioParameter()){
             delete  pdParameters[i];
         }
     }
+    pdParameters.clear();
     pd = nullptr;
     
 }
@@ -65,10 +69,10 @@ void PdAudioProcessor::loadFromGUI(){
     for(auto s:pulpParameterDescs){
         if(s->recieveName!="empty"){
             pd->subscribe(s->recieveName.toStdString());
-   
+            
         }
     }
-
+    
 }
 
 
@@ -77,48 +81,52 @@ void PdAudioProcessor::setParametersFromDescs(){
     
     // hack to allow to reload parameters on the go
     // allow to add new or replace param as the host may need to keep same pointers
-    //    pdParameters.clear();
-    //    maximumParameterCount = 0;
+    DBG3("new params",pulpParameterDescs.size(),maximumParameterCount);
+    
+//    pdParameters.clear();
+//    maximumParameterCount = 0;
     for(int i = 0; i < pulpParameterDescs.size() ; i++){
         
-            if(i>=maximumParameterCount){
-                PdParameter* p = new PdParameter (pulpParameterDescs[i]);
-                pdParameters.add(p);
-                maximumParameterCount ++;
-            }
-            else if(i<pdParameters.size()){
-                pdParameters[i]->setFromDesc(pulpParameterDescs[i]);
-                
-//                pdParameters[i]->setValue(0);
-            }
-            else{
-                DBG("parameter not found " << pulpParameterDescs[i]->sendName << " count : " << maximumParameterCount);
-            }
+        if(i>=maximumParameterCount){
+            PdParameter* p = new PdParameter (pulpParameterDescs[i]);
+            pdParameters.add(p);
+            maximumParameterCount ++;
         }
-    
-   // pdParameters.resize(pulpParameterDescs.size());
+        else if(i<pdParameters.size()){
+            pdParameters[i]->setFromDesc(pulpParameterDescs[i]);
+            
+            //                pdParameters[i]->setValue(0);
+        }
+        else{
+            DBG("parameter not found " << pulpParameterDescs[i]->sendName << " count : " << maximumParameterCount);
+        }
+    }
+    //    for(int i = pulpParameterDescs.size() ; i < pdParameters.size() ; i++){
+    //        pdParameters[i]->
+    //    }
+    // pdParameters.resize(pulpParameterDescs.size());
     
     
 }
 
 
 void PdAudioProcessor::updateProcessorParameters(){
-
+    
     
     
     for(auto & p:pdParameters){
         if(p->isAudioParameter()){
-        int idx = p->getProcessorIdx();
+            int idx = p->getProcessorIdx();
             jassert(idx>=0);
-        if(idx>=getNumParameters()){
-            addParameter(p);
-            DBG3("adding processor p : " , idx , p->getName());
-        }
-        else{
-            setParameter(idx, p->getValue());
-            DBG3("setting processor p : " , idx , p->getName());
-        }
-        
+            if(idx>=getNumParameters()){
+                addParameter(p);
+                DBG3("adding processor p : " , idx , p->getName());
+            }
+            else{
+                setParameter(idx, p->getValue());
+                DBG3("setting processor p : " , idx , p->getName());
+            }
+            
         }
         
     }
@@ -148,6 +156,7 @@ void PdAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
+    pdTimer->stopTimer();
     if (pd != nullptr)
     {
         //        pd->computeAudio (false);
@@ -160,23 +169,22 @@ void PdAudioProcessor::releaseResources()
 }
 
 
-void PdAudioProcessor::doOpenNewPatch(juce::File file){
-   
+void PdAudioProcessor::doOpenNewPatch(){
+    
     if(!isPdPatchLoaded && patchfile.exists()){
         
         reloadPdPatch();
         PdParamGetter::dollarZero = patch.dollarZero();
         loadFromGUI();
         waitForUIToLoad =true;
-        sendChangeMessage();
         if(getActiveEditor()==nullptr){
             isPdPatchLoaded = true;
             waitForUIToLoad = false;
         }
-
-//        t_canvas * t = canvas_getcurrent();
-//        t_gobj * git = t->gl_list;
-//        for(;git!=NULL ; git = git->next; )
+        
+        //        t_canvas * t = canvas_getcurrent();
+        //        t_gobj * git = t->gl_list;
+        //        for(;git!=NULL ; git = git->next; )
         
     }
 }
@@ -184,15 +192,17 @@ void PdAudioProcessor::openNewPatch(juce::File file , bool immediate){
     if(file.exists()){
         setPatchFile(file);
     }
+    
     pdTimer->stopTimer();
     isPdPatchLoaded = false;
-    if(immediate){
+    if(immediate || MessageManager::getInstance()->isThisTheMessageThread()){
+
         sendSynchronousChangeMessage();
     }
     else{
-    sendChangeMessage();
+        sendChangeMessage();
     }
-   
+    
 }
 
 
@@ -216,18 +226,18 @@ void PdAudioProcessor::sendChangedParameters(){
             }
         }
     }
-
+    
 }
 void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-//    int instance = -1;
+    //    int instance = -1;
     
-//    if(patchfile.getFullPathName() == PATCH_PATH){
-//        instance = 0;
-//    }
-//    else{
-//        instance = 1;
-//    }
+    //    if(patchfile.getFullPathName() == PATCH_PATH){
+    //        instance = 0;
+    //    }
+    //    else{
+    //        instance = 1;
+    //    }
     
     if(isPdPatchLoaded){
         if(!pdTimer->isTimerRunning()){
@@ -243,7 +253,7 @@ void PdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midi
         int len = buffer.getNumSamples();
         
         
-//        sendChangedParameters();
+        //        sendChangedParameters();
         MidiMessage message;
         MidiBuffer::Iterator it (midiMessages);
         int samplePosition = buffer.getNumSamples();
@@ -425,11 +435,12 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
                     
                     int objIndex = parameterElement->getIntAttribute("index");
                     if( objIndex<pdParameters.size()){
-                        DBG3("loading param " , parameterElement->getStringAttribute("name"), parameterElement->getDoubleAttribute("value") );
+                        
                         PdParameter* p = pdParameters.getUnchecked(objIndex);
                         p->deSerialize(parameterElement);
                         if(p->isAudioParameter()){
-                        setParameter(p->getParameterIndex(), (float) p->getValue());
+                            DBG3("loading param " , parameterElement->getStringAttribute("name"), parameterElement->getDoubleAttribute("value") );
+                            setParameter(p->getParameterIndex(), (float) p->getValue());
                         }
                         
                         
@@ -446,7 +457,7 @@ void PdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
         }
         
     }
-
+    
 }
 
 
@@ -465,7 +476,7 @@ void PdAudioProcessor::reloadPdPatch ()
 {
     DBG("reloading Patch" );
     
-
+    
     
     if (pd) {
         //        pd->computeAudio(false);
@@ -506,7 +517,7 @@ void PdAudioProcessor::reloadPdPatch ()
     
     // clear info to send it again on next process block
     dawInfo.clear();
-
+    
     
 }
 
@@ -515,13 +526,13 @@ void PdAudioProcessor::receiveFloat(const std::string& dest, float num)
     if(getActiveEditor()!=nullptr && dest!="empty"){
         MainComponent * mainEditor =dynamic_cast<MainComponent*>(getActiveEditor()) ;
         if(mainEditor->pdEditor.isLoaded){
-        for(auto & c:mainEditor->pdEditor.pdCanvas){
-            for(auto & cc:c->PdGUICanvas::pdComponents){
-                if(cc->getRecieveName()== dest){
-                    cc->setValueFromPd(num);
+            for(auto & c:mainEditor->pdEditor.pdCanvas){
+                for(auto & cc:c->pdComponents){
+                    if(cc->getRecieveName()== dest){
+                        cc->setValueFromPd(num);
+                    }
                 }
             }
-        }
         }
     }
 };
@@ -535,13 +546,10 @@ void PdAudioProcessor::print(const std::string& message) {
     }
 };
 
-void PdAudioProcessor::changeListenerCallback (ChangeBroadcaster* source){
-    doOpenNewPatch();
-}
 
 
 
-void PdAudioProcessor::setPatchFile(File file)          {patchfile = file;sendChangeMessage();}
+void PdAudioProcessor::setPatchFile(File file)          {patchfile = file;}
 
 File PdAudioProcessor::getPatchFile()                   {return patchfile;}
 

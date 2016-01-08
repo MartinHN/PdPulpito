@@ -23,8 +23,7 @@ public AudioProcessor,
 public pd::PdReceiver,
 public pd::PdMidiReceiver,
 public PdParamGetter,
-public ChangeBroadcaster,
-public ChangeListener
+public ChangeBroadcaster
 
 {
 public:
@@ -40,7 +39,7 @@ public:
     void processBlock (AudioSampleBuffer&, MidiBuffer&) override;
     
     
-    void doOpenNewPatch(File file = File());
+    void doOpenNewPatch();
     void openNewPatch(File file = File(),bool immediate = false);
     
     void loadFromGUI();
@@ -54,7 +53,7 @@ public:
     
     bool hasNewFilesSince(Time t);
     Time getLastModificationTime();
-    bool isPdPatchLoaded,waitForUIToLoad = false;
+    volatile bool isPdPatchLoaded,waitForUIToLoad = false;
     
     
     
@@ -89,6 +88,28 @@ public:
     };
     
     ScopedPointer<PdTimer> pdTimer;
+    
+    
+    
+    // opens patch in main thread
+    class PatchOpener : public ChangeBroadcaster,
+    public ChangeListener{
+        
+    public:
+        PatchOpener(PdAudioProcessor * p):owner(p){
+            
+        }
+        
+        void changeListenerCallback (ChangeBroadcaster* source){
+            owner->doOpenNewPatch();
+            sendSynchronousChangeMessage();
+        }
+
+        PdAudioProcessor * owner;
+        
+    };
+    
+    ScopedPointer<PatchOpener> patchOpener;
     
 private:
     

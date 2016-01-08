@@ -8,7 +8,7 @@ PdAudioProcessorEditor::PdAudioProcessorEditor (PdAudioProcessor& p)
 
 {
     setVisible(true);
-    p.addChangeListener(this);
+    p.patchOpener->addChangeListener(this);
     showedCanvas = -1;
     pdProcessor = &p;
 }
@@ -17,7 +17,7 @@ PdAudioProcessorEditor::PdAudioProcessorEditor (PdAudioProcessor& p)
 PdAudioProcessorEditor::~PdAudioProcessorEditor()
 {
     PdAudioProcessor * p = (PdAudioProcessor*)&processor;
-    p->removeChangeListener(this);
+    p->patchOpener->removeChangeListener(this);
     
 }
 
@@ -75,7 +75,7 @@ void PdAudioProcessorEditor::updatePatch (){
 }
 
 void PdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source){
-    PdAudioProcessor* p=dynamic_cast<PdAudioProcessor*>(source);
+    PdAudioProcessor* p =  (PdAudioProcessor*)&processor;
     if( p){
         isLoaded = false;
         buildCanvas();

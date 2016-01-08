@@ -30,7 +30,7 @@ public:
 
     PdAudioProcessor * getPdProcessor(){if(pdProcessor == nullptr){pdProcessor = dynamic_cast<PdAudioProcessor*>(&processor);}return pdProcessor;}
     OwnedArray<PdGUICanvas>pdCanvas;
-    bool isLoaded;
+    volatile bool isLoaded;
 private:
 
     ScopedPointer<TabbedButtonBar> tabBar;

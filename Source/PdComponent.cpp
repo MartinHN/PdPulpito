@@ -7,11 +7,10 @@
 
 //==============================================================================
 PdComponent::PdComponent (PdParameter * pdParam)
-:pdParam(pdParam),
-
-processor(processor)
+:pdParam(pdParam)
 
 {
+    
     
     label = new Label ("label",
                        TRANS("Label"));
@@ -54,8 +53,8 @@ processor(processor)
 
 PdComponent::~PdComponent()
 {
-    
-    
+    removeChangeListener(this);
+    pdParam = nullptr;
     component = nullptr;
     label = nullptr;
     
@@ -110,14 +109,12 @@ void PdComponent::setLabelVisible(bool v){
 
 
 void PdComponent::setValueFromGUI(float v){
-    
-    
     // notify pd
     getPdParameter()->setTrueValue(v,true);
     
     // notify host if needed
     if(isAudioParameter()){
-    getPdParameter()->setValueNotifyingHost(getPdParameter()->getValue());
+        getPdParameter()->setValueNotifyingHost(getPdParameter()->getValue());
     }
 }
 

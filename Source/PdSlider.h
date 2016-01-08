@@ -71,7 +71,7 @@ public:
         
         
     }
-    ~PdSlider(){};
+    ~PdSlider(){getSlider()->removeListener(this);};
     
     void lookAndFeelChanged()override{
     getSlider()->setTextBoxIsEditable(false);
@@ -89,7 +89,7 @@ void resizeComponent(){
 
 
 // fromGUI
-void sliderValueChanged (Slider* sliderThatWasMoved){
+void sliderValueChanged (Slider* sliderThatWasMoved) override{
     if (sliderThatWasMoved == getSlider()){
         setValueFromGUI(sliderThatWasMoved->getValue());
     }

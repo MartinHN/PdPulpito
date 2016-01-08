@@ -59,13 +59,14 @@ public:
     
     
     void setFromDesc(PulpParameterDesc * _desc){
-//        jassert(processorIdx == desc->processorIdx);
+        jassert( (_desc->processorIdx<0 )^ _desc->isAudioParameter);
         sendName =_desc->sendName;
         recieveName = _desc->recieveName;
         min = _desc->min;
         max = _desc->max;
         defaultValue = _desc->defaultV;
         processorIdx = _desc->processorIdx;
+        
         desc = _desc;
         
         
@@ -73,7 +74,8 @@ public:
     
     
     void setValue (float newValue) override
-    {   updated = true;
+    {
+        updated = true;
         float oldv = value;
         value = newValue;
         if(getType()==PulpParameterDesc::Type::BANG){

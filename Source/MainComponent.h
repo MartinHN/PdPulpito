@@ -38,6 +38,7 @@ public:
     void changeListenerCallback (ChangeBroadcaster* source);
     void    addPdLog(std::string  message);
     std::string log;
+
     
 //    class LogTimer : public Timer{
 //        void timerCallback();

@@ -42,7 +42,6 @@ public:
 protected:
 
     int index;
-    PdAudioProcessor* processor;
     PdParameter *pdParam;
     float pdValue;
     void changeListenerCallback (ChangeBroadcaster* source) ;

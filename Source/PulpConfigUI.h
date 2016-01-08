@@ -12,7 +12,7 @@
 #include <iostream>
 #include "JuceHeader.h"
 #include "PdAudioProcessor.h"
-class PulpConfigUI : public Component,public ButtonListener,public Timer{
+class PulpConfigUI : public Component,public ButtonListener,public Timer,public FileDragAndDropTarget{
     
 public:
     PulpConfigUI(PdAudioProcessor * pdProcessor):pdProcessor(pdProcessor){
@@ -76,9 +76,17 @@ public:
         
         
         
+        addChildComponent(draggedComponent = new DrawableRectangle());
+        draggedComponent->setRectangle(RelativeParallelogram("parent.left,parent.top","parent.right,parent.top","parent.left,parent.bottom"));
+        draggedComponent->setCornerSize(RelativePoint(6, 6));
+        draggedComponent->setVisible(false);
+        draggedComponent->setFill(FillType(Colour::fromFloatRGBA(0.0f, .40f, 0.1f, .50f)));
+        
+        
         setSize(500, 150);
-//        PdAudioProcessor& p = (PdAudioProcessor&) processor;
-//        pathField->setText(p.getPatchFile().getFileName(), dontSendNotification);
+
+        //        PdAudioProcessor& p = (PdAudioProcessor&) processor;
+        //        pathField->setText(p.getPatchFile().getFileName(), dontSendNotification);
         
         
         startTimer(300);
@@ -109,7 +117,7 @@ public:
     
     void timerCallback()
     {
-
+        
         statusField->setText(pdProcessor->status, dontSendNotification);
     }
     
@@ -132,16 +140,16 @@ public:
                 pathField->setText(fc.getResult().getFileName(), dontSendNotification);
                 pdProcessor->openNewPatch(fc.getResult());
                 
-//                pdProcessor->needsToReopenPatch = 0;⁄
+                //                pdProcessor->needsToReopenPatch = 0;⁄
                 //            p.reloadPdPatch(NULL);
-//                pdEditor.updatePatch();
+                //                pdEditor.updatePatch();
             }
             
         }
         else if (buttonThatWasClicked == reloadButton)
         {
             pdProcessor->openNewPatch();
-//            pdProcessor->needsToReopenPatch = 0;
+            //            pdProcessor->needsToReopenPatch = 0;
             
             
         }
@@ -153,21 +161,42 @@ public:
         }
         
     }
+    
+    
+    bool isInterestedInFileDrag (const StringArray& files) override {
+        if(files.size() == 1 && files[0].endsWith(".pd")){
+            draggedComponent->setVisible(true);
+            return true;
+        }
+        return false;
+        
+    }
+    void filesDropped (const StringArray& files, int x, int y) override{
+    DBG2("dragged ",files[0]);
+    pdProcessor->openNewPatch(files[0]);
+    draggedComponent->setVisible(false);
+};
 
-    
-    private :
+void fileDragExit (const StringArray& files)override{
+draggedComponent->setVisible(false);
+};
 
-    ScopedPointer<TextButton> findButton;
-    ScopedPointer<Label> pathField;
-    ScopedPointer<TextButton> reloadButton;
-    ScopedPointer<TextButton> editButton;
-    ScopedPointer<Label> statusField;
-    ScopedPointer<Label> label;
-    ScopedPointer<Label> label2;
-    
-    PdAudioProcessor * pdProcessor;
-    
-    
-    
+
+
+private :
+
+ScopedPointer<TextButton> findButton;
+ScopedPointer<Label> pathField;
+ScopedPointer<TextButton> reloadButton;
+ScopedPointer<TextButton> editButton;
+ScopedPointer<Label> statusField;
+ScopedPointer<Label> label;
+ScopedPointer<Label> label2;
+ScopedPointer<DrawableRectangle> draggedComponent;
+
+PdAudioProcessor * pdProcessor;
+
+
+
 };
 #endif /* defined(__PdPulpito__PulpConfigUI__) */

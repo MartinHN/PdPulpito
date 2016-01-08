@@ -122,7 +122,7 @@ public:
             if(c!=nullptr){
                 c->setValue(param->getTrueValue(), dontSendNotification);
                 c->labelSize = param->getDesc()->labelSize;
-                
+                DBG(param->getDesc()->labelName);
                 c->setName(param->getDesc()->labelName);
                 c->setLabelVisible(param->getDesc()->hasLabel);
                 p->setParameterName(i, param->getDesc()->sendName);
@@ -138,9 +138,9 @@ public:
                
             }
             else{
-                delete c;
+//                delete c;
 
-                DBG( "no viable parameters for "<<param->getDesc()->sendName);
+                DBG( "no viable parameters for "<< (int)param->getType() << ":" <<param->getDesc()->sendName);
                 // only accept drawable component
                 jassertfalse;
                 

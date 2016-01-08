@@ -22,6 +22,9 @@ class PulpParameterDesc; // see at end of file
 #include "s_stuff.h"
 #include "g_all_guis.h"
 
+
+
+#define MAX_STRING_LENGTH_FROM_PD 40
 class PdParamGetter {
     public :
 
